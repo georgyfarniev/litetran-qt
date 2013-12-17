@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/">
+        <file>languages.csv</file>
+        <file>icons/flags/ar.png</file>
+        <file>icons/flags/bg.png</file>
+        <file>icons/flags/ca.png</file>
+        <file>icons/flags/cs.png</file>
+        <file>icons/flags/da.png</file>
+        <file>icons/flags/de.png</file>
+        <file>icons/flags/el.png</file>
+        <file>icons/flags/en.png</file>
+        <file>icons/flags/es.png</file>
+        <file>icons/flags/et.png</file>
+        <file>icons/flags/fi.png</file>
+        <file>icons/flags/fr.png</file>
+        <file>icons/flags/gl.png</file>
+        <file>icons/flags/hi.png</file>
+        <file>icons/flags/hr.png</file>
+        <file>icons/flags/hu.png</file>
+        <file>icons/flags/id.png</file>
+        <file>icons/flags/it.png</file>
+        <file>icons/flags/iw.png</file>
+        <file>icons/flags/ja.png</file>
+        <file>icons/flags/ko.png</file>
+        <file>icons/flags/lt.png</file>
+        <file>icons/flags/lv.png</file>
+        <file>icons/flags/mt.png</file>
+        <file>icons/flags/nl.png</file>
+        <file>icons/flags/no.png</file>
+        <file>icons/flags/pl.png</file>
+        <file>icons/flags/pt.png</file>
+        <file>icons/flags/ro.png</file>
+        <file>icons/flags/ru.png</file>
+        <file>icons/flags/sk.png</file>
+        <file>icons/flags/sl.png</file>
+        <file>icons/flags/sq.png</file>
+        <file>icons/flags/sr.png</file>
+        <file>icons/flags/sv.png</file>
+        <file>icons/flags/th.png</file>
+        <file>icons/flags/tl.png</file>
+        <file>icons/flags/tr.png</file>
+        <file>icons/flags/uk.png</file>
+        <file>icons/flags/vi.png</file>
+        <file>icons/flags/zh-CN.png</file>
+        <file>icons/flags/zh-TW.png</file>
+    </qresource>
+</RCC>
