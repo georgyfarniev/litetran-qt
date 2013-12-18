@@ -27,9 +27,9 @@
       <widget class="QComboBox" name="languageComboBox"/>
      </item>
      <item row="1" column="0">
-      <widget class="QCheckBox" name="scanCheckBox">
+      <widget class="QCheckBox" name="shortcutEnabledCheckBox">
        <property name="text">
-        <string>Scan only if shortcut pressed</string>
+        <string>Translate by shortcut</string>
        </property>
       </widget>
      </item>
@@ -55,7 +55,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
      <property name="centerButtons">
       <bool>false</bool>
@@ -99,7 +99,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>scanCheckBox</sender>
+   <sender>shortcutEnabledCheckBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>scanKeySequenceEdit</receiver>
    <slot>setEnabled(bool)</slot>

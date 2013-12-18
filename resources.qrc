@@ -43,5 +43,15 @@
         <file>icons/flags/vi.png</file>
         <file>icons/flags/zh-CN.png</file>
         <file>icons/flags/zh-TW.png</file>
+        <file>icons/ui/about.png</file>
+        <file>icons/ui/clear.png</file>
+        <file>icons/ui/copy.png</file>
+        <file>icons/ui/litetran.png</file>
+        <file>icons/ui/play.png</file>
+        <file>icons/ui/selection.png</file>
+        <file>icons/ui/settings.png</file>
+        <file>icons/ui/exit.png</file>
+        <file>icons/ui/swap.png</file>
+        <file>icons/ui/translate.png</file>
     </qresource>
 </RCC>

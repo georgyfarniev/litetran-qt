@@ -3,9 +3,9 @@
 
 TextToolbar::TextToolbar(QWidget *parent) :
     QToolBar(parent),
-    action_clear(new QAction(QIcon::fromTheme("edit-clear"), tr("Clear"), this)),
-    action_copy(new QAction(QIcon::fromTheme("edit-copy"), tr("Copy"), this)),
-    action_pronounce(new QAction(QIcon::fromTheme("media-playback-start"), tr("Play"), this))
+    action_clear(new QAction(QIcon(":/icons/ui/clear.png"), tr("Clear"), this)),
+    action_copy(new QAction(QIcon(":/icons/ui/copy.png"), tr("Copy"), this)),
+    action_pronounce(new QAction(QIcon(":/icons/ui/play.png"), tr("Play"), this))
 {
     addAction(action_clear);
     addAction(action_copy);

@@ -7,6 +7,7 @@
 
 class QClipboard;
 
+
 class Popup : public QObject
 {
     Q_OBJECT
@@ -19,10 +20,10 @@ private  slots:
     void updateCursorPos();
     void slotHideToolTip();
 private:
-    QPoint m_cursor_pos;
-    QClipboard *m_clipboard;
-    bool  m_cursor_pos_locked;
-    QTimer m_hide_timer;
+    QPoint cursor_pos;
+    QTimer timer;
+    QClipboard *clipboard;
+    bool  cursor_locked;
 };
 
 #endif // POPUP_H

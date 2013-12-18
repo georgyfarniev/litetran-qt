@@ -22,7 +22,6 @@ QByteArray Request::GET(QUrl req)
     return reply->readAll();
 }
 
-
 QByteArray Request::POST(const QUrl &url, const QString &data)
 {
     QNetworkAccessManager manager;

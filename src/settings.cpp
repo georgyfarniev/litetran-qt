@@ -13,7 +13,7 @@ Settings::Settings(QWidget *parent) :
     ui->setupUi(this);
 
     settings->beginGroup("Settings");
-    ui->scanCheckBox->setChecked(settings->value("ScanShortcutEnabled", true).toBool());
+    ui->shortcutEnabledCheckBox->setChecked(settings->value("ScanShortcutEnabled", true).toBool());
     ui->scanKeySequenceEdit->setKeySequence(settings->value("ScanShortcut", DEFAULT_SHORTCUT).toString());
     ui->showTrayIconCheckBox->setChecked(settings->value("TrayIconEnabled", true).toBool());
 
@@ -22,7 +22,7 @@ Settings::Settings(QWidget *parent) :
 
     ui->languageComboBox->addItem(lang);
 
-    connect(ui->buttonBox->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked()), this, SLOT(reset()));
+//    connect(ui->buttonBox->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked()), this, SLOT(reset()));
 }
 
 Settings::~Settings()
@@ -32,7 +32,7 @@ Settings::~Settings()
 
 bool Settings::shortcutEnabled()
 {
-    return ui->scanCheckBox->isChecked();
+    return ui->shortcutEnabledCheckBox->isChecked();
 }
 
 bool Settings::trayIconEnabled()
@@ -59,7 +59,7 @@ QString Settings::detectSystemLanguage() const
 
 void Settings::accept()
 {
-    settings->setValue("ScanShortcutEnabled", ui->scanCheckBox->isChecked());
+    settings->setValue("ScanShortcutEnabled", ui->shortcutEnabledCheckBox->isChecked());
     settings->setValue("ScanShortcut", ui->scanKeySequenceEdit->keySequence().toString());
     settings->setValue("Language", ui->languageComboBox->currentText());
     settings->setValue("TrayIconEnabled", ui->showTrayIconCheckBox->isChecked());
@@ -67,10 +67,10 @@ void Settings::accept()
     QDialog::accept();
 }
 
-void Settings::reset()
-{
-    ui->scanCheckBox->setChecked(true);
-    ui->scanKeySequenceEdit->setKeySequence(QKeySequence::fromString(DEFAULT_SHORTCUT));
-    ui->languageComboBox->setCurrentIndex(0);
-    ui->showTrayIconCheckBox->setChecked(true);
-}
+//void Settings::reset()
+//{
+//    ui->scanCheckBox->setChecked(true);
+//    ui->scanKeySequenceEdit->setKeySequence(QKeySequence::fromString(DEFAULT_SHORTCUT));
+//    ui->languageComboBox->setCurrentIndex(0);
+//    ui->showTrayIconCheckBox->setChecked(true);
+//}

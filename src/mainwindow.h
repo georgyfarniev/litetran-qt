@@ -11,14 +11,16 @@ class QAction;
 class QToolButton;
 class QCloseEvent;
 class QClipboard;
-class QTimer;
 class QSettings;
+class QxtGlobalShortcut;
 class TextToolbar;
 class Settings;
 class TrayIcon;
 class Translate;
 class Popup;
 class LanguageDB;
+class Pronounce;
+
 
 class MainWindow : public QMainWindow
 {
@@ -28,16 +30,21 @@ public:
     ~MainWindow();
 private slots:
     void about();
+    void quit();
     void swap();
     void translate();
+
     void changeVisibility();
     void updateSettings();
-
-    void translateSelectedText();
+    void pronounceSourceText();
+    void pronounceResultText();
 private:
     void closeEvent(QCloseEvent *);
+    bool applicationInFocus();
 
-    QAction *action_scan;
+    QString sourceLanguage() const;
+    QString resultLanguage() const;
+
     QAction *action_settings;
     QAction *action_about;
     QAction *action_exit;
@@ -46,9 +53,10 @@ private:
     QMenu *menu_root;
 
     QClipboard *clipboard;
-    QTimer *popup_timer;
 
     QSettings *settings;
+
+    QxtGlobalShortcut *translate_shortcut;
 
     TextToolbar *toolbar_source_text;
     TextToolbar *toolbar_result_text;
@@ -56,6 +64,7 @@ private:
     TrayIcon *tray_icon;
 
     Translate *translate_engine;
+    Pronounce *pronounce_engine;
     Popup *popup;
 
     LanguageDB *langdb;

@@ -26,7 +26,7 @@
       <item>
        <widget class="QComboBox" name="sourceLanguageComboBox">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -41,12 +41,16 @@
         <property name="text">
          <string>...</string>
         </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/icons/ui/swap.png</normaloff>:/icons/ui/swap.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QComboBox" name="resultLanguageComboBox">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -74,6 +78,10 @@
         <property name="text">
          <string>Translate</string>
         </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/icons/ui/translate.png</normaloff>:/icons/ui/translate.png</iconset>
+        </property>
        </widget>
       </item>
      </layout>
@@ -85,6 +93,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

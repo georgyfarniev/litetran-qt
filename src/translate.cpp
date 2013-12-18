@@ -23,7 +23,15 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
 
     //it's a json array with trailing commas
 
-    qDebug() << "DOCUMENT IS NULL?: " << QJsonDocument::fromJson(ret.replace(",,", ",").replace(",,", ",").replace(",,", ",").toUtf8()).isNull();
+     while(ret.contains(",,"))
+         ret = ret.replace(",,", ",");
+
+// Dirty hack. Just for fun.
+     ret = ret.split("\",").first();
+     ret = ret.replace(0, 4, "");
+//     ret = ret.remove(ret.size() - 1, 1);
+
+    qDebug() << "DOCUMENT IS NULL?: " << QJsonDocument::fromJson(ret.toUtf8()).isNull();
 
     return ret;
 }

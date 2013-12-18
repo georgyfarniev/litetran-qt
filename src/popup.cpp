@@ -15,13 +15,13 @@ static const int tooltip_hide_timeout = 5000; // 5sec
 
 Popup::Popup(QObject *parent) :
     QObject(parent),
-    m_clipboard(qApp->clipboard()),
-    m_cursor_pos_locked(false),
-    m_hide_timer(this)
+    timer(this),
+    clipboard(qApp->clipboard()),
+    cursor_locked(false)
 {
-    m_hide_timer.setSingleShot(true);
-    connect(m_clipboard, SIGNAL(selectionChanged()), this, SLOT(updateCursorPos()));
-    connect(&m_hide_timer, SIGNAL(timeout()), this, SLOT(slotHideToolTip()));
+    timer.setSingleShot(true);
+    connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(updateCursorPos()));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(slotHideToolTip()));
 }
 
 
@@ -60,18 +60,18 @@ void Popup::show(const QString &text_){
     if (text.isEmpty())
         return;
 
-    QToolTip::showText(m_cursor_pos,text);
+    QToolTip::showText(cursor_pos, text);
     if (tooltip_hide_timeout)
-        m_hide_timer.start(tooltip_hide_timeout);
+        timer.start(tooltip_hide_timeout);
 }
 
 void Popup::setLocked(bool b){
-    m_cursor_pos_locked = b;
+    cursor_locked = b;
 }
 
 void Popup::updateCursorPos(){
-    if(!m_cursor_pos_locked)
-        m_cursor_pos = QCursor::pos();
+    if(!cursor_locked)
+        cursor_pos = QCursor::pos();
 }
 
 void Popup::slotHideToolTip() {

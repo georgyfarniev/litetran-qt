@@ -30,7 +30,7 @@ public:
     QString language() const;
 private slots:
     void accept();
-    void reset();
+//    void reset();
 private:
     QString detectSystemLanguage() const;
 
