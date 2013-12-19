@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pronounce_engine(new Pronounce(this)),
     popup(new Popup(this)),
     langdb(new LanguageDB(this)),
+    langmap(langdb->dump()),
     ui(new Ui::MainWindow)
 {
 
@@ -89,9 +90,9 @@ MainWindow::MainWindow(QWidget *parent) :
     toolbar_source_text->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
     toolbar_result_text->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    LanguageMap langs = langdb->languages();
+/*    langmaplangdb->dump()*/;
 
-    for(LanguageMap::iterator it = langs.begin(); it != langs.end(); it++) {
+    for(LanguageMap::iterator it = langmap.begin(); it != langmap.end(); it++) {
         const QString name = it.key();
         const QString code = it.value();
         ui->sourceLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name);
@@ -141,7 +142,7 @@ void MainWindow::translate()
     if(!applicationInFocus())
         text = clipboard->text(QClipboard::Selection);
     else
-        text = ui->sourceTextEdit->toPlainText();
+        text = sourceText();
 
     ui->sourceTextEdit->setPlainText(text);
     const QString result = translate_engine->translate(text, sl, tl);
@@ -175,14 +176,22 @@ bool MainWindow::applicationInFocus()
 
 QString MainWindow::sourceLanguage() const
 {
-    LanguageMap langs = langdb->languages();
-    return langs[ui->sourceLanguageComboBox->currentText()];
+    return langmap[ui->sourceLanguageComboBox->currentText()];
 }
 
 QString MainWindow::resultLanguage() const
 {
-    LanguageMap langs = langdb->languages();
-    return langs[ui->resultLanguageComboBox->currentText()];
+    return langmap[ui->resultLanguageComboBox->currentText()];
+}
+
+QString MainWindow::sourceText() const
+{
+    return ui->sourceTextEdit->toPlainText();
+}
+
+QString MainWindow::resultText() const
+{
+    return ui->resultTextBrowser->toPlainText();
 }
 
 void MainWindow::updateSettings()
@@ -194,10 +203,10 @@ void MainWindow::updateSettings()
 
 void MainWindow::pronounceSourceText()
 {
-    pronounce_engine->say(ui->sourceTextEdit->toPlainText(), sourceLanguage());
+    pronounce_engine->say(sourceText(), sourceLanguage());
 }
 
 void MainWindow::pronounceResultText()
 {
-    pronounce_engine->say(ui->resultTextBrowser->toPlainText(), resultLanguage());
+    pronounce_engine->say(resultText(), resultLanguage());
 }

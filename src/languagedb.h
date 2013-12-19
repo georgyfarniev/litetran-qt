@@ -13,7 +13,7 @@ public:
     explicit LanguageDB(QObject *parent = 0);
 
 
-    inline LanguageMap languages() const {return lang_map;}
+    inline LanguageMap dump() const {return lang_map;}
 private:
     LanguageMap lang_map;
 };

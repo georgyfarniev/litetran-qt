@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include "languagedb.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +20,6 @@ class Translate;
 class Popup;
 class LanguageDB;
 class Pronounce;
-
 
 class MainWindow : public QMainWindow
 {
@@ -43,6 +43,8 @@ private:
 
     QString sourceLanguage() const;
     QString resultLanguage() const;
+    QString sourceText() const;
+    QString resultText() const;
 
     QAction *action_settings;
     QAction *action_about;
@@ -67,6 +69,7 @@ private:
     Popup *popup;
 
     LanguageDB *langdb;
+    LanguageMap langmap;
 
     Ui::MainWindow *ui;
 };
