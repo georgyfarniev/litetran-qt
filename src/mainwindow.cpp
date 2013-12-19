@@ -80,6 +80,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(translate_shortcut, SIGNAL(activated()), this, SLOT(translate()));
 
+    connect(ui->sourceTextEdit, SIGNAL(textChanged()), this, SLOT(inputChanged()));
+    connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
+    connect(ui->resultLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
+
     tray_icon->addAction(action_exit);
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_settings);
@@ -205,4 +209,9 @@ void MainWindow::pronounceSourceText()
 void MainWindow::pronounceResultText()
 {
     pronounce_engine->say(resultText(), resultLanguage());
+}
+
+void MainWindow::inputChanged()
+{
+    ui->translateButton->setEnabled(!sourceText().isEmpty() && sourceLanguage() != resultLanguage());
 }

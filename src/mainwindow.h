@@ -37,6 +37,8 @@ private slots:
     void updateSettings();
     void pronounceSourceText();
     void pronounceResultText();
+
+    void inputChanged();
 private:
     void closeEvent(QCloseEvent *);
     bool applicationInFocus();
