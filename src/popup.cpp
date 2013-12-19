@@ -1,34 +1,53 @@
 #include "popup.h"
-
 #include <QClipboard>
 #include <QToolTip>
 #include <QApplication>
 #include <QDebug>
 #include <QApplication>
-#include <QDesktopWidget>
-
-static const int tooltip_width = 640; // 640px ought to be enough for anybody ;)
-// TODO auto-detect active screen width.
-
-static const int tooltip_hide_timeout = 5000; // 5sec
-// TODO move to Settings dialog.
 
 Popup::Popup(QObject *parent) :
     QObject(parent),
-    timer(this),
     clipboard(qApp->clipboard()),
     cursor_locked(false)
 {
     timer.setSingleShot(true);
-    connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(updateCursorPos()));
-    connect(&timer, SIGNAL(timeout()), this, SLOT(slotHideToolTip()));
+    timer.setInterval(POPUP_HIDE_TIMEOUT);
+    connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(updatePosition()));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(hidePopup()));
 }
 
+void Popup::show(const QString &text)
+{
+    const QString display_text = formatText(text);
 
-void Popup::show(const QString &text_){
-    QString text;
+    if (display_text.isEmpty())
+        return;
+
+    QToolTip::showText(cursor_pos, display_text);
+    timer.start();
+}
+
+void Popup::setLocked(bool b)
+{
+    cursor_locked = b;
+}
+
+void Popup::updatePosition()
+{
+    if(!cursor_locked)
+        cursor_pos = QCursor::pos();
+}
+
+void Popup::hidePopup()
+{
+    QToolTip::hideText();
+}
+
+QString Popup::formatText(const QString &text) const
+{
+    QString _text;
     QFontMetrics fm(QToolTip::font());
-    QStringList lines = text_.split(QChar('\n'));
+    QStringList lines = text.split(QChar('\n'));
     foreach (const QString &line_, lines) {
         QStringList words = line_.simplified().split(QRegExp("\\s+"), QString::SkipEmptyParts);
         if (words.isEmpty())
@@ -40,11 +59,11 @@ void Popup::show(const QString &text_){
             if (!tmp.isEmpty())
                 tmp += " ";
             tmp += word;
-            if (fm.width(tmp) >= tooltip_width) {
+            if (fm.width(tmp) >= POPUP_WIDTH) {
                 if (!line.isEmpty()) {
-                    if (!text.isEmpty())
-                        text += "\n";
-                    text += line;
+                    if (!_text.isEmpty())
+                        _text += "\n";
+                    _text += line;
                     line = word;
                     continue;
                 }
@@ -52,29 +71,10 @@ void Popup::show(const QString &text_){
             line = tmp;
         }
         if (!line.isEmpty()) {
-            if (!text.isEmpty())
-                text += "\n";
-            text += line;
+            if (!_text.isEmpty())
+                _text += "\n";
+            _text += line;
         }
     }
-    if (text.isEmpty())
-        return;
-
-    QToolTip::showText(cursor_pos, text);
-    if (tooltip_hide_timeout)
-        timer.start(tooltip_hide_timeout);
+    return _text;
 }
-
-void Popup::setLocked(bool b){
-    cursor_locked = b;
-}
-
-void Popup::updateCursorPos(){
-    if(!cursor_locked)
-        cursor_pos = QCursor::pos();
-}
-
-void Popup::slotHideToolTip() {
-    QToolTip::hideText();
-}
-
