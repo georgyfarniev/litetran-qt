@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     pronounce_engine(new Pronounce(this)),
     popup(new Popup(this)),
     langdb(new LanguageDB(this)),
-    langmap(langdb->dump()),
     ui(new Ui::MainWindow)
 {
 
@@ -90,13 +89,12 @@ MainWindow::MainWindow(QWidget *parent) :
     toolbar_source_text->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
     toolbar_result_text->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-/*    langmaplangdb->dump()*/;
-
-    for(LanguageMap::iterator it = langmap.begin(); it != langmap.end(); it++) {
-        const QString name = it.key();
-        const QString code = it.value();
-        ui->sourceLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name);
-        ui->resultLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name);
+    LanguageList langs = langdb->dump();
+    foreach(Language lang, langs) {
+        const QString name = lang.first;
+        const QString code = lang.second;
+        ui->sourceLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
+        ui->resultLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
     }
 
     settings->beginGroup("MainWindow");
@@ -176,12 +174,12 @@ bool MainWindow::applicationInFocus()
 
 QString MainWindow::sourceLanguage() const
 {
-    return langmap[ui->sourceLanguageComboBox->currentText()];
+    return ui->sourceLanguageComboBox->currentData().toString();
 }
 
 QString MainWindow::resultLanguage() const
 {
-    return langmap[ui->resultLanguageComboBox->currentText()];
+    return ui->resultLanguageComboBox->currentData().toString();
 }
 
 QString MainWindow::sourceText() const

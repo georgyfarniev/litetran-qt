@@ -27,7 +27,8 @@ LanguageDB::LanguageDB(QObject *parent) :
         if(code.isEmpty() || name.isEmpty())
             qFatal("Database error: invalid value in line %d", counter);
 
-        lang_map.insert(name, code);
+        langs.append(Language(name, code));
+//        langs.insert(name, code);
 
         counter++;
     }

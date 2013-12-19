@@ -69,7 +69,6 @@ private:
     Popup *popup;
 
     LanguageDB *langdb;
-    LanguageMap langmap;
 
     Ui::MainWindow *ui;
 };

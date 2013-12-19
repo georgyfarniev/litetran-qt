@@ -5,12 +5,11 @@
 #define FALLBACK_LANGUAGE "English"
 #define DEFAULT_SHORTCUT "Ctrl+Shift+T"
 
-namespace Ui {
-class Settings;
-}
-
 class QSettings;
-
+class QCheckBox;
+class QComboBox;
+class QKeySequenceEdit;
+class QDialogButtonBox;
 
 class Settings : public QDialog
 {
@@ -29,11 +28,13 @@ public:
     QString language() const;
 private slots:
     void accept();
-//    void reset();
 private:
     QString detectSystemLanguage() const;
 
-
-    Ui::Settings *ui;
     QSettings *settings;
+    QCheckBox *tray_checkbox;
+    QCheckBox *shortcut_checkbox;
+    QKeySequenceEdit *shortcut_edit;
+    QComboBox *language_combobox;
+    QDialogButtonBox *button_box;
 };

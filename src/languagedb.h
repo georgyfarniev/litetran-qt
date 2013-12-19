@@ -1,9 +1,12 @@
 #pragma once
 
 #include <QObject>
-#include <QMap>
+#include <QList>
+#include <QPair>
 
-typedef QMap<QString, QString> LanguageMap;
+typedef QPair<QString, QString> Language;
+typedef QList<Language> LanguageList;
+
 
 
 class LanguageDB : public QObject
@@ -13,7 +16,7 @@ public:
     explicit LanguageDB(QObject *parent = 0);
 
 
-    inline LanguageMap dump() const {return lang_map;}
+    inline LanguageList dump() const {return langs;}
 private:
-    LanguageMap lang_map;
+    LanguageList langs;
 };

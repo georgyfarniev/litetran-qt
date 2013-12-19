@@ -62,8 +62,7 @@ src/pronounce.cpp
 src/popup.cpp)
 
 set(FORMS
-src/mainwindow.ui
-src/settings.ui)
+src/mainwindow.ui)
 
 set(RESOURCES resources.qrc)
 
