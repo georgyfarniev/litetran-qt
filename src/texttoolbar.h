@@ -1,5 +1,4 @@
-#ifndef TEXTTOOLBAR_H
-#define TEXTTOOLBAR_H
+#pragma once
 
 #include <QToolBar>
 
@@ -19,5 +18,3 @@ private:
     QAction *action_copy;
     QAction *action_pronounce;
 };
-
-#endif // TEXTTOOLBAR_H

@@ -1,5 +1,4 @@
-#ifndef TRAYICON_H
-#define TRAYICON_H
+#pragma once
 
 #include <QSystemTrayIcon>
 
@@ -22,4 +21,3 @@ private slots:
 private:
     QMenu *mMenu;
 };
-#endif // TRAYICON_H

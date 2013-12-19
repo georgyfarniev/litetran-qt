@@ -1,5 +1,4 @@
-#ifndef LANGUAGEDB_H
-#define LANGUAGEDB_H
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -18,5 +17,3 @@ public:
 private:
     LanguageMap lang_map;
 };
-
-#endif // LANGUAGEDB_H

@@ -1,5 +1,4 @@
-#ifndef POPUP_H
-#define POPUP_H
+#pragma once
 
 #include <QObject>
 #include <QtCore/QPoint>
@@ -25,5 +24,3 @@ private:
     QClipboard *clipboard;
     bool  cursor_locked;
 };
-
-#endif // POPUP_H

@@ -1,5 +1,4 @@
-#ifndef PRONOUNCE_H
-#define PRONOUNCE_H
+#pragma once
 
 #include <QObject>
 
@@ -23,5 +22,3 @@ private slots:
     void removeTemporaryFile();
 
 };
-
-#endif // PRONOUNCE_H

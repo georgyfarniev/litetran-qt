@@ -1,5 +1,5 @@
-#ifndef REQUEST_H
-#define REQUEST_H
+#pragma once
+
 
 #include <QObject>
 #include <QUrl>
@@ -14,5 +14,3 @@ public:
     static QByteArray GET(QUrl req);
     static QByteArray POST(const QUrl &url, const QString &data);
 };
-
-#endif // REQUEST_H

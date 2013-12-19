@@ -1,5 +1,4 @@
-#ifndef TRANSLATE_H
-#define TRANSLATE_H
+#pragma once
 
 #include <QString>
 #include <QObject>
@@ -13,5 +12,3 @@ public:
     QString translate(const QString &text, const QString &sl, const QString &tl) const;
 //    QString detect(const QString &text);
 };
-
-#endif // TRANSLATE_H
