@@ -8,7 +8,7 @@
 #include "languagedb.h"
 #include "defines.h"
 #include "ui_mainwindow.h"
-#include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
+#include "qxtglobalshortcut.h"
 #include <QAction>
 #include <QToolButton>
 #include <QMenu>
@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     langdb(new LanguageDB(this)),
     ui(new Ui::MainWindow)
 {
-
     ui->setupUi(this);
 
     setWindowTitle(APP_NAME_FULL);
@@ -58,7 +57,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->topLayout->addWidget(menu_button);
 
     ui->middlelLayout->insertWidget(0, toolbar_result_text);
-
 
     action_exit->setShortcut(QKeySequence("Ctrl+Q"));
     ui->translateButton->setShortcut(QKeySequence("Ctrl+T"));

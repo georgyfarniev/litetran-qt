@@ -31,12 +31,12 @@ find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}
-${CMAKE_CURRENT_BINARY_DIR}/src)
+${CMAKE_CURRENT_BINARY_DIR}/src
+src/3rdparty/qxtshortcut)
 
 configure_file(src/defines.h.in src/defines.h)
 
-add_subdirectory(src/3rdparty
-src/3rdparty/qxtshortcut)
+add_subdirectory(src/3rdparty/qxtshortcut)
 
 set(HEADERS
 src/mainwindow.h
