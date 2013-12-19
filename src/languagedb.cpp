@@ -6,13 +6,30 @@ LanguageDB::LanguageDB(QObject *parent) :
     QObject(parent)
 {
     QFile file(":/languages.csv");
-    if(!file.open(QFile::ReadOnly))
-        qFatal("Unable to open global language database! ");
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+        qFatal("Cannot read language database!");
+
     QTextStream in(&file);
+
+    unsigned int counter = 0;
+
     while (!in.atEnd()) {
-        QString str = in.readLine();
-        QStringList result = str.split(",");
-        lang_map[result.last()] = result.first();
+        const QString line = in.readLine();
+
+        QStringList result = line.split(",");
+
+        if(result.size() != 2 )
+            qFatal("Database error: invalid entry in line %d" + counter);
+
+        const QString code = result.first();
+        const QString name = result.last();
+
+        if(code.isEmpty() || name.isEmpty())
+            qFatal("Database error: invalid value in line %d", counter);
+
+        lang_map.insert(name, code);
+
+        counter++;
     }
     file.close();
 }
