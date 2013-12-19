@@ -14,10 +14,10 @@ TrayIcon::TrayIcon(QObject *parent) :
 }
 
 void TrayIcon::addAction(QAction *act) {
-    if(mMenu->actions().size() != 0)
-        mMenu->insertAction(mMenu->actions()[0], act);
-    else
+    if(mMenu->actions().isEmpty())
         mMenu->addAction(act);
+    else
+        mMenu->insertAction(mMenu->actions()[0], act);
 }
 
 void TrayIcon::addSeparator() {
