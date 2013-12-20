@@ -31,6 +31,7 @@ public:
 private slots:
     void accept();
 private:
+    void read();
     QString detectSystemLanguage() const;
 
     QSettings *settings;

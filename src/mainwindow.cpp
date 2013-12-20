@@ -16,6 +16,9 @@
 #include <QMessageBox>
 #include <QClipboard>
 #include <QSettings>
+#include <QTranslator>
+#include <QApplication>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_root(new QMenu( this)),
     clipboard(qApp->clipboard()),
     settings(new QSettings(this)),
+    ui_translator(NULL),
     translate_shortcut(new QxtGlobalShortcut(this)),
     toolbar_source_text(new TextToolbar(this)),
     toolbar_result_text(new TextToolbar(this)),
@@ -47,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_button->setText(tr("Options"));
     menu_button->setPopupMode(QToolButton::InstantPopup);
     menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
-
     menu_root->addAction(action_settings);
     menu_root->addAction(action_about);
     menu_root->addAction(action_exit);
@@ -55,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->topLayout->addWidget(toolbar_source_text);
     ui->topLayout->addStretch();
     ui->topLayout->addWidget(menu_button);
-
     ui->middlelLayout->insertWidget(0, toolbar_result_text);
 
     action_exit->setShortcut(QKeySequence("Ctrl+Q"));
@@ -67,22 +69,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
     connect(tray_icon, SIGNAL(doubleClicked()), this, SLOT(changeVisibility()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
-
     connect(toolbar_source_text, SIGNAL(requestClear()), ui->sourceTextEdit, SLOT(clear()));
     connect(toolbar_result_text, SIGNAL(requestClear()), ui->resultTextBrowser, SLOT(clear()));
     connect(toolbar_source_text, SIGNAL(requestCopy()), ui->sourceTextEdit, SLOT(copy()));
     connect(toolbar_result_text, SIGNAL(requestCopy()), ui->resultTextBrowser, SLOT(copy()));
     connect(toolbar_source_text, SIGNAL(requestPronounce()), this, SLOT(pronounceSourceText()));
     connect(toolbar_result_text, SIGNAL(requestPronounce()), this, SLOT(pronounceResultText()));
-
     connect(ui->translateButton, SIGNAL(pressed()), this, SLOT(translate()));
     connect(ui->swapButton, SIGNAL(clicked()), this, SLOT(swap()));
-
     connect(translate_shortcut, SIGNAL(activated()), this, SLOT(translate()));
-
-    connect(ui->sourceTextEdit, SIGNAL(textChanged()), this, SLOT(inputChanged()));
-    connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
-    connect(ui->resultLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
 
     tray_icon->addAction(action_exit);
     tray_icon->addAction(action_about);
@@ -174,7 +169,6 @@ void MainWindow::changeEvent(QEvent *e) {
     switch (e->type()) {
         case QEvent::LanguageChange:
             ui->retranslateUi(this);
-//            m_tray_icon->retranslateMenu(this);
             break;
         default:
             break;
@@ -211,6 +205,36 @@ void MainWindow::updateSettings()
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
     translate_shortcut->setShortcut(settings_dialog->shortcut());
     translate_shortcut->setEnabled(settings_dialog->shortcutEnabled());
+
+    const QString locale = settings_dialog->language();
+
+    qDebug() << "Locale: " << locale;
+
+    // retranslate only if language changed
+    if(locale != last_locale) {
+        if(ui_translator != NULL) {
+            qApp->removeTranslator(ui_translator);
+            delete ui_translator;
+        }
+
+        ui_translator = new QTranslator();
+
+        bool success = ui_translator->load(settings_dialog->language() + ".qm", APP_I18N_DIR);
+
+        if(!success) {
+            qWarning() << "Cannot load translation for language " << locale;
+            return;
+        }
+
+        success = qApp->installTranslator(ui_translator);
+
+        if(!success) {
+            qWarning() << "Cannot install translator for language " << locale;
+            return;
+        }
+
+        last_locale = locale;
+    }
 }
 
 void MainWindow::pronounceSourceText()
@@ -221,9 +245,4 @@ void MainWindow::pronounceSourceText()
 void MainWindow::pronounceResultText()
 {
     pronounce_engine->say(resultText(), resultLanguage());
-}
-
-void MainWindow::inputChanged()
-{
-    ui->translateButton->setEnabled(!sourceText().isEmpty() && sourceLanguage() != resultLanguage());
 }

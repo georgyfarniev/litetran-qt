@@ -12,6 +12,7 @@ class QToolButton;
 class QCloseEvent;
 class QClipboard;
 class QSettings;
+class QTranslator;
 class QxtGlobalShortcut;
 class TextToolbar;
 class Settings;
@@ -37,8 +38,6 @@ private slots:
     void updateSettings();
     void pronounceSourceText();
     void pronounceResultText();
-
-    void inputChanged();
 private:
     void closeEvent(QCloseEvent *);
     void changeEvent(QEvent *e);
@@ -49,28 +48,25 @@ private:
     QString sourceText() const;
     QString resultText() const;
 
+    QString last_locale;
+
     QAction *action_settings;
     QAction *action_about;
     QAction *action_exit;
-
     QToolButton *menu_button;
     QMenu *menu_root;
-
     QClipboard *clipboard;
-
     QSettings *settings;
-
+    QTranslator *ui_translator;
     QxtGlobalShortcut *translate_shortcut;
 
     TextToolbar *toolbar_source_text;
     TextToolbar *toolbar_result_text;
     Settings *settings_dialog;
     TrayIcon *tray_icon;
-
     Translate *translate_engine;
     Pronounce *pronounce_engine;
     Popup *popup;
-
     LanguageDB *langdb;
 
     Ui::MainWindow *ui;

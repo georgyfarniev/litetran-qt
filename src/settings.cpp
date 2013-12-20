@@ -57,6 +57,8 @@ Settings::Settings(QWidget *parent) :
     default_language = detectSystemLanguage();
     if(!qmfiles.contains(default_language + ".qm"))
         default_language = "English";
+
+    read();
 }
 
 Settings::~Settings()
@@ -64,14 +66,7 @@ Settings::~Settings()
 }
 
 int Settings::exec() {
-    /*
-     * Re-read settings in each execution in order to avoid user confusion with mismatch
-     * of controls state and really enabled parameters.
-     */
-    language_combobox->setCurrentText(settings->value("Language", default_language).toString());
-    shortcut_checkbox->setChecked(settings->value("ScanShortcutEnabled", true).toBool());
-    shortcut_edit->setKeySequence(settings->value("ScanShortcut", DEFAULT_SHORTCUT).toString());
-    tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
+    read();
     return QDialog::exec();
 }
 
@@ -108,4 +103,12 @@ void Settings::accept()
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
 
     QDialog::accept();
+}
+
+void Settings::read()
+{
+    language_combobox->setCurrentText(settings->value("Language", default_language).toString());
+    shortcut_checkbox->setChecked(settings->value("ScanShortcutEnabled", true).toBool());
+    shortcut_edit->setKeySequence(settings->value("ScanShortcut", DEFAULT_SHORTCUT).toString());
+    tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
 }

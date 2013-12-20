@@ -76,9 +76,10 @@ i18n/Russian.ts)
 
 option(UPDATE_TRANSLATIONS OFF)
 if(UPDATE_TRANSLATIONS)
-  qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TRANSLATIONS_FILES})
+    message("-- Updating translation files")
+    qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TRANSLATIONS_FILES})
 else()
-  qt5_add_translation(QM_FILES ${TRANSLATIONS_FILES})
+    qt5_add_translation(QM_FILES ${TRANSLATIONS_FILES})
 endif()
 
 add_custom_target (lupdate DEPENDS ${QM_FILES})
