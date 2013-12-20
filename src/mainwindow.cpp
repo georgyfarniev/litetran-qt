@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_button->setMenu(menu_root);
     menu_button->setText(tr("Options"));
     menu_button->setPopupMode(QToolButton::InstantPopup);
-    menu_button->setIcon(QIcon::fromTheme("configure"));
+    menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
 
     menu_root->addAction(action_settings);
     menu_root->addAction(action_about);
@@ -166,6 +166,18 @@ void MainWindow::closeEvent(QCloseEvent *e)
     } else {
         e->accept();
         qApp->quit();
+    }
+}
+
+void MainWindow::changeEvent(QEvent *e) {
+    QMainWindow::changeEvent(e);
+    switch (e->type()) {
+        case QEvent::LanguageChange:
+            ui->retranslateUi(this);
+//            m_tray_icon->retranslateMenu(this);
+            break;
+        default:
+            break;
     }
 }
 

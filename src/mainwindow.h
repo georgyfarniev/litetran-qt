@@ -41,6 +41,7 @@ private slots:
     void inputChanged();
 private:
     void closeEvent(QCloseEvent *);
+    void changeEvent(QEvent *e);
     bool applicationInFocus();
 
     QString sourceLanguage() const;

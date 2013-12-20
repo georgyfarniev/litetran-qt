@@ -28,8 +28,6 @@ LanguageDB::LanguageDB(QObject *parent) :
             qFatal("Database error: invalid value in line %d", counter);
 
         langs.append(Language(name, code));
-//        langs.insert(name, code);
-
         counter++;
     }
     file.close();

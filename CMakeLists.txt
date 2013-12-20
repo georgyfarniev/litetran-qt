@@ -24,6 +24,10 @@ if(NOT MSVC)
     endif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
 endif()
 
+if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+    set(I18N_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/litetran/i18n)
+endif()
+
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED)
@@ -65,6 +69,19 @@ set(FORMS
 src/mainwindow.ui)
 
 set(RESOURCES resources.qrc)
+set(FILES_TO_TRANSLATE ${SOURCES} ${HEADERS} ${FORMS})
+set(TRANSLATIONS_FILES
+i18n/English.ts
+i18n/Russian.ts)
+
+option(UPDATE_TRANSLATIONS OFF)
+if(UPDATE_TRANSLATIONS)
+  qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TRANSLATIONS_FILES})
+else()
+  qt5_add_translation(QM_FILES ${TRANSLATIONS_FILES})
+endif()
+
+add_custom_target (lupdate DEPENDS ${QM_FILES})
 
 qt5_add_resources(RC_SOURCES ${RESOURCES})
 qt5_wrap_cpp(MOC_SOURCES ${HEADERS})
@@ -77,3 +94,4 @@ target_link_libraries(${EXECUTABLE_NAME} qxtshortcut)
 
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+install(FILES ${QM_FILES} DESTINATION ${I18N_DIRECTORY})

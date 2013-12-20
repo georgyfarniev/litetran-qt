@@ -7,3 +7,6 @@
 
 
 #define APP_NAME_FULL APP_NAME " " APP_VERSION
+
+
+#define APP_I18N_DIR "${I18N_DIRECTORY}"

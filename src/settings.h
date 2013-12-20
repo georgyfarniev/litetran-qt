@@ -22,6 +22,8 @@ public:
     explicit Settings(QWidget *parent = 0);
     ~Settings();
 
+    int exec();
+
     bool shortcutEnabled();
     bool trayIconEnabled();
     QKeySequence shortcut() const;
@@ -32,6 +34,7 @@ private:
     QString detectSystemLanguage() const;
 
     QSettings *settings;
+    QString default_language;
     QCheckBox *tray_checkbox;
     QCheckBox *shortcut_checkbox;
     QKeySequenceEdit *shortcut_edit;
