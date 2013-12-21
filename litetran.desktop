@@ -1,0 +1,11 @@
+[Desktop Entry]
+Value=1.0
+Type=Application
+Encoding=UTF-8
+Exec=litetran
+Name=LiteTran
+Terminal=false
+Type=Application
+Categories=Office
+InitialPreference=9
+Icon=litetran.png
