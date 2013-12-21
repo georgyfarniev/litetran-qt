@@ -1,6 +1,7 @@
 #include "languagedb.h"
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 LanguageDB::LanguageDB(QObject *parent) :
     QObject(parent)
@@ -15,6 +16,11 @@ LanguageDB::LanguageDB(QObject *parent) :
 
     while (!in.atEnd()) {
         const QString line = in.readLine();
+
+        if(line.isEmpty()) {
+            qWarning() << "Skip empty line at " << counter;
+            continue;
+        }
 
         QStringList result = line.split(",");
 
