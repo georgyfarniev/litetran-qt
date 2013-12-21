@@ -13,13 +13,8 @@ Pronounce::Pronounce(QObject *parent) :
 
 void Pronounce::say(const QString &text, const QString &lang)
 {
-    if(text.isEmpty() || lang.isEmpty() || player->state() == QMediaPlayer::PlayingState)
+    if(text.isEmpty() || lang.isEmpty() || player->state() == QMediaPlayer::PlayingState || text.size() > 100)
         return;
-
-//    if(text.size() > 100) {
-//        say("Request too large! Maximum is 100 characters.", "en");
-//        return;
-//    }
 
     const QUrl url  = QString(TTS_URL) + QString("?tl=%1&q=%2").arg(lang, text);
     const QByteArray filedata = Request::GET(url);

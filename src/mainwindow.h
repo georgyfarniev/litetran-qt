@@ -22,6 +22,9 @@ class Popup;
 class LanguageDB;
 class Pronounce;
 
+#define DEFAULT_SOURCE_LANGUAGE "English"
+#define DEFAULT_RESULT_LANGUAGE "Russian"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

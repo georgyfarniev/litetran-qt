@@ -34,7 +34,8 @@ find_package(Qt5Network REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}
+include_directories(
+${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}/src
 src/3rdparty/qxtshortcut)
 
@@ -96,3 +97,7 @@ target_link_libraries(${EXECUTABLE_NAME} qxtshortcut)
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 install(FILES ${QM_FILES} DESTINATION ${I18N_DIRECTORY})
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icons/ui/litetran.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/pixmaps)
+endif()

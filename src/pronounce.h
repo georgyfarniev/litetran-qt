@@ -13,7 +13,6 @@ class Pronounce : public QObject
 public:
     explicit Pronounce(QObject *parent = 0);
 
-    // 100 chars max
     void say(const QString &text, const QString &lang);
 private:
     QMediaPlayer *player;

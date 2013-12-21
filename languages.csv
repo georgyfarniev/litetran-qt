@@ -1,4 +1,9 @@
 en,English
+de,German
+es,Spanish
+ru,Russian
+fr,French
+fi,Finnish
 sq,Albanian
 ar,Arabic
 bg,Bulgarian
@@ -11,10 +16,7 @@ da,Danish
 nl,Dutch
 et,Estonian
 tl,Filipino
-fi,Finnish
-fr,French
 gl,Galician
-de,German
 el,Greek
 iw,Hebrew
 hi,Hindi
@@ -30,8 +32,6 @@ no,Norwegian
 pl,Polish
 pt,Portuguese
 ro,Romanian
-ru,Russian
 sr,Serbian
 sk,Slovak
 sl,Slovenian
-es,Spanish

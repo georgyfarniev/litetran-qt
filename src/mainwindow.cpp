@@ -96,8 +96,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     settings->beginGroup("MainWindow");
 
-    ui->sourceLanguageComboBox->setCurrentIndex(settings->value("SourceLanguageIndex", 0).toInt());
-    ui->resultLanguageComboBox->setCurrentIndex(settings->value("ResultLanguageIndex", 0).toInt());
+    ui->sourceLanguageComboBox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
+    ui->resultLanguageComboBox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
 
     updateSettings();
@@ -105,8 +105,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    settings->setValue("SourceLanguageIndex", ui->sourceLanguageComboBox->currentIndex());
-    settings->setValue("ResultLanguageIndex", ui->resultLanguageComboBox->currentIndex());
+    settings->setValue("SourceLanguage", ui->sourceLanguageComboBox->currentText());
+    settings->setValue("ResultLanguage", ui->resultLanguageComboBox->currentText());
     settings->setValue("Geometry", saveGeometry());
     delete ui;
 }
@@ -131,8 +131,6 @@ void MainWindow::swap()
 void MainWindow::translate()
 {
     popup->setLocked(true);
-    const QString sl = sourceLanguage();
-    const QString tl = resultLanguage();
     QString text;
     if(!applicationInFocus())
         text = clipboard->text(QClipboard::Selection);
@@ -140,7 +138,7 @@ void MainWindow::translate()
         text = sourceText();
 
     ui->sourceTextEdit->setPlainText(text);
-    const QString result = translate_engine->translate(text, sl, tl);
+    const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
     ui->resultTextBrowser->setText(result);
 
     if(!applicationInFocus())
@@ -208,8 +206,6 @@ void MainWindow::updateSettings()
 
     const QString locale = settings_dialog->language();
 
-    qDebug() << "Locale: " << locale;
-
     // retranslate only if language changed
     if(locale != last_locale) {
         if(ui_translator != NULL) {
@@ -219,16 +215,13 @@ void MainWindow::updateSettings()
 
         ui_translator = new QTranslator();
 
-        bool success = ui_translator->load(settings_dialog->language() + ".qm", APP_I18N_DIR);
 
-        if(!success) {
+        if(!ui_translator->load(settings_dialog->language() + ".qm", APP_I18N_DIR)) {
             qWarning() << "Cannot load translation for language " << locale;
             return;
         }
 
-        success = qApp->installTranslator(ui_translator);
-
-        if(!success) {
+        if(!qApp->installTranslator(ui_translator)) {
             qWarning() << "Cannot install translator for language " << locale;
             return;
         }
