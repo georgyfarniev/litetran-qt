@@ -2,7 +2,7 @@
 
 #include <QDialog>
 
-#define FALLBACK_LANGUAGE "English"
+#define DEFAULT_LANGUAGE "English"
 #define DEFAULT_SHORTCUT "Ctrl+Shift+T"
 
 class QSettings;
@@ -20,10 +20,7 @@ class Settings : public QDialog
     Q_PROPERTY(QString language READ language)
 public:
     explicit Settings(QWidget *parent = 0);
-    ~Settings();
-
     int exec();
-
     bool shortcutEnabled();
     bool trayIconEnabled();
     QKeySequence shortcut() const;

@@ -61,10 +61,6 @@ Settings::Settings(QWidget *parent) :
     read();
 }
 
-Settings::~Settings()
-{
-}
-
 int Settings::exec() {
     read();
     return QDialog::exec();

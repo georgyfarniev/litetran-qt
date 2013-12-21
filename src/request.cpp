@@ -22,7 +22,7 @@ QByteArray Request::GET(QUrl req)
     return reply->readAll();
 }
 
-QByteArray Request::POST(const QUrl &url, const QString &data)
+QByteArray Request::POST(const QUrl &url, const QByteArray &data)
 {
     QNetworkAccessManager manager;
     QEventLoop loop;
@@ -33,7 +33,7 @@ QByteArray Request::POST(const QUrl &url, const QString &data)
     req.setRawHeader("Content-Length", QByteArray::number(data.size()));
 
     QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
-    QNetworkReply *reply  = manager.post(req, data.toUtf8());
+    QNetworkReply *reply  = manager.post(req, data);
 
     loop.exec();
 
