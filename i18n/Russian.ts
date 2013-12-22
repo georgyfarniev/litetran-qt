@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
@@ -16,27 +16,27 @@
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
         <source>Translate</source>
-        <translation>Перевести</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="25"/>
         <source>Settings</source>
-        <translation>Настройки</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="26"/>
         <source>About</source>
-        <translation>О Программе</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="27"/>
         <source>Exit</source>
-        <translation>Выход</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="50"/>
+        <location filename="../src/mainwindow.cpp" line="51"/>
         <source>Options</source>
-        <translation>Опции</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -44,17 +44,17 @@
     <message>
         <location filename="../src/settings.cpp" line="21"/>
         <source>Show icon in tray</source>
-        <translation>Показывать значок в трее</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="22"/>
         <source>Popup translate by shortcut</source>
-        <translation>Показывать всплывающую подсказу по нажатию клавиш</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="31"/>
         <source>GUI Language</source>
-        <translation>Язык интерфейса</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
