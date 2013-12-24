@@ -77,14 +77,13 @@ i18n/Russian.ts)
 set(RESOURCES resources.qrc)
 set(FILES_TO_TRANSLATE ${SOURCES} ${FORMS})
 
-
 option(UPDATE_TRANSLATIONS OFF)
 if(UPDATE_TRANSLATIONS)
     message("-- Updating translation files")
     qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TRANSLATIONS_FILES})
-else(UPDATE_TRANSLATIONS)
+else()
     qt5_add_translation(QM_FILES ${TRANSLATIONS_FILES})
-endif(UPDATE_TRANSLATIONS)
+endif()
 
 add_custom_target(lupdate DEPENDS ${QM_FILES})
 
@@ -97,7 +96,7 @@ add_executable(${APP_EXECUTABLE_NAME} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
 
-install(TARGETS ${APP_EXECUTABLE_NAME} DESTINATION ${APP_BINARY_PATH})
+install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${APP_BINARY_PATH})
 install(FILES ${QM_FILES} DESTINATION ${APP_I18N_PATH})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icons/ui/litetran.png DESTINATION ${APP_ICONS_PATH})
 

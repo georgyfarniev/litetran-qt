@@ -1,7 +1,7 @@
 # Maintainer: flareguner <flareguner@gmail.com>
 
-pkgname=litetrangit
-pkgver=11cfb8d
+pkgname=litetran-git
+pkgver=0.2
 pkgrel=1
 pkgdesc="The powerful translator on Qt5 - GIT version"
 arch=("i686" "x86_64")

@@ -18,23 +18,23 @@
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     settings(new QSettings(this)),
-    tray_checkbox(new QCheckBox(tr("Show icon in tray"), this)),
-    shortcut_checkbox(new QCheckBox(tr("Popup translate by shortcut"), this)),
+    tray_checkbox(new QCheckBox(this)),
+    shortcut_checkbox(new QCheckBox(this)),
     shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
+    language_label(new QLabel(this)),
     button_box(new QDialogButtonBox(this))
 {
     connect(shortcut_checkbox, SIGNAL(toggled(bool)), shortcut_edit, SLOT(setEnabled(bool)));
     connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
     connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QLabel *lang_label = new QLabel(tr("GUI Language"), this);
     QVBoxLayout *main_layout = new QVBoxLayout;
     QFormLayout *elem_layout = new QFormLayout;
 
     main_layout->addLayout(elem_layout);
     main_layout->addWidget(button_box);
-    elem_layout->addRow(lang_label, language_combobox);
+    elem_layout->addRow(language_label, language_combobox);
     elem_layout->addRow(shortcut_checkbox, shortcut_edit);
     elem_layout->addRow(tray_checkbox);
 
@@ -89,6 +89,15 @@ QString Settings::language() const
 QString Settings::detectSystemLanguage() const
 {
     return QLocale::languageToString(QLocale().language());
+}
+
+void Settings::changeEvent(QEvent *e) {
+    QDialog::changeEvent(e);
+    if(e->type() == QEvent::LanguageChange) {
+            tray_checkbox->setText(tr("Show icon in system tray"));
+            shortcut_checkbox->setText(tr("Popup translate by shortcut"));
+            language_label->setText(tr("Application language"));
+    }
 }
 
 void Settings::accept()

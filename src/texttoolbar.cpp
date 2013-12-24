@@ -1,12 +1,18 @@
 #include "texttoolbar.h"
 #include <QAction>
 
+#include <QEvent>
+
 TextToolbar::TextToolbar(QWidget *parent) :
     QToolBar(parent),
-    action_clear(new QAction(QIcon(":/icons/ui/clear.png"), tr("Clear"), this)),
-    action_copy(new QAction(QIcon(":/icons/ui/copy.png"), tr("Copy"), this)),
-    action_pronounce(new QAction(QIcon(":/icons/ui/play.png"), tr("Play"), this))
+    action_clear(new QAction(this)),
+    action_copy(new QAction(this)),
+    action_pronounce(new QAction(this))
 {
+    action_clear->setIcon(QIcon(":/icons/ui/clear.png"));
+    action_copy->setIcon(QIcon(":/icons/ui/copy.png"));
+    action_pronounce->setIcon(QIcon(":/icons/ui/play.png"));
+
     addAction(action_clear);
     addAction(action_copy);
     addAction(action_pronounce);
@@ -16,4 +22,13 @@ TextToolbar::TextToolbar(QWidget *parent) :
     connect(action_pronounce, SIGNAL(triggered()), SIGNAL(requestPronounce()));
 
     setIconSize(QSize(16, 16));
+}
+
+void TextToolbar::changeEvent(QEvent *e) {
+    QToolBar::changeEvent(e);
+    if(e->type() == QEvent::LanguageChange) {
+        action_clear->setText(tr("Clear"));
+        action_copy->setText(tr("Copy"));
+        action_pronounce->setText(tr("Pronounce"));
+    }
 }

@@ -8,7 +8,7 @@ TrayIcon::TrayIcon(QObject *parent) :
     mMenu(new QMenu())
 {
     setContextMenu(mMenu);
-    setIcon(QIcon::fromTheme("edit-undo"));
+    setIcon(QIcon(":/icons/ui/litetran.png"));
 
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(onActivate(QSystemTrayIcon::ActivationReason)));
 }

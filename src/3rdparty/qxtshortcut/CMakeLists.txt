@@ -17,3 +17,9 @@ qt5_use_modules(qxtshortcut Widgets Core)
 if(UNIX)
     target_link_libraries(qxtshortcut ${XLIB})
 endif()
+
+#
+# This is very ugly hack and MUST be replaced to something better.
+#
+include_directories(/usr/include/qt/QtGui/${Qt5Widgets_VERSION_STRING}/QtGui/qpa)
+

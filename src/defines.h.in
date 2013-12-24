@@ -5,7 +5,6 @@
 #define APP_ORG "LiteTran"
 #define APP_VERSION "0.1"
 
-
 #define APP_NAME_FULL APP_NAME " " APP_VERSION
 
 

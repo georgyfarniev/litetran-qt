@@ -7,8 +7,6 @@
 typedef QPair<QString, QString> Language;
 typedef QList<Language> LanguageList;
 
-
-
 class LanguageDB : public QObject
 {
     Q_OBJECT

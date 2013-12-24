@@ -14,6 +14,7 @@ signals:
     void requestCopy();
     void requestPronounce();
 private:
+    void changeEvent(QEvent *e);
     QAction *action_clear;
     QAction *action_copy;
     QAction *action_pronounce;

@@ -10,6 +10,7 @@ class QCheckBox;
 class QComboBox;
 class QKeySequenceEdit;
 class QDialogButtonBox;
+class QLabel;
 
 class Settings : public QDialog
 {
@@ -28,8 +29,11 @@ public:
 private slots:
     void accept();
 private:
+
     void read();
     QString detectSystemLanguage() const;
+
+    void changeEvent(QEvent *e);
 
     QSettings *settings;
     QString default_language;
@@ -37,5 +41,6 @@ private:
     QCheckBox *shortcut_checkbox;
     QKeySequenceEdit *shortcut_edit;
     QComboBox *language_combobox;
+    QLabel *language_label;
     QDialogButtonBox *button_box;
 };

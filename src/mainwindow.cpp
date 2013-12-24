@@ -22,9 +22,12 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    action_settings(new QAction(QIcon(":/icons/ui/settings.png"), tr("Settings"), this)),
-    action_about(new QAction(QIcon(":/icons/ui/about.png"), tr("About"), this)),
-    action_exit(new QAction(QIcon(":/icons/ui/exit.png"), tr("Exit"), this)),
+//    action_settings(new QAction(QIcon(":/icons/ui/settings.png"), tr("Settings"), this)),
+//    action_about(new QAction(QIcon(":/icons/ui/about.png"), tr("About"), this)),
+//    action_exit(new QAction(QIcon(":/icons/ui/exit.png"), tr("Exit"), this)),
+    action_settings(new QAction(this)),
+    action_about(new QAction(this)),
+    action_exit(new QAction(this)),
     menu_button(new QToolButton(this)),
     menu_root(new QMenu( this)),
     clipboard(qApp->clipboard()),
@@ -45,7 +48,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setWindowTitle(APP_NAME_FULL);
     setWindowIcon(QIcon(":/icons/ui/litetran.png"));
-    tray_icon->setIcon(QIcon(":/icons/ui/litetran.png"));
+
+    action_settings->setIcon(QIcon(":/icons/ui/settings.png"));
+    action_about->setIcon(QIcon(":/icons/ui/about.png"));
+    action_exit->setIcon(QIcon(":/icons/ui/exit.png"));
+
 
     menu_button->setMenu(menu_root);
     menu_button->setText(tr("Options"));
@@ -78,6 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->translateButton, SIGNAL(pressed()), this, SLOT(translate()));
     connect(ui->swapButton, SIGNAL(clicked()), this, SLOT(swap()));
     connect(translate_shortcut, SIGNAL(activated()), this, SLOT(translate()));
+    connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
+    connect(ui->resultLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
 
     tray_icon->addAction(action_exit);
     tray_icon->addAction(action_about);
@@ -164,12 +173,11 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
-    switch (e->type()) {
-        case QEvent::LanguageChange:
-            ui->retranslateUi(this);
-            break;
-        default:
-            break;
+    if(e->type() ==  QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        action_settings->setText(tr("Settings"));
+        action_about->setText(tr("About"));
+        action_exit->setText(tr("Exit"));
     }
 }
 
@@ -206,17 +214,18 @@ void MainWindow::updateSettings()
 
     const QString locale = settings_dialog->language();
 
-    // retranslate only if language changed
+
+//     retranslate only if language changed
     if(locale != last_locale) {
         if(ui_translator != NULL) {
+            qDebug() << "UNINSTALLING TRANSLATOR";
             qApp->removeTranslator(ui_translator);
             delete ui_translator;
         }
 
         ui_translator = new QTranslator();
 
-
-        if(!ui_translator->load(settings_dialog->language() + ".qm", APP_I18N_DIR)) {
+        if(!ui_translator->load(locale + ".qm", APP_I18N_DIR)) {
             qWarning() << "Cannot load translation for language " << locale;
             return;
         }
@@ -238,4 +247,13 @@ void MainWindow::pronounceSourceText()
 void MainWindow::pronounceResultText()
 {
     pronounce_engine->say(resultText(), resultLanguage());
+}
+
+void MainWindow::inputChanged()
+{
+    QString tooltip = APP_NAME;
+    tooltip += "\n\n" + ui->sourceLanguageComboBox->currentText();
+    tooltip += " - " + ui->resultLanguageComboBox->currentText();
+
+    tray_icon->setToolTip(tooltip);
 }

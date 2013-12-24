@@ -1,78 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.ui" line="14"/>
-        <source>MainWindow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="42"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
         <source>Translate</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевести</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="25"/>
+        <location filename="../src/mainwindow.cpp" line="178"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="26"/>
+        <location filename="../src/mainwindow.cpp" line="179"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="27"/>
+        <location filename="../src/mainwindow.cpp" line="180"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="51"/>
+        <location filename="../src/mainwindow.cpp" line="58"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Опции</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="21"/>
         <source>Show icon in tray</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Показывать значок в трее</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="22"/>
+        <location filename="../src/settings.cpp" line="97"/>
+        <source>Show icon in system tray</source>
+        <translation>Показывать значок в трее</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="98"/>
         <source>Popup translate by shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Всплывающие переводы по нажатию комбинации</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="31"/>
+        <location filename="../src/settings.cpp" line="99"/>
+        <source>Application language</source>
+        <translation>Язык приложения</translation>
+    </message>
+    <message>
         <source>GUI Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Язык интерфейса</translation>
     </message>
 </context>
 <context>
     <name>TextToolbar</name>
     <message>
-        <location filename="../src/texttoolbar.cpp" line="6"/>
+        <location filename="../src/texttoolbar.cpp" line="30"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../src/texttoolbar.cpp" line="7"/>
+        <location filename="../src/texttoolbar.cpp" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../src/texttoolbar.cpp" line="8"/>
+        <location filename="../src/texttoolbar.cpp" line="32"/>
+        <source>Pronounce</source>
+        <translation>Произнести</translation>
+    </message>
+    <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Произнести</translation>
     </message>
 </context>
 </TS>
