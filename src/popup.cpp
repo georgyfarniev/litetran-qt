@@ -20,6 +20,9 @@ void Popup::show(const QString &text)
 {
     const QString display_text = formatText(text);
 
+    const int timeout = display_text.split(" ").size();
+
+    timer.setInterval(POPUP_HIDE_TIMEOUT + (timeout * 1000));
     if (display_text.isEmpty())
         return;
 
