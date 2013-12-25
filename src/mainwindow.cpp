@@ -19,12 +19,10 @@
 #include <QTranslator>
 #include <QApplication>
 #include <QDebug>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-//    action_settings(new QAction(QIcon(":/icons/ui/settings.png"), tr("Settings"), this)),
-//    action_about(new QAction(QIcon(":/icons/ui/about.png"), tr("About"), this)),
-//    action_exit(new QAction(QIcon(":/icons/ui/exit.png"), tr("Exit"), this)),
     action_settings(new QAction(this)),
     action_about(new QAction(this)),
     action_exit(new QAction(this)),
@@ -46,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle(APP_NAME_FULL);
+    setWindowTitle(APP_NAME);
     setWindowIcon(QIcon(":/icons/ui/litetran.png"));
 
     action_settings->setIcon(QIcon(":/icons/ui/settings.png"));
@@ -55,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     menu_button->setMenu(menu_root);
-    menu_button->setText(tr("Options"));
+    menu_button->setToolTip(tr("Options"));
     menu_button->setPopupMode(QToolButton::InstantPopup);
     menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
     menu_root->addAction(action_settings);
@@ -122,7 +120,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::about()
 {
-    QMessageBox::information(this, "About LiteTran", "LiteTran is a lightweight language translation program.");
+    QFile file(":/about.html");
+    file.open(QFile::ReadOnly | QFile::Text);
+
+    QMessageBox::about(this, "About LiteTran", file.readAll().replace("\n", ""));
 }
 
 void MainWindow::quit()
