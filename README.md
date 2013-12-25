@@ -18,7 +18,9 @@ Features
 Build Depdendencies
 -------------------
 cmake >= 2.8.10
-qt >= 5.2
+qt core, gui, multimedia >= 5.2
+
+
 
 Contribute
 ----------
