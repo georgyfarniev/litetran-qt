@@ -51,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
     action_about->setIcon(QIcon(":/icons/ui/about.png"));
     action_exit->setIcon(QIcon(":/icons/ui/exit.png"));
 
-
     menu_button->setMenu(menu_root);
     menu_button->setPopupMode(QToolButton::InstantPopup);
     menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
@@ -119,9 +118,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::about()
 {
-//    QFile file(":/about.html");
-//    file.open(QFile::ReadOnly | QFile::Text);
-
     QMessageBox::about(this, about_title, about_text);
 }
 
