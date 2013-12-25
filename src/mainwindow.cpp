@@ -53,7 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     menu_button->setMenu(menu_root);
-    menu_button->setToolTip(tr("Options"));
     menu_button->setPopupMode(QToolButton::InstantPopup);
     menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
     menu_root->addAction(action_settings);
@@ -120,10 +119,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::about()
 {
-    QFile file(":/about.html");
-    file.open(QFile::ReadOnly | QFile::Text);
+//    QFile file(":/about.html");
+//    file.open(QFile::ReadOnly | QFile::Text);
 
-    QMessageBox::about(this, "About LiteTran", file.readAll().replace("\n", ""));
+    QMessageBox::about(this, about_title, about_text);
 }
 
 void MainWindow::quit()
@@ -176,9 +175,16 @@ void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
         ui->retranslateUi(this);
-        action_settings->setText(tr("Settings"));
+        action_settings->setText(tr("Configure"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
+        menu_button->setToolTip(QString(APP_NAME) + QString(" ") + tr("menu"));
+
+        about_title = tr("About LiteTran");
+        about_text = tr("LiteTran is a lightweight text translation program."
+                        "Just select some text, press hotkey and get translation in small popup!"
+                        "\n\nLiteTran is licensed under GPL3\n"
+                        "Homepage: https://github.com/flareguner/litetran");
     }
 }
 
@@ -219,7 +225,6 @@ void MainWindow::updateSettings()
 //     retranslate only if language changed
     if(locale != last_locale) {
         if(ui_translator != NULL) {
-            qDebug() << "UNINSTALLING TRANSLATOR";
             qApp->removeTranslator(ui_translator);
             delete ui_translator;
         }

@@ -54,6 +54,8 @@ private:
     QString resultText() const;
 
     QString last_locale;
+    QString about_text;
+    QString about_title;
 
     QAction *action_settings;
     QAction *action_about;

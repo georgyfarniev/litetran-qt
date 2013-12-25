@@ -97,6 +97,7 @@ void Settings::changeEvent(QEvent *e) {
             tray_checkbox->setText(tr("Show icon in system tray"));
             shortcut_checkbox->setText(tr("Popup translate by shortcut"));
             language_label->setText(tr("Application language"));
+            setWindowTitle(tr("Configure"));
     }
 }
 

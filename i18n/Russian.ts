@@ -14,9 +14,13 @@
         <translation>Перевести</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="178"/>
         <source>Settings</source>
-        <translation>Настройки</translation>
+        <translation type="vanished">Настройки</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="178"/>
+        <source>Configure</source>
+        <translation>Настроить</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="179"/>
@@ -29,9 +33,29 @@
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="58"/>
+        <location filename="../src/mainwindow.cpp" line="181"/>
+        <source>menu</source>
+        <translation>меню</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="183"/>
+        <source>About LiteTran</source>
+        <translation>О LiteTran</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="184"/>
+        <source>LiteTran is a lightweight text translation program.Just select some text, press hotkey and get translation in small popup!
+
+LiteTran is licensed under GPL3
+Homepage: https://github.com/flareguner/litetran</source>
+        <translation type="unfinished">LiteTran представляет собой легкую программу для перевода текстов. Просто выделите текст, нажмите комбинацию клавиш и получите перевод во всплывающей подсказке!
+
+LiteTran лицензирован под GPL3
+Домашняя страница: https://github.com/flareguner/litetran</translation>
+    </message>
+    <message>
         <source>Options</source>
-        <translation>Опции</translation>
+        <translation type="vanished">Опции</translation>
     </message>
 </context>
 <context>
@@ -54,6 +78,11 @@
         <location filename="../src/settings.cpp" line="99"/>
         <source>Application language</source>
         <translation>Язык приложения</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="100"/>
+        <source>Configure</source>
+        <translation>Настроить</translation>
     </message>
     <message>
         <source>GUI Language</source>

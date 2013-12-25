@@ -15,23 +15,36 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="178"/>
-        <source>Settings</source>
-        <translation></translation>
+        <source>Configure</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="179"/>
         <source>About</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="180"/>
         <source>Exit</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="58"/>
-        <source>Options</source>
-        <translation></translation>
+        <location filename="../src/mainwindow.cpp" line="181"/>
+        <source>menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="183"/>
+        <source>About LiteTran</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="184"/>
+        <source>LiteTran is a lightweight text translation program.Just select some text, press hotkey and get translation in small popup!
+
+LiteTran is licensed under GPL3
+Homepage: https://github.com/flareguner/litetran</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -50,6 +63,11 @@
         <location filename="../src/settings.cpp" line="99"/>
         <source>Application language</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="100"/>
+        <source>Configure</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
