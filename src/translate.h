@@ -3,8 +3,7 @@
 #include <QString>
 #include <QObject>
 
-
-#define TRANSLATOR_URL "http://www.translate.google.com/translate_a/t"
+#define TRANSLATOR_URL "http://mymemory.translated.net/api/get"
 
 class Translate : public QObject
 {

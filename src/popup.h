@@ -7,7 +7,7 @@
 class QClipboard;
 
 //TODO: calculate this values
-#define POPUP_HIDE_TIMEOUT 5000
+#define POPUP_MIN_TIMEOUT 5000
 #define POPUP_WIDTH 640
 
 class Popup : public QObject
@@ -27,5 +27,5 @@ private:
     QPoint cursor_pos;
     QTimer timer;
     QClipboard *clipboard;
-    bool  cursor_locked;
+    bool cursor_locked;
 };

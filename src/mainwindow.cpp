@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->sourceLanguageComboBox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     ui->resultLanguageComboBox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
+
     restoreGeometry(settings->value("Geometry").toByteArray());
 
     updateSettings();

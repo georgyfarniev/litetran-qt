@@ -11,7 +11,7 @@ Popup::Popup(QObject *parent) :
     cursor_locked(false)
 {
     timer.setSingleShot(true);
-    timer.setInterval(POPUP_HIDE_TIMEOUT);
+
     connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(updatePosition()));
     connect(&timer, SIGNAL(timeout()), this, SLOT(hidePopup()));
 }
@@ -20,9 +20,9 @@ void Popup::show(const QString &text)
 {
     const QString display_text = formatText(text);
 
-    const int timeout = display_text.split(" ").size();
-
-    timer.setInterval(POPUP_HIDE_TIMEOUT + (timeout * 1000));
+    // calculate timeout which is depend of words count in text
+    const int words_count = display_text.split(" ").size();
+    timer.setInterval(POPUP_MIN_TIMEOUT + (words_count * 1000));
     if (display_text.isEmpty())
         return;
 

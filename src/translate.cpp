@@ -26,7 +26,7 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
     query += "&langpair=" + sl.toLatin1() + "%7C" + tl.toLatin1();
     query += "&q=" + html.toPercentEncoding();
 
-    QUrl url("http://mymemory.translated.net/api/get");
+    QUrl url(TRANSLATOR_URL);
 
     const QString  rawdata = Request::POST(url, query);
 
