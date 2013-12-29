@@ -48,36 +48,22 @@ void Popup::hidePopup()
 
 QString Popup::formatText(const QString &text) const
 {
-    QString _text;
     QFontMetrics fm(QToolTip::font());
-    QStringList lines = text.split(QChar('\n'));
-    foreach (const QString &line_, lines) {
-        QStringList words = line_.simplified().split(QRegExp("\\s+"), QString::SkipEmptyParts);
-        if (words.isEmpty())
-            continue;
+    QStringList words = text.simplified().split(QRegExp("\\s+"), QString::SkipEmptyParts);
 
-        QString line;
-        foreach (const QString &word, words) {
-            QString tmp = line;
-            if (!tmp.isEmpty())
-                tmp += " ";
-            tmp += word;
-            if (fm.width(tmp) >= POPUP_WIDTH) {
-                if (!line.isEmpty()) {
-                    if (!_text.isEmpty())
-                        _text += "\n";
-                    _text += line;
-                    line = word;
-                    continue;
-                }
-            }
-            line = tmp;
-        }
-        if (!line.isEmpty()) {
-            if (!_text.isEmpty())
-                _text += "\n";
-            _text += line;
+    QString outstr;
+    QString line;
+
+    foreach(const QString &word, words) {
+        if(!line.isEmpty())
+            line += " ";
+        line += word;
+
+        if(fm.width(line) >= POPUP_WIDTH || word == words.last()) {
+            outstr += line +  "\n";
+            line.clear();
         }
     }
-    return _text;
+
+    return outstr.trimmed();
 }
