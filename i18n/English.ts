@@ -16,27 +16,27 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="174"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="175"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="176"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="177"/>
-        <source>menu</source>
-        <translation type="unfinished"></translation>
+        <source>Menu</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="179"/>
         <source>About LiteTran</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="180"/>
@@ -44,7 +44,7 @@
 
 LiteTran is licensed under GPL3
 Homepage: https://github.com/flareguner/litetran</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -67,7 +67,7 @@ Homepage: https://github.com/flareguner/litetran</source>
     <message>
         <location filename="../src/settings.cpp" line="100"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>

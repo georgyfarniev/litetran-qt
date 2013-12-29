@@ -20,7 +20,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="174"/>
         <source>Configure</source>
-        <translation>Настроить</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="175"/>
@@ -34,8 +34,12 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="177"/>
+        <source>Menu</source>
+        <translation>Меню</translation>
+    </message>
+    <message>
         <source>menu</source>
-        <translation>меню</translation>
+        <translation type="vanished">меню</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="179"/>
@@ -48,7 +52,7 @@
 
 LiteTran is licensed under GPL3
 Homepage: https://github.com/flareguner/litetran</source>
-        <translation type="unfinished">LiteTran представляет собой легкую программу для перевода текстов. Просто выделите текст, нажмите комбинацию клавиш и получите перевод во всплывающей подсказке!
+        <translation>LiteTran представляет собой легкую программу для перевода текстов. Просто выделите текст, нажмите комбинацию клавиш и получите перевод во всплывающей подсказке!
 
 LiteTran лицензирован под GPL3
 Домашняя страница: https://github.com/flareguner/litetran</translation>
@@ -77,12 +81,12 @@ LiteTran лицензирован под GPL3
     <message>
         <location filename="../src/settings.cpp" line="99"/>
         <source>Application language</source>
-        <translation>Язык приложения</translation>
+        <translation>Язык интерфейса</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="100"/>
         <source>Configure</source>
-        <translation>Настроить</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <source>GUI Language</source>
