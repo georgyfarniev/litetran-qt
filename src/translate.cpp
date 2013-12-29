@@ -1,12 +1,10 @@
 #include "translate.h"
 #include "request.h"
-
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTextDocumentFragment>
-
 
 Translate::Translate(QObject *parent)
     :QObject(parent)
@@ -23,7 +21,7 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
     const QJsonArray sentences = root.value("sentences").toArray();
 
     QString result;
-    foreach(const QJsonValue val, sentences)
+    foreach(const QJsonValue &val, sentences)
         result += val.toObject().value("trans").toString();
 
     return QTextDocumentFragment::fromHtml(result).toPlainText();

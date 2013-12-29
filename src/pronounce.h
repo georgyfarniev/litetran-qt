@@ -12,7 +12,6 @@ class Pronounce : public QObject
     Q_OBJECT
 public:
     explicit Pronounce(QObject *parent = 0);
-
     void say(const QString &text, const QString &lang);
 private:
     QMediaPlayer *player;

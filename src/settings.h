@@ -29,11 +29,9 @@ public:
 private slots:
     void accept();
 private:
-
     void read();
-    QString detectSystemLanguage() const;
-
     void changeEvent(QEvent *e);
+    QString detectSystemLanguage() const;
 
     QSettings *settings;
     QString default_language;

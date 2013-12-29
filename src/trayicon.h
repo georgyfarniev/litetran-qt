@@ -10,7 +10,7 @@ class TrayIcon : public QSystemTrayIcon
     Q_OBJECT
 public:
     explicit TrayIcon(QObject *parent = 0);
-
+    ~TrayIcon();
     void addAction(QAction *act);
     void addSeparator();
 signals:
@@ -19,5 +19,5 @@ signals:
 private slots:
     void onActivate(QSystemTrayIcon::ActivationReason reason);
 private:
-    QMenu *mMenu;
+    QMenu *menu;
 };

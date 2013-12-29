@@ -42,7 +42,7 @@ private slots:
     void pronounceSourceText();
     void pronounceResultText();
 
-    void inputChanged();
+    void languageChanged();
 private:
     void closeEvent(QCloseEvent *);
     void changeEvent(QEvent *e);

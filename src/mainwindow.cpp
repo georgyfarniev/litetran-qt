@@ -80,9 +80,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(toolbar_result_text, SIGNAL(requestPronounce()), this, SLOT(pronounceResultText()));
     connect(ui->translateButton, SIGNAL(pressed()), this, SLOT(translate()));
     connect(ui->swapButton, SIGNAL(clicked()), this, SLOT(swap()));
+    connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
+    connect(ui->resultLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(translate_shortcut, SIGNAL(activated()), this, SLOT(translate()));
-    connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
-    connect(ui->resultLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(inputChanged()));
 
     tray_icon->addAction(action_exit);
     tray_icon->addAction(action_about);
@@ -103,7 +103,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->sourceLanguageComboBox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     ui->resultLanguageComboBox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
-
     restoreGeometry(settings->value("Geometry").toByteArray());
 
     updateSettings();
@@ -252,7 +251,7 @@ void MainWindow::pronounceResultText()
     pronounce_engine->say(resultText(), resultLanguage());
 }
 
-void MainWindow::inputChanged()
+void MainWindow::languageChanged()
 {
     QString tooltip = APP_NAME;
     tooltip += "\n\n" + ui->sourceLanguageComboBox->currentText();
