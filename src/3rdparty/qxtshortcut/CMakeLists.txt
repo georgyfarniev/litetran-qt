@@ -10,16 +10,12 @@ elseif(UNIX)
     find_library(XLIB NAMES libx11 X11)
 endif()
 
+find_package(Qt5X11Extras REQUIRED)
+
 qt5_wrap_cpp(SOURCES-MOC ${HEADERS})
 add_library(qxtshortcut STATIC ${SOURCES} ${SOURCES-MOC})
-qt5_use_modules(qxtshortcut Widgets Core)
+qt5_use_modules(qxtshortcut Widgets Core X11Extras)
 
 if(UNIX)
     target_link_libraries(qxtshortcut ${XLIB})
 endif()
-
-#
-# This is very ugly hack and MUST be replaced to something better.
-#
-include_directories(/usr/include/qt/QtGui/${Qt5Widgets_VERSION_STRING}/QtGui/qpa)
-
