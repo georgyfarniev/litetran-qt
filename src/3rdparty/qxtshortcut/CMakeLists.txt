@@ -10,7 +10,7 @@ elseif(UNIX)
     find_library(XLIB NAMES libx11 X11)
 endif()
 
-find_package(Qt5X11Extras REQUIRED)
+find_package(Qt5X11Extras 5.2 REQUIRED)
 
 qt5_wrap_cpp(SOURCES-MOC ${HEADERS})
 add_library(qxtshortcut STATIC ${SOURCES} ${SOURCES-MOC})

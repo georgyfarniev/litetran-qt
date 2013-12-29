@@ -30,11 +30,11 @@ if(NOT MSVC)
     endif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
 endif()
 
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Network REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
+find_package(Qt5Widgets  5.2 REQUIRED)
+find_package(Qt5Core 5.2 REQUIRED)
+find_package(Qt5Network 5.2 REQUIRED)
+find_package(Qt5Multimedia 5.2 REQUIRED)
+find_package(Qt5LinguistTools 5.2 REQUIRED)
 
 include_directories(
 ${CMAKE_CURRENT_BINARY_DIR}
