@@ -7,7 +7,8 @@
 #include <QTextDocumentFragment>
 
 Translate::Translate(QObject *parent)
-    :QObject(parent)
+    :QObject(parent),
+     enable_dict(true)
 {
 }
 
@@ -19,11 +20,23 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
     const QString response = Request::POST(url, req.toUtf8());
     const QJsonObject root = QJsonDocument::fromJson(response.toUtf8()).object();
     const QJsonArray sentences = root.value("sentences").toArray();
+    const QJsonArray dict = root.value("dict").toArray();
 
     QString result;
     foreach(const QJsonValue &val, sentences)
         result += val.toObject().value("trans").toString();
 
-    return QTextDocumentFragment::fromHtml(result).toPlainText();
+    if(enable_dict && !dict.isEmpty()) {
+        foreach(const QJsonValue &val, dict) {
+            const QString pos = val.toObject().value("pos").toString();
+            result += QString("<br><br><i><b>%1</b> - %2</i><br>").arg(text, pos);
+            const QJsonArray entries = val.toObject().value("entry").toArray();
+            foreach(const QJsonValue &entry, entries) {
+                const QString word = entry.toObject().value("word").toString();
+                const QStringList reverse_translations = entry.toObject().value("reverse_translation").toVariant().toStringList();
+                result +=  QString("<br><b>%1</b> - %2").arg(word, reverse_translations.join(", "));
+            }
+        }
+    }
+    return result;
 }
-

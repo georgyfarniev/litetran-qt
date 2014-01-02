@@ -33,13 +33,13 @@
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="177"/>
         <source>Menu</source>
-        <translation>Меню</translation>
+        <translation type="vanished">Меню</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="177"/>
         <source>menu</source>
-        <translation type="vanished">меню</translation>
+        <translation>меню</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="179"/>
@@ -69,22 +69,27 @@ LiteTran лицензирован под GPL3
         <translation type="vanished">Показывать значок в трее</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="97"/>
+        <location filename="../src/settings.cpp" line="103"/>
         <source>Show icon in system tray</source>
         <translation>Показывать значок в трее</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="98"/>
+        <location filename="../src/settings.cpp" line="104"/>
         <source>Popup translate by shortcut</source>
         <translation>Всплывающие переводы по нажатию комбинации</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="99"/>
+        <location filename="../src/settings.cpp" line="105"/>
+        <source>Show dictionary results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="106"/>
         <source>Application language</source>
         <translation>Язык интерфейса</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="100"/>
+        <location filename="../src/settings.cpp" line="107"/>
         <source>Configure</source>
         <translation>Настройки</translation>
     </message>

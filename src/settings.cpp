@@ -14,12 +14,12 @@
 #include <QDir>
 #include <QDebug>
 
-
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     settings(new QSettings(this)),
     tray_checkbox(new QCheckBox(this)),
     shortcut_checkbox(new QCheckBox(this)),
+    dictionary_checkbox(new QCheckBox(this)),
     shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
     language_label(new QLabel(this)),
@@ -37,6 +37,7 @@ Settings::Settings(QWidget *parent) :
     elem_layout->addRow(language_label, language_combobox);
     elem_layout->addRow(shortcut_checkbox, shortcut_edit);
     elem_layout->addRow(tray_checkbox);
+    elem_layout->addRow(dictionary_checkbox);
 
     setLayout(main_layout);
 
@@ -76,6 +77,11 @@ bool Settings::trayIconEnabled()
     return tray_checkbox->isChecked();
 }
 
+bool Settings::dictionaryEnabled()
+{
+    return dictionary_checkbox->isChecked();
+}
+
 QKeySequence Settings::shortcut() const
 {
     return shortcut_edit->keySequence();
@@ -96,6 +102,7 @@ void Settings::changeEvent(QEvent *e) {
     if(e->type() == QEvent::LanguageChange) {
             tray_checkbox->setText(tr("Show icon in system tray"));
             shortcut_checkbox->setText(tr("Popup translate by shortcut"));
+            dictionary_checkbox->setText(tr("Show dictionary results"));
             language_label->setText(tr("Application language"));
             setWindowTitle(tr("Configure"));
     }
@@ -107,6 +114,7 @@ void Settings::accept()
     settings->setValue("ScanShortcut", shortcut_edit->keySequence().toString());
     settings->setValue("Language", language_combobox->currentText());
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
+    settings->setValue("ShowDictionary", dictionary_checkbox->isChecked());
 
     QDialog::accept();
 }
@@ -117,4 +125,5 @@ void Settings::read()
     shortcut_checkbox->setChecked(settings->value("ScanShortcutEnabled", true).toBool());
     shortcut_edit->setKeySequence(settings->value("ScanShortcut", DEFAULT_SHORTCUT).toString());
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
+    dictionary_checkbox->setChecked(settings->value("ShowDictionary", false).toBool());
 }

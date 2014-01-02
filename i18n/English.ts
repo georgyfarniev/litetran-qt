@@ -30,8 +30,8 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="177"/>
-        <source>Menu</source>
-        <translation></translation>
+        <source>menu</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="179"/>
@@ -50,22 +50,27 @@ Homepage: https://github.com/flareguner/litetran</source>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="97"/>
+        <location filename="../src/settings.cpp" line="103"/>
         <source>Show icon in system tray</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="98"/>
+        <location filename="../src/settings.cpp" line="104"/>
         <source>Popup translate by shortcut</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="99"/>
+        <location filename="../src/settings.cpp" line="105"/>
+        <source>Show dictionary results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="106"/>
         <source>Application language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="100"/>
+        <location filename="../src/settings.cpp" line="107"/>
         <source>Configure</source>
         <translation></translation>
     </message>

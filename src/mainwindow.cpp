@@ -144,7 +144,7 @@ void MainWindow::translate()
 
     ui->sourceTextEdit->setPlainText(text);
     const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
-    ui->resultTextBrowser->setText(result);
+    ui->resultTextBrowser->setHtml(result);
 
     if(!applicationInFocus())
         popup->show(result);
@@ -214,6 +214,7 @@ void MainWindow::updateSettings()
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
     translate_shortcut->setShortcut(settings_dialog->shortcut());
     translate_shortcut->setEnabled(settings_dialog->shortcutEnabled());
+    translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
 
     const QString locale = settings_dialog->language();
 
