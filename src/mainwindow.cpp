@@ -6,6 +6,7 @@
 #include "popup.h"
 #include "pronounce.h"
 #include "languagedb.h"
+#include "clipboard.h"
 #include "defines.h"
 #include "ui_mainwindow.h"
 #include "qxtglobalshortcut.h"
@@ -14,10 +15,8 @@
 #include <QMenu>
 #include <QHBoxLayout>
 #include <QMessageBox>
-#include <QClipboard>
 #include <QSettings>
 #include <QTranslator>
-#include <QApplication>
 #include <QDebug>
 #include <QFile>
 
@@ -28,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
     action_exit(new QAction(this)),
     menu_button(new QToolButton(this)),
     menu_root(new QMenu( this)),
-    clipboard(qApp->clipboard()),
     settings(new QSettings(this)),
     ui_translator(NULL),
     translate_shortcut(new QxtGlobalShortcut(this)),
+    clipboard(new Clipboard(this)),
     toolbar_source_text(new TextToolbar(this)),
     toolbar_result_text(new TextToolbar(this)),
     settings_dialog(new Settings(this)),
@@ -135,10 +134,10 @@ void MainWindow::swap()
 
 void MainWindow::translate()
 {
-    popup->setLocked(true);
+    popup->freezeCursorPosition();
     QString text;
     if(!applicationInFocus())
-        text = clipboard->text(QClipboard::Selection);
+        text = clipboard->selectedText();
     else
         text = sourceText();
 
@@ -148,7 +147,6 @@ void MainWindow::translate()
 
     if(!applicationInFocus())
         popup->show(result);
-    popup->setLocked(false);
 }
 
 void MainWindow::changeVisibility()

@@ -19,7 +19,7 @@ set(PROJECT_VERSION ${APP_VERSION})
 set(CMAKE_BUILD_TYPE Debug)
 
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
-    if(CMAKE_COMPILER_IS_GNUCC)
+    if(CMAKE_COMPILER_IS_GNUCC AND UNIX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
     endif()
 endif()
@@ -53,7 +53,8 @@ src/languagedb.h
 src/translate.h
 src/request.h
 src/pronounce.h
-src/popup.h)
+src/popup.h
+src/clipboard.h)
 
 set(SOURCES
 src/main.cpp
@@ -65,7 +66,8 @@ src/languagedb.cpp
 src/translate.cpp
 src/request.cpp
 src/pronounce.cpp
-src/popup.cpp)
+src/popup.cpp
+src/clipboard.cpp)
 
 set(FORMS
 src/mainwindow.ui)

@@ -185,7 +185,7 @@ QKeySequence QxtGlobalShortcut::shortcut() const
     return QKeySequence(qxt_d().key | qxt_d().mods);
 }
 
-bool QxtGlobalShortcut::setShortcut(const QKeySequence& shortcut)
+bool QxtGlobalShortcut:: setShortcut(const QKeySequence& shortcut)
 {
     if (qxt_d().key != 0)
         qxt_d().unsetShortcut();

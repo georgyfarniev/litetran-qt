@@ -1,17 +1,14 @@
 #include "popup.h"
-#include <QClipboard>
 #include <QToolTip>
-#include <QApplication>
 #include <QDebug>
 #include <QApplication>
+#include <QDesktopWidget>
 
 Popup::Popup(QObject *parent) :
     QObject(parent),
-    clipboard(qApp->clipboard()),
     cursor_locked(false)
 {
     timer.setSingleShot(true);
-    connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(updatePosition()));
     connect(&timer, SIGNAL(timeout()), this, SLOT(hidePopup()));
 }
 
@@ -27,15 +24,9 @@ void Popup::show(const QString &text)
     timer.start(POPUP_MIN_TIMEOUT + (words_count * 1000));
 }
 
-void Popup::setLocked(bool b)
+void Popup::freezeCursorPosition()
 {
-    cursor_locked = b;
-}
-
-void Popup::updatePosition()
-{
-    if(!cursor_locked)
-        cursor_pos = QCursor::pos();
+    cursor_pos = QCursor::pos();
 }
 
 void Popup::hidePopup()

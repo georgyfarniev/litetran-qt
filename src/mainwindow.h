@@ -10,7 +10,6 @@ class MainWindow;
 class QAction;
 class QToolButton;
 class QCloseEvent;
-class QClipboard;
 class QSettings;
 class QTranslator;
 class QxtGlobalShortcut;
@@ -21,6 +20,7 @@ class Translate;
 class Popup;
 class LanguageDB;
 class Pronounce;
+class Clipboard;
 
 #define DEFAULT_SOURCE_LANGUAGE "English"
 #define DEFAULT_RESULT_LANGUAGE "Russian"
@@ -62,11 +62,11 @@ private:
     QAction *action_exit;
     QToolButton *menu_button;
     QMenu *menu_root;
-    QClipboard *clipboard;
     QSettings *settings;
     QTranslator *ui_translator;
     QxtGlobalShortcut *translate_shortcut;
 
+    Clipboard *clipboard;
     TextToolbar *toolbar_source_text;
     TextToolbar *toolbar_result_text;
     Settings *settings_dialog;
