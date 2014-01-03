@@ -25,7 +25,7 @@ LanguageDB::LanguageDB(QObject *parent) :
         QStringList result = line.split(",");
 
         if(result.size() != 2 )
-            qFatal("Database error: invalid entry in line %d" + counter);
+            qFatal("Database error: invalid entry in line %d", counter);
 
         const QString code = result.first();
         const QString name = result.last();
