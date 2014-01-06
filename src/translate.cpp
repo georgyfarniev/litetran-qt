@@ -40,3 +40,14 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
     }
     return result;
 }
+
+QString Translate::detect(const QString &sample) const
+{
+    const QByteArray encoded_text = sample.toHtmlEscaped().toUtf8().toPercentEncoding();
+    const QString req = QString("client=json&text=%1&sl=%2").arg(encoded_text, "auto");
+    const QUrl url = QUrl(TRANSLATOR_URL);
+    const QString response = Request::POST(url, req.toUtf8());
+    const QJsonObject root = QJsonDocument::fromJson(response.toUtf8()).object();
+    return root.value("src").toString();
+
+}

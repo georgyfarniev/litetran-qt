@@ -58,6 +58,7 @@ private:
     QString about_title;
 
     QAction *action_settings;
+    QAction *action_detect;
     QAction *action_about;
     QAction *action_exit;
     QToolButton *menu_button;

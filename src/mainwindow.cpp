@@ -23,6 +23,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     action_settings(new QAction(this)),
+    action_detect(new QAction(this)),
     action_about(new QAction(this)),
     action_exit(new QAction(this)),
     menu_button(new QToolButton(this)),
@@ -47,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/icons/ui/litetran.png"));
 
     action_settings->setIcon(QIcon(":/icons/ui/settings.png"));
+    action_detect->setCheckable(true);
     action_about->setIcon(QIcon(":/icons/ui/about.png"));
     action_exit->setIcon(QIcon(":/icons/ui/exit.png"));
 
@@ -54,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_button->setPopupMode(QToolButton::InstantPopup);
     menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
     menu_root->addAction(action_settings);
+    menu_root->addAction(action_detect);
     menu_root->addAction(action_about);
     menu_root->addAction(action_exit);
 
@@ -141,6 +144,15 @@ void MainWindow::translate()
     else
         text = sourceText();
 
+    QString sl = ui->sourceLanguageComboBox->currentData().toString();
+    if(action_detect->isChecked()) {
+        sl = translate_engine->detect(text);
+        for (int i = 0; i < ui->sourceLanguageComboBox->count(); ++i)
+            if(ui->sourceLanguageComboBox->itemData(i).toString() == sl)
+                ui->sourceLanguageComboBox->setCurrentIndex(i);
+    }
+
+
     ui->sourceTextEdit->setPlainText(text);
     const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
     ui->resultTextBrowser->setHtml(result);
@@ -170,6 +182,7 @@ void MainWindow::changeEvent(QEvent *e) {
     if(e->type() ==  QEvent::LanguageChange) {
         ui->retranslateUi(this);
         action_settings->setText(tr("Configure"));
+        action_detect->setText(tr("Detect language"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
         menu_button->setToolTip(QString(APP_NAME) + QString(" ") + tr("menu"));
