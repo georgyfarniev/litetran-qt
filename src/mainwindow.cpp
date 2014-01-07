@@ -128,6 +128,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     settings->beginGroup("MainWindow");
 
+    action_detect->setChecked(settings->value("DetectSourceLanguage", false).toBool());
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
@@ -137,6 +138,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    settings->setValue("DetectSourceLanguage", action_detect->isChecked());
     settings->setValue("SourceLanguage", source_combobox->currentText());
     settings->setValue("ResultLanguage", result_combobox->currentText());
     settings->setValue("Geometry", saveGeometry());
