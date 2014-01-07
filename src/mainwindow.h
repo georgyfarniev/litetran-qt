@@ -3,12 +3,12 @@
 #include <QMainWindow>
 #include "languagedb.h"
 
-namespace Ui {
-class MainWindow;
-}
-
-class QAction;
+class QTextEdit;
+class QTextBrowser;
+class QComboBox;
+class QPushButton;
 class QToolButton;
+class QAction;
 class QCloseEvent;
 class QSettings;
 class QTranslator;
@@ -57,6 +57,14 @@ private:
     QString about_text;
     QString about_title;
 
+    QTextEdit *source_text;
+    QTextBrowser *result_text;
+    QComboBox *source_combobox;
+    QComboBox *result_combobox;
+
+    QPushButton *translate_button;
+    QToolButton *swap_button;
+
     QAction *action_settings;
     QAction *action_detect;
     QAction *action_about;
@@ -76,6 +84,4 @@ private:
     Pronounce *pronounce_engine;
     Popup *popup;
     LanguageDB *langdb;
-
-    Ui::MainWindow *ui;
 };

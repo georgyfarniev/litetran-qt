@@ -8,8 +8,13 @@
 #include "languagedb.h"
 #include "clipboard.h"
 #include "defines.h"
-#include "ui_mainwindow.h"
 #include "qxtglobalshortcut.h"
+#include <QCloseEvent>
+#include <QApplication>
+#include <QTextEdit>
+#include <QTextBrowser>
+#include <QComboBox>
+#include <QPushButton>
 #include <QAction>
 #include <QToolButton>
 #include <QMenu>
@@ -19,9 +24,17 @@
 #include <QTranslator>
 #include <QDebug>
 #include <QFile>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    source_text(new QTextEdit(this)),
+    result_text(new QTextBrowser(this)),
+    source_combobox(new QComboBox(this)),
+    result_combobox(new QComboBox(this)),
+    translate_button(new QPushButton(this)),
+    swap_button(new QToolButton(this)),
     action_settings(new QAction(this)),
     action_detect(new QAction(this)),
     action_about(new QAction(this)),
@@ -39,18 +52,20 @@ MainWindow::MainWindow(QWidget *parent) :
     translate_engine(new Translate(this)),
     pronounce_engine(new Pronounce(this)),
     popup(new Popup(this)),
-    langdb(new LanguageDB(this)),
-    ui(new Ui::MainWindow)
+    langdb(new LanguageDB(this))
 {
-    ui->setupUi(this);
-
     setWindowTitle(APP_NAME);
     setWindowIcon(QIcon(":/icons/ui/litetran.png"));
-
+    swap_button->setIcon(QIcon(":/icons/ui/swap.png"));
+    translate_button->setIcon(QIcon(":/icons/ui/translate.png"));
     action_settings->setIcon(QIcon(":/icons/ui/settings.png"));
     action_detect->setCheckable(true);
     action_about->setIcon(QIcon(":/icons/ui/about.png"));
     action_exit->setIcon(QIcon(":/icons/ui/exit.png"));
+
+    action_exit->setShortcut(QKeySequence("Ctrl+Q"));
+    translate_button->setShortcut(QKeySequence("Ctrl+T"));
+    swap_button->setShortcut(QKeySequence("Ctrl+Shift+S"));
 
     menu_button->setMenu(menu_root);
     menu_button->setPopupMode(QToolButton::InstantPopup);
@@ -60,51 +75,61 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_root->addAction(action_about);
     menu_root->addAction(action_exit);
 
-    ui->topLayout->addWidget(toolbar_source_text);
-    ui->topLayout->addStretch();
-    ui->topLayout->addWidget(menu_button);
-    ui->middlelLayout->insertWidget(0, toolbar_result_text);
+    QHBoxLayout *top_layout = new QHBoxLayout;
+    top_layout->addWidget(toolbar_source_text);
+    top_layout->addStretch();
+    top_layout->addWidget(menu_button);
 
-    action_exit->setShortcut(QKeySequence("Ctrl+Q"));
-    ui->translateButton->setShortcut(QKeySequence("Ctrl+T"));
-    ui->swapButton->setShortcut(QKeySequence("Ctrl+Shift+S"));
+    QHBoxLayout *middle_layout = new QHBoxLayout;
+    middle_layout->addWidget(toolbar_result_text);
+    middle_layout->addWidget(source_combobox);
+    middle_layout->addWidget(swap_button);
+    middle_layout->addWidget(result_combobox);
+    middle_layout->addStretch();
+    middle_layout->addWidget(translate_button);
+
+    QVBoxLayout *main_layout = new QVBoxLayout;
+    main_layout->addLayout(top_layout);
+    main_layout->addWidget(source_text);
+    main_layout->addLayout(middle_layout);
+    main_layout->addWidget(result_text);
+
+    setCentralWidget(new QWidget(this));
+    centralWidget()->setLayout(main_layout);
 
     connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
     connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
     connect(tray_icon, SIGNAL(doubleClicked()), this, SLOT(changeVisibility()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
-    connect(toolbar_source_text, SIGNAL(requestClear()), ui->sourceTextEdit, SLOT(clear()));
-    connect(toolbar_result_text, SIGNAL(requestClear()), ui->resultTextBrowser, SLOT(clear()));
-    connect(toolbar_source_text, SIGNAL(requestCopy()), ui->sourceTextEdit, SLOT(copy()));
-    connect(toolbar_result_text, SIGNAL(requestCopy()), ui->resultTextBrowser, SLOT(copy()));
+    connect(toolbar_source_text, SIGNAL(requestClear()), source_text, SLOT(clear()));
+    connect(toolbar_result_text, SIGNAL(requestClear()), result_text, SLOT(clear()));
+    connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copy()));
+    connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copy()));
     connect(toolbar_source_text, SIGNAL(requestPronounce()), this, SLOT(pronounceSourceText()));
     connect(toolbar_result_text, SIGNAL(requestPronounce()), this, SLOT(pronounceResultText()));
-    connect(ui->translateButton, SIGNAL(pressed()), this, SLOT(translate()));
-    connect(ui->swapButton, SIGNAL(clicked()), this, SLOT(swap()));
-    connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
-    connect(ui->resultLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
+    connect(translate_button, SIGNAL(pressed()), this, SLOT(translate()));
+    connect(swap_button, SIGNAL(clicked()), this, SLOT(swap()));
+    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
+    connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(translate_shortcut, SIGNAL(activated()), this, SLOT(translate()));
 
     tray_icon->addAction(action_exit);
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_settings);
 
-    toolbar_source_text->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-    toolbar_result_text->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-
     LanguageList langs = langdb->dump();
     foreach(Language lang, langs) {
         const QString name = lang.first;
         const QString code = lang.second;
-        ui->sourceLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
-        ui->resultLanguageComboBox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
+        source_combobox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
+        result_combobox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
     }
 
     settings->beginGroup("MainWindow");
 
-    ui->sourceLanguageComboBox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
-    ui->resultLanguageComboBox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
+    source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
+    result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
 
     updateSettings();
@@ -112,10 +137,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    settings->setValue("SourceLanguage", ui->sourceLanguageComboBox->currentText());
-    settings->setValue("ResultLanguage", ui->resultLanguageComboBox->currentText());
+    settings->setValue("SourceLanguage", source_combobox->currentText());
+    settings->setValue("ResultLanguage", result_combobox->currentText());
     settings->setValue("Geometry", saveGeometry());
-    delete ui;
 }
 
 void MainWindow::about()
@@ -130,9 +154,9 @@ void MainWindow::quit()
 
 void MainWindow::swap()
 {
-    const int idx = ui->sourceLanguageComboBox->currentIndex();
-    ui->sourceLanguageComboBox->setCurrentIndex(ui->resultLanguageComboBox->currentIndex());
-    ui->resultLanguageComboBox->setCurrentIndex(idx);
+    const int idx = source_combobox->currentIndex();
+    source_combobox->setCurrentIndex(result_combobox->currentIndex());
+    result_combobox->setCurrentIndex(idx);
 }
 
 void MainWindow::translate()
@@ -144,18 +168,18 @@ void MainWindow::translate()
     else
         text = sourceText();
 
-    QString sl = ui->sourceLanguageComboBox->currentData().toString();
+    QString sl = source_combobox->currentData().toString();
     if(action_detect->isChecked()) {
         sl = translate_engine->detect(text);
-        for (int i = 0; i < ui->sourceLanguageComboBox->count(); ++i)
-            if(ui->sourceLanguageComboBox->itemData(i).toString() == sl)
-                ui->sourceLanguageComboBox->setCurrentIndex(i);
+        for (int i = 0; i < source_combobox->count(); ++i)
+            if(source_combobox->itemData(i).toString() == sl)
+                source_combobox->setCurrentIndex(i);
     }
 
 
-    ui->sourceTextEdit->setPlainText(text);
+    source_text->setPlainText(text);
     const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
-    ui->resultTextBrowser->setHtml(result);
+    result_text->setHtml(result);
 
     if(!applicationInFocus())
         popup->show(result);
@@ -180,12 +204,12 @@ void MainWindow::closeEvent(QCloseEvent *e)
 void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
-        ui->retranslateUi(this);
         action_settings->setText(tr("Configure"));
         action_detect->setText(tr("Detect language"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
         menu_button->setToolTip(QString(APP_NAME) + QString(" ") + tr("menu"));
+        translate_button->setText(tr("Translate"));
 
         about_title = tr("About LiteTran");
         about_text = tr("LiteTran is a lightweight text translation program."
@@ -202,22 +226,22 @@ bool MainWindow::applicationInFocus()
 
 QString MainWindow::sourceLanguage() const
 {
-    return ui->sourceLanguageComboBox->currentData().toString();
+    return source_combobox->currentData().toString();
 }
 
 QString MainWindow::resultLanguage() const
 {
-    return ui->resultLanguageComboBox->currentData().toString();
+    return result_combobox->currentData().toString();
 }
 
 QString MainWindow::sourceText() const
 {
-    return ui->sourceTextEdit->toPlainText();
+    return source_text->toPlainText();
 }
 
 QString MainWindow::resultText() const
 {
-    return ui->resultTextBrowser->toPlainText();
+    return result_text->toPlainText();
 }
 
 void MainWindow::updateSettings()
@@ -266,8 +290,8 @@ void MainWindow::pronounceResultText()
 void MainWindow::languageChanged()
 {
     QString tooltip = APP_NAME;
-    tooltip += "\n\n" + ui->sourceLanguageComboBox->currentText();
-    tooltip += " - " + ui->resultLanguageComboBox->currentText();
+    tooltip += "\n\n" + source_combobox->currentText();
+    tooltip += " - " + result_combobox->currentText();
 
     tray_icon->setToolTip(tooltip);
 }

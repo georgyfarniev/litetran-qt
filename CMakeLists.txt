@@ -69,15 +69,12 @@ src/pronounce.cpp
 src/popup.cpp
 src/clipboard.cpp)
 
-set(FORMS
-src/mainwindow.ui)
-
 set(TRANSLATIONS_FILES
 i18n/English.ts
 i18n/Russian.ts)
 
 set(RESOURCES resources.qrc)
-set(FILES_TO_TRANSLATE ${SOURCES} ${FORMS})
+set(FILES_TO_TRANSLATE ${SOURCES})
 
 option(UPDATE_TRANSLATIONS OFF)
 if(UPDATE_TRANSLATIONS)
@@ -92,9 +89,8 @@ add_custom_target(lupdate DEPENDS ${QM_FILES})
 
 qt5_add_resources(RC_SOURCES ${RESOURCES})
 qt5_wrap_cpp(MOC_SOURCES ${HEADERS})
-qt5_wrap_ui(UI_HEADERS ${FORMS})
 
-add_executable(${APP_EXECUTABLE_NAME} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${UI_HEADERS} ${QM_FILES})
+add_executable(${APP_EXECUTABLE_NAME} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${QM_FILES})
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
 

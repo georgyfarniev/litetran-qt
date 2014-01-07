@@ -22,6 +22,7 @@ TextToolbar::TextToolbar(QWidget *parent) :
     connect(action_pronounce, SIGNAL(triggered()), SIGNAL(requestPronounce()));
 
     setIconSize(QSize(16, 16));
+    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 }
 
 void TextToolbar::changeEvent(QEvent *e) {
