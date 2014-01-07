@@ -14,11 +14,8 @@ Translate::Translate(QObject *parent)
 
 QString Translate::translate(const QString &text, const QString &sl, const QString &tl) const
 {
-    const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();
-    const QString req = QString("client=json&text=%1&sl=%2&tl=%3").arg(encoded_text, sl, tl);
-    const QUrl url = QUrl(TRANSLATOR_URL);
-    const QString response = Request::POST(url, req.toUtf8());
-    const QJsonObject root = QJsonDocument::fromJson(response.toUtf8()).object();
+    const QString params = QString("client=json&sl=%1&tl=%2&text=").arg(sl, tl);
+    const QJsonObject root = query(params, text).object();
     const QJsonArray sentences = root.value("sentences").toArray();
     const QJsonArray dict = root.value("dict").toArray();
 
@@ -43,11 +40,16 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
 
 QString Translate::detect(const QString &sample) const
 {
-    const QByteArray encoded_text = sample.toHtmlEscaped().toUtf8().toPercentEncoding();
-    const QString req = QString("client=json&text=%1&sl=%2").arg(encoded_text, "auto");
+    const QJsonObject root = query("client=json&sl=auto&text=", sample).object();
+    return root.value("src").toString();
+}
+
+QJsonDocument Translate::query(const QString &params, const QString &text) const
+{
+    const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();
+    const QString req = params + encoded_text;
     const QUrl url = QUrl(TRANSLATOR_URL);
     const QString response = Request::POST(url, req.toUtf8());
-    const QJsonObject root = QJsonDocument::fromJson(response.toUtf8()).object();
-    return root.value("src").toString();
 
+    return QJsonDocument::fromJson(response.toUtf8());
 }

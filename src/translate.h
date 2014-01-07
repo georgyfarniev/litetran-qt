@@ -14,5 +14,6 @@ public:
     QString detect(const QString &sample) const;
     inline void setDictionaryEnabled(bool enabled) {enable_dict = enabled;}
 private:
+    QJsonDocument query(const QString &params, const QString &text) const;
     bool enable_dict;
 };
