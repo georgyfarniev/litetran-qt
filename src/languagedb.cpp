@@ -11,9 +11,7 @@ LanguageDB::LanguageDB(QObject *parent) :
         qFatal("Cannot read language database!");
 
     QTextStream in(&file);
-
     unsigned int counter = 0;
-
     while (!in.atEnd()) {
         const QString line = in.readLine();
 

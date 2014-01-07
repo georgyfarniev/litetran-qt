@@ -1,5 +1,4 @@
-#ifndef CLIPBOARD_H
-#define CLIPBOARD_H
+#pragma once
 
 #include <QObject>
 
@@ -13,7 +12,4 @@ public:
     QString selectedText() const;
 private:
     QClipboard *clipboard;
-
 };
-
-#endif // CLIPBOARD_H

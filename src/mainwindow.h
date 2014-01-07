@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QMainWindow>
 #include "languagedb.h"
+#include <QMainWindow>
 
 class QTextEdit;
 class QTextBrowser;

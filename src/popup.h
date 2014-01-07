@@ -4,7 +4,6 @@
 #include <QPoint>
 #include <QTimer>
 
-//TODO: calculate this values
 #define POPUP_MIN_TIMEOUT 5000
 #define POPUP_WIDTH 640
 

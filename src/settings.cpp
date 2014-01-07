@@ -29,15 +29,15 @@ Settings::Settings(QWidget *parent) :
     connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
     connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QVBoxLayout *main_layout = new QVBoxLayout;
-    QFormLayout *elem_layout = new QFormLayout;
-
-    main_layout->addLayout(elem_layout);
-    main_layout->addWidget(button_box);
+    QFormLayout *elem_layout = new QFormLayout;    
     elem_layout->addRow(language_label, language_combobox);
     elem_layout->addRow(shortcut_checkbox, shortcut_edit);
     elem_layout->addRow(tray_checkbox);
     elem_layout->addRow(dictionary_checkbox);
+
+    QVBoxLayout *main_layout = new QVBoxLayout;
+    main_layout->addLayout(elem_layout);
+    main_layout->addWidget(button_box);
 
     setLayout(main_layout);
 

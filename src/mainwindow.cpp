@@ -176,7 +176,6 @@ void MainWindow::translate()
                 source_combobox->setCurrentIndex(i);
     }
 
-
     source_text->setPlainText(text);
     const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
     result_text->setHtml(result);
