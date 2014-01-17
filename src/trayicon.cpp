@@ -1,5 +1,5 @@
 #include "trayicon.h"
-
+#include "defines.h"
 #include <QMenu>
 #include <QAction>
 
@@ -8,7 +8,7 @@ TrayIcon::TrayIcon(QObject *parent) :
     menu(new QMenu())
 {
     setContextMenu(menu);
-    setIcon(QIcon(":/icons/ui/litetran.png"));
+    setIcon(APP_ICON("litetran"));
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(onActivate(QSystemTrayIcon::ActivationReason)));
 }
 

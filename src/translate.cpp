@@ -39,6 +39,7 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
                 result += "<br><br>";
         }
     }
+    result += "<ul><li>foobar</li></ul>";
     return result;
 }
 

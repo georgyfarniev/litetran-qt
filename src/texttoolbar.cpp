@@ -1,6 +1,6 @@
 #include "texttoolbar.h"
+#include "defines.h"
 #include <QAction>
-
 #include <QEvent>
 
 TextToolbar::TextToolbar(QWidget *parent) :
@@ -9,9 +9,9 @@ TextToolbar::TextToolbar(QWidget *parent) :
     action_copy(new QAction(this)),
     action_pronounce(new QAction(this))
 {
-    action_clear->setIcon(QIcon(":/icons/ui/clear.png"));
-    action_copy->setIcon(QIcon(":/icons/ui/copy.png"));
-    action_pronounce->setIcon(QIcon(":/icons/ui/play.png"));
+    action_clear->setIcon(APP_ICON("clear"));
+    action_copy->setIcon(APP_ICON("copy"));
+    action_pronounce->setIcon(APP_ICON("play"));
 
     addAction(action_clear);
     addAction(action_copy);

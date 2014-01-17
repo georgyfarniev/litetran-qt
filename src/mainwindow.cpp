@@ -55,13 +55,14 @@ MainWindow::MainWindow(QWidget *parent) :
     langdb(new LanguageDB(this))
 {
     setWindowTitle(APP_NAME);
-    setWindowIcon(QIcon(":/icons/ui/litetran.png"));
-    swap_button->setIcon(QIcon(":/icons/ui/swap.png"));
-    translate_button->setIcon(QIcon(":/icons/ui/translate.png"));
-    action_settings->setIcon(QIcon(":/icons/ui/settings.png"));
+    setWindowIcon(APP_ICON("litetran"));
+    swap_button->setIcon(APP_ICON("swap"));
+    translate_button->setIcon(APP_ICON("translate"));
+    action_settings->setIcon(APP_ICON("settings"));
+    action_detect->setIcon(APP_ICON("search"));
     action_detect->setCheckable(true);
-    action_about->setIcon(QIcon(":/icons/ui/about.png"));
-    action_exit->setIcon(QIcon(":/icons/ui/exit.png"));
+    action_about->setIcon(APP_ICON("about"));
+    action_exit->setIcon(APP_ICON("exit"));
 
     action_exit->setShortcut(QKeySequence("Ctrl+Q"));
     translate_button->setShortcut(QKeySequence("Ctrl+T"));
@@ -69,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     menu_button->setMenu(menu_root);
     menu_button->setPopupMode(QToolButton::InstantPopup);
-    menu_button->setIcon(QIcon(":/icons/ui/settings.png"));
+    menu_button->setIcon(APP_ICON("settings"));
     menu_root->addAction(action_settings);
     menu_root->addAction(action_detect);
     menu_root->addAction(action_about);
@@ -122,8 +123,8 @@ MainWindow::MainWindow(QWidget *parent) :
     foreach(Language lang, langs) {
         const QString name = lang.first;
         const QString code = lang.second;
-        source_combobox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
-        result_combobox->addItem(QIcon(QString(":/icons/flags/%1.png").arg(code)), name, code);
+        source_combobox->addItem(APP_FLAG(code), name, code);
+        result_combobox->addItem(APP_FLAG(code), name, code);
     }
 
     settings->beginGroup("MainWindow");
