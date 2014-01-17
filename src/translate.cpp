@@ -23,16 +23,20 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
     foreach(const QJsonValue &val, sentences)
         result += val.toObject().value("trans").toString();
 
+
     if(enable_dict && !dict.isEmpty()) {
+        result += "<hr>";
         foreach(const QJsonValue &val, dict) {
             const QString pos = val.toObject().value("pos").toString();
-            result += QString("<br><br><i><b>%1</b> - %2</i><br>").arg(text, pos);
+            result += QString("<i><b>%1</b> - %2</i>").arg(text, pos);
             const QJsonArray entries = val.toObject().value("entry").toArray();
             foreach(const QJsonValue &entry, entries) {
                 const QString word = entry.toObject().value("word").toString();
                 const QStringList reverse_translations = entry.toObject().value("reverse_translation").toVariant().toStringList();
                 result +=  QString("<br><b>%1</b> - %2").arg(word, reverse_translations.join(", "));
             }
+            if(val != dict.last())
+                result += "<br><br>";
         }
     }
     return result;
