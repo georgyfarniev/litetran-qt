@@ -144,6 +144,7 @@ MainWindow::~MainWindow()
     settings->setValue("SourceLanguage", source_combobox->currentText());
     settings->setValue("ResultLanguage", result_combobox->currentText());
     settings->setValue("Geometry", saveGeometry());
+    settings->setValue("Visible", isVisible());
 }
 
 void MainWindow::about()
