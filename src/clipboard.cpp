@@ -9,20 +9,16 @@
 Clipboard::Clipboard(QObject *parent) :
     QObject(parent)
 {
-#ifdef Q_OS_LINUX
     clipboard = qApp->clipboard();
-#endif
 }
 
 
 QString Clipboard::selectedText() const {
     QString text;
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBS)
     text = clipboard->text(QClipboard::Selection);
-#endif
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     Sleep(200);
     // Send Ctrl+C to current window
     INPUT ip;
@@ -66,9 +62,8 @@ QString Clipboard::selectedText() const {
     {
         qDebug() << "Unable open windows clipboard. Error code: "  << GetLastError();
     }
-#endif
 
-#ifdef Q_OS_OSX
+#elif defined(Q_OS_OSX)
 // TODO: write osx implementation
 #endif
 
