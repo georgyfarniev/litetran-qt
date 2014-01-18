@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
     top_layout->addStretch();
     top_layout->addWidget(menu_button);
 
+
     QHBoxLayout *middle_layout = new QHBoxLayout;
     middle_layout->addWidget(toolbar_result_text);
     middle_layout->addWidget(source_combobox);
@@ -218,6 +219,8 @@ void MainWindow::changeEvent(QEvent *e) {
                         "Just select some text, press hotkey and get translation in small popup!"
                         "\n\nLiteTran is licensed under GPL3\n"
                         "Homepage: https://github.com/flareguner/litetran");
+
+        source_text->setPlaceholderText(tr("Enter text to translate here..."));
     }
 }
 
@@ -254,7 +257,6 @@ void MainWindow::updateSettings()
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
 
     const QString locale = settings_dialog->language();
-
 
 //     retranslate only if language changed
     if(locale != last_locale) {
