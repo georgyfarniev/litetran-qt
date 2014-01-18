@@ -49,19 +49,7 @@ QString Clipboard::selectedText() const {
 
     Sleep(200);
 
-    // Receive text from clipboard
-    if(OpenClipboard(NULL))
-    {
-        HGLOBAL hglb = GetClipboardData(CF_TEXT);
-        LPSTR lpstr = (LPSTR)GlobalLock(hglb);
-        text = QString::fromUtf8(lpstr);
-        GlobalUnlock(hglb);
-        CloseClipboard();
-    }
-    else
-    {
-        qDebug() << "Unable open windows clipboard. Error code: "  << GetLastError();
-    }
+    text = clipboard->text(QClipboard::Clipboard);
 
 #elif defined(Q_OS_OSX)
 // TODO: write osx implementation
