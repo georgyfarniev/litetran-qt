@@ -18,7 +18,7 @@ Clipboard::Clipboard(QObject *parent) :
 QString Clipboard::selectedText() const {
     QString text;
 
-#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBS)
+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
     text = clipboard->text(QClipboard::Selection);
 #elif defined(Q_OS_WIN)
     Sleep(200);
