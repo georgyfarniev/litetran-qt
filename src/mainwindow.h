@@ -44,7 +44,6 @@ private slots:
 
     void languageChanged();
 private:
-    void closeEvent(QCloseEvent *);
     void changeEvent(QEvent *e);
     bool applicationInFocus();
 

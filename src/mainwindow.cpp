@@ -194,17 +194,6 @@ void MainWindow::changeVisibility()
     setVisible(!isVisible());
 }
 
-void MainWindow::closeEvent(QCloseEvent *e)
-{
-    if (settings_dialog->trayIconEnabled() && isVisible()) {
-        e->ignore();
-        hide();
-    } else {
-        e->accept();
-        qApp->quit();
-    }
-}
-
 void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
@@ -256,6 +245,8 @@ void MainWindow::updateSettings()
     translate_shortcut->setShortcut(settings_dialog->shortcut());
     translate_shortcut->setEnabled(settings_dialog->shortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
+
+    qApp->setQuitOnLastWindowClosed(!settings_dialog->trayIconEnabled());
 
     const QString locale = settings_dialog->language();
 
