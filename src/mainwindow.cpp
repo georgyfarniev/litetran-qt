@@ -134,6 +134,7 @@ MainWindow::MainWindow(QWidget *parent) :
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
+    setVisible(settings->value("Visible", true).toBool() || !settings_dialog->trayIconEnabled());
 
     updateSettings();
 }
