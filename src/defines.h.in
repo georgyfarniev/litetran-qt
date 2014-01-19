@@ -11,3 +11,9 @@
 
 #define APP_ICON(x) QIcon(QString(":/icons/ui/%1.png").arg(x))
 #define APP_FLAG(x) QIcon(QString(":/icons/flags/%1.png").arg(x))
+
+
+#ifdef Q_OS_OSX
+// MacOS text service file which contains current text selection
+#define APP_OSX_TEXTFILE "/tmp/litetran-selection.tmp"
+#endif
