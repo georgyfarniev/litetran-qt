@@ -38,8 +38,9 @@ Settings::Settings(QWidget *parent) :
     QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->addLayout(elem_layout);
     main_layout->addWidget(button_box);
-
+    main_layout->setSizeConstraint(QLayout::SetFixedSize);
     setLayout(main_layout);
+
 
     button_box->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
