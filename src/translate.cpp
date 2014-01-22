@@ -8,7 +8,7 @@
 
 Translate::Translate(QObject *parent)
     :QObject(parent),
-     enable_dict(true)
+     enable_dict(false)
 {
 }
 
