@@ -103,8 +103,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
     connect(tray_icon, SIGNAL(doubleClicked()), this, SLOT(changeVisibility()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
-    connect(toolbar_source_text, SIGNAL(requestClear()), source_text, SLOT(clear()));
-    connect(toolbar_result_text, SIGNAL(requestClear()), result_text, SLOT(clear()));
     connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copy()));
     connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copy()));
     connect(toolbar_source_text, SIGNAL(requestPronounce()), this, SLOT(pronounceSourceText()));
