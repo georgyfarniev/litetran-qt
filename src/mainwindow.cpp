@@ -81,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent) :
     top_layout->addStretch();
     top_layout->addWidget(menu_button);
 
-
     QHBoxLayout *middle_layout = new QHBoxLayout;
     middle_layout->addWidget(toolbar_result_text);
     middle_layout->addWidget(source_combobox);
@@ -168,22 +167,19 @@ void MainWindow::swap()
 void MainWindow::translate()
 {
     popup->freezeCursorPosition();
-    QString text;
+
     if(!applicationInFocus())
-        text = clipboard->selectedText();
-    else
-        text = sourceText();
+        source_text->setPlainText(clipboard->selectedText());
 
     QString sl = source_combobox->currentData().toString();
     if(action_detect->isChecked()) {
-        sl = translate_engine->detect(text);
+        sl = translate_engine->detect(sourceText());
         for (int i = 0; i < source_combobox->count(); ++i)
             if(source_combobox->itemData(i).toString() == sl)
                 source_combobox->setCurrentIndex(i);
     }
 
-    source_text->setPlainText(text);
-    const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
+    const QString result = translate_engine->translate(sourceText(), sourceLanguage(), resultLanguage());
     result_text->setHtml(result);
 
     if(!applicationInFocus())
