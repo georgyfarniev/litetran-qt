@@ -159,7 +159,7 @@ void MainWindow::about()
 
 void MainWindow::quit()
 {
-  qApp->quit();
+    qApp->quit();
 }
 
 void MainWindow::swap()
@@ -244,10 +244,11 @@ QString MainWindow::resultText() const
 void MainWindow::closeEvent(QCloseEvent *event)
 {
 #ifdef Q_OS_MAC
+    qDebug() << event->type();
     event->ignore();
     ProcessSerialNumber pn;
     // NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
-    GetFrontProcess(&pn); // gets application process identifier
+    GetCurrentProcess(&pn); // gets application process identifier
     ShowHideProcess(&pn, false); // hides application in tray
 #else
     QMainWindow::closeEvent(event);
