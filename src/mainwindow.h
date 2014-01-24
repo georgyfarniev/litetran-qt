@@ -83,4 +83,6 @@ private:
     Pronounce *pronounce_engine;
     Popup *popup;
     LanguageDB *langdb;
+protected:
+    void closeEvent(QCloseEvent *event);
 };
