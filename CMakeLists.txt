@@ -94,8 +94,10 @@ add_executable(${APP_EXECUTABLE_NAME} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
 if(APPLE)
-    target_link_libraries(${APP_EXECUTABLE_NAME} /System/Library/Frameworks/CoreServices.framework)
-    target_link_libraries(${APP_EXECUTABLE_NAME} /System/Library/Frameworks/Carbon.framework)
+    find_library(CORE_SERVICES_LIBRARY CoreServices)
+    find_library(CARBON_LIBRARY Carbon)
+    target_link_libraries(${APP_EXECUTABLE_NAME} ${CORE_SERVICES_LIBRARY})
+    target_link_libraries(${APP_EXECUTABLE_NAME} ${CARBON_LIBRARY})
 endif()
 
 install(TARGETS ${APP_EXECUTABLE_NAME} DESTINATION ${APP_BINARY_PATH})
