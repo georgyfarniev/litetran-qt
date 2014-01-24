@@ -247,8 +247,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->ignore();
     ProcessSerialNumber pn;
     // NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
-    GetFrontProcess(&pn);
-    ShowHideProcess(&pn, false);
+    GetFrontProcess(&pn); // gets application process identifier
+    ShowHideProcess(&pn, false); // hides application in tray
 #else
     QMainWindow::closeEvent(event);
 #endif
