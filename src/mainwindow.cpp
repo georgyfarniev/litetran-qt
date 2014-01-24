@@ -239,6 +239,9 @@ QString MainWindow::resultText() const
 
 void MainWindow::updateSettings()
 {
+    if(!settings_dialog->trayIconEnabled() && !applicationInFocus())
+        show();
+
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
     translate_shortcut->setShortcut(settings_dialog->shortcut());
     translate_shortcut->setEnabled(settings_dialog->shortcutEnabled());
