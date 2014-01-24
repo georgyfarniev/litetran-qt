@@ -26,8 +26,10 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#ifdef Q_OS_MAC
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -245,12 +247,17 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
 #ifdef Q_OS_MAC
     if (event->spontaneous()) {
+        /** if event initiated from application (close button clicked) */
         event->ignore();
         ProcessSerialNumber pn;
         // NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
         GetCurrentProcess(&pn); // gets application process identifier
         ShowHideProcess(&pn, false); // hides application in tray
     } else {
+        /**
+         * if event initiated outside of application (selected Quit in dock
+         * context menu)
+         */
         QMainWindow::closeEvent(event);
     }
 #else
