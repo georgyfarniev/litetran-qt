@@ -26,6 +26,8 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <Carbon/Carbon.h>
+#include <CoreServices/CoreServices.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -101,7 +103,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
     connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
-    connect(tray_icon, SIGNAL(doubleClicked()), this, SLOT(changeVisibility()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
     connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copy()));
     connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copy()));
@@ -131,7 +132,13 @@ MainWindow::MainWindow(QWidget *parent) :
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
+#ifdef Q_OS_MAC
+    // there is no need in controlling window visibility manually in OS X
+    setVisible(true);
+#else
+    connect(tray_icon, SIGNAL(doubleClicked()), this, SLOT(changeVisibility()));
     setVisible(settings->value("Visible", true).toBool() || !settings_dialog->trayIconEnabled());
+#endif
 
     updateSettings();
 }
@@ -152,7 +159,7 @@ void MainWindow::about()
 
 void MainWindow::quit()
 {
-    qApp->quit();
+  qApp->quit();
 }
 
 void MainWindow::swap()
@@ -232,6 +239,19 @@ QString MainWindow::sourceText() const
 QString MainWindow::resultText() const
 {
     return result_text->toPlainText();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+#ifdef Q_OS_MAC
+    event->ignore();
+    ProcessSerialNumber pn;
+    // NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
+    GetFrontProcess(&pn);
+    ShowHideProcess(&pn, false);
+#else
+    QMainWindow::closeEvent(event);
+#endif
 }
 
 void MainWindow::updateSettings()
