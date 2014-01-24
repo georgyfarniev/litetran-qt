@@ -15,7 +15,7 @@ qt5_wrap_cpp(SOURCES-MOC ${HEADERS})
 add_library(qxtshortcut STATIC ${SOURCES} ${SOURCES-MOC})
 qt5_use_modules(qxtshortcut Widgets Core)
 
-if(UNIX)
+if(UNIX AND NOT APPLE)
     find_package(Qt5X11Extras 5.2 REQUIRED)
     qt5_use_modules(qxtshortcut X11Extras)
     target_link_libraries(qxtshortcut ${XLIB})
