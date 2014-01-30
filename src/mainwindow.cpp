@@ -138,7 +138,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // there is no need in controlling window visibility manually in OS X
     setVisible(true);
 #else
-    connect(tray_icon, SIGNAL(doubleClicked()), this, SLOT(changeVisibility()));
+    connect(tray_icon, SIGNAL(clicked()), this, SLOT(changeVisibility()));
     setVisible(settings->value("Visible", true).toBool() || !settings_dialog->trayIconEnabled());
 #endif
 
