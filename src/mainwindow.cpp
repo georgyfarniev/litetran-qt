@@ -26,7 +26,7 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#ifdef Q_OS_MAC
+#ifdef APP_WM_COCOA
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
 #endif
@@ -134,7 +134,7 @@ MainWindow::MainWindow(QWidget *parent) :
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
-#ifdef Q_OS_MAC
+#ifdef APP_WM_COCOA
     // there is no need in controlling window visibility manually in OS X
     setVisible(true);
 #else
@@ -248,7 +248,7 @@ QString MainWindow::resultText() const
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-#ifdef Q_OS_MAC
+#ifdef APP_WM_COCOA
     if (event->spontaneous()) {
         /** if event initiated from application (close button clicked) */
         event->ignore();

@@ -3,7 +3,7 @@
 #include <QDialog>
 
 #define DEFAULT_LANGUAGE "English"
-#define DEFAULT_SHORTCUT "Ctrl+Shift+T"
+#define DEFAULT_SHORTCUT "Alt+T"
 
 class QSettings;
 class QCheckBox;

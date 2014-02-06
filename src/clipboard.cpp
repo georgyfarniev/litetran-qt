@@ -5,14 +5,14 @@
 #include <QDebug>
 #include <QFile>
 
-#ifdef Q_OS_WIN32
+#ifdef APP_WM_WINDOWS
 #include <qt_windows.h>
 #endif
 
 Clipboard::Clipboard(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    clipboard(qApp->clipboard())
 {
-    clipboard = qApp->clipboard();
 }
 
 QString Clipboard::selectedText() const {
