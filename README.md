@@ -1,12 +1,10 @@
 About LiteTran
 --------------
-
-LiteTran is a very simple GUI for text translation (like google translate).
+LiteTran is a tiny GUI for text translation.
 
 
 Features
 --------
-
 - Very simple user interface
 - Translate by text selection. Just select text, press key combination
   (Ctrl+Shift+T by default) get translation result in popup. You don't 
@@ -15,14 +13,17 @@ Features
 - 37 Supported Languages
 
 
+Platforms
+---------
+Currently supports only Linux and Windows. Mac OS and *BSD coming soon.
+
+
 Build Depdendencies
 -------------------
 cmake >= 2.8.10
 qt core, gui, multimedia, x11extras >= 5.2
 
 
-
 Contribute
 ----------
-
-Please send pull request or contact via bugtracker (create ticket with label **contribute**)
+Please send pull request or create ticket into bugtracker.
