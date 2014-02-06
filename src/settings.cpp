@@ -13,6 +13,7 @@
 #include <QFormLayout>
 #include <QDir>
 #include <QDebug>
+#include <QSpacerItem>
 
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
@@ -32,8 +33,8 @@ Settings::Settings(QWidget *parent) :
     QFormLayout *elem_layout = new QFormLayout;    
     elem_layout->addRow(language_label, language_combobox);
     elem_layout->addRow(shortcut_checkbox, shortcut_edit);
-    elem_layout->addRow(tray_checkbox);
-    elem_layout->addRow(dictionary_checkbox);
+    elem_layout->addRow(tray_checkbox, new QWidget(this));
+    elem_layout->addRow(dictionary_checkbox, new QWidget(this));
 
     QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->addLayout(elem_layout);
