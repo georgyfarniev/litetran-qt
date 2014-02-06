@@ -1,5 +1,7 @@
 #pragma once
 
+
+#define APP_LOCAL_SERVER_NAME "litetran_singleapplication.lock"
 #define APP_NAME "${APP_NAME}"
 #define APP_ORG "LiteTran"
 #define APP_VERSION "${APP_VERSION}"
