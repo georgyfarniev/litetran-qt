@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QStringList>
 #include <QTextDocumentFragment>
 
 Translate::Translate(QObject *parent)

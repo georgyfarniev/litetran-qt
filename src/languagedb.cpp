@@ -1,5 +1,6 @@
 #include "languagedb.h"
 #include <QFile>
+#include <QStringList>
 #include <QTextStream>
 #include <QDebug>
 
