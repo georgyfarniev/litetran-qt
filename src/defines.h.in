@@ -1,27 +1,14 @@
 #pragma once
 
-
-#define APP_LOCAL_SERVER_NAME "litetran_singleapplication.lock"
-#define APP_NAME "${APP_NAME}"
-#define APP_ORG "LiteTran"
-#define APP_VERSION "${APP_VERSION}"
-#define APP_NAME_FULL APP_NAME " " APP_VERSION
-#define APP_I18N_DIR "${APP_I18N_PATH}"
-
 #include <QIcon>
 #include <QString>
-
-#define APP_ICON(x) QIcon(QString(":/icons/ui/%1.png").arg(x))
-#define APP_FLAG(x) QIcon(QString(":/icons/flags/%1.png").arg(x))
 
 #ifdef Q_OS_OSX
 #define APP_WM_COCOA
 #endif
-
 #ifdef Q_OS_WIN
 #define APP_WM_WINDOWS
 #endif
-
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
 #define APP_WM_X11
 #endif
@@ -32,5 +19,12 @@
 #define APP_OSX_TEXTFILE "/tmp/litetran-selection.tmp"
 #endif
 
+#define APP_LOCAL_SERVER_NAME "litetran_singleapplication.lock"
+#define APP_NAME "${APP_NAME}"
+#define APP_ORG "LiteTran"
+#define APP_VERSION "${APP_VERSION}"
+#define APP_NAME_FULL APP_NAME " " APP_VERSION
+#define APP_I18N_DIR "${APP_I18N_LOAD_PATH}"
 
-
+#define APP_ICON(x) QIcon(QString(":/icons/ui/%1.png").arg(x))
+#define APP_FLAG(x) QIcon(QString(":/icons/flags/%1.png").arg(x))

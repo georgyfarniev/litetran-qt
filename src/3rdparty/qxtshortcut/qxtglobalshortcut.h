@@ -36,7 +36,11 @@
 #include <QKeySequence>
 class QxtGlobalShortcutPrivate;
 
-class QXT_GUI_EXPORT QxtGlobalShortcut : public QObject
+class
+#ifndef Q_OS_WIN
+        QXT_GUI_EXPORT
+#endif
+        QxtGlobalShortcut : public QObject
 {
     Q_OBJECT
     QXT_DECLARE_PRIVATE(QxtGlobalShortcut)
