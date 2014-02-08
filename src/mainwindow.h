@@ -64,6 +64,7 @@ private:
     QPushButton *translate_button;
     QToolButton *swap_button;
 
+    QAction *action_swap;
     QAction *action_settings;
     QAction *action_detect;
     QAction *action_about;

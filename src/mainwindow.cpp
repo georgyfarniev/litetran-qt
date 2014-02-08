@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     result_combobox(new QComboBox(this)),
     translate_button(new QPushButton(this)),
     swap_button(new QToolButton(this)),
+    action_swap(new QAction(this)),
     action_settings(new QAction(this)),
     action_detect(new QAction(this)),
     action_about(new QAction(this)),
@@ -64,7 +65,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(APP_NAME);
     setWindowIcon(APP_ICON("litetran"));
     swap_button->setIcon(APP_ICON("swap"));
+
     translate_button->setIcon(APP_ICON("translate"));
+    action_swap->setIcon(APP_ICON("swap"));
     action_settings->setIcon(APP_ICON("settings"));
     action_detect->setIcon(APP_ICON("search"));
     action_detect->setCheckable(true);
@@ -108,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     result_text->setReadOnly(true);
 
+    connect(action_swap, SIGNAL(triggered()), this, SLOT(swap()));
     connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
     connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
@@ -124,6 +128,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(translate_shortcut_global, SIGNAL(activated()), this, SLOT(translate()));
 
     tray_icon->addAction(action_exit);
+    tray_icon->addSeparator();
+    tray_icon->addAction(action_swap);
+    tray_icon->addSeparator();
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_settings);
 
@@ -208,12 +215,17 @@ void MainWindow::changeVisibility()
 void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
+        action_swap->setText(tr("Swap languages"));
         action_settings->setText(tr("Configure"));
         action_detect->setText(tr("Detect language"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
         menu_button->setToolTip(QString(APP_NAME) + QString(" ") + tr("menu"));
         translate_button->setText(tr("Translate"));
+        translate_button->setToolTip(tr("Translate"));
+        swap_button->setToolTip(tr("Swap languages"));
+        source_combobox->setToolTip(tr("Source language"));
+        result_combobox->setToolTip(tr("Result language"));
 
         about_title = tr("About LiteTran");
         about_text = tr("LiteTran is a lightweight text translation program."
