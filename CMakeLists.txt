@@ -36,19 +36,20 @@ if(NOT MSVC)
     endif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
 endif()
 
-find_package(Qt5Widgets  5.2 REQUIRED)
-find_package(Qt5Core 5.2 REQUIRED)
-find_package(Qt5Network 5.2 REQUIRED)
-find_package(Qt5Multimedia 5.2 REQUIRED)
-find_package(Qt5LinguistTools 5.2 REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Network REQUIRED)
+find_package(Qt5Multimedia REQUIRED)
+find_package(Qt5LinguistTools REQUIRED)
+
+add_subdirectory(src/3rdparty)
 
 include_directories(
 ${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}/src
-src/3rdparty/qxtshortcut)
+${THIRD_PARTY_DIRS})
 
 configure_file(src/defines.h.in src/defines.h)
-add_subdirectory(src/3rdparty)
 
 set(HEADERS
 src/mainwindow.h
@@ -98,7 +99,8 @@ qt5_wrap_cpp(MOC_SOURCES ${HEADERS})
 
 add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${QM_FILES} litetran.rc)
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
-target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
+
+target_link_libraries(${APP_EXECUTABLE_NAME} ${THIRD_PARTY_LIBS})
 
 if(APPLE)
     find_library(CORE_SERVICES_LIBRARY CoreServices)

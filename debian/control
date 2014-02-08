@@ -1,0 +1,18 @@
+Source: litetran
+Section: utils
+Priority: optional
+Maintainer: proDOOMman <prodoomman@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), cmake, qt5-default, qtbase5-private-dev, qttools5-dev-tools, libqt5x11extras-dev, qtmultimedia5-dev, qttools5-dev
+Standards-Version: 3.9.4
+Homepage: https://github.com/flareguner/litetran
+
+Package: litetran
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: LiteTran is a tiny GUI for text translation.
+ Features:
+ Very simple user interface
+ Translate by text selection. Just select text, press key combination (Ctrl+Shift+T by default) get translation result in popup. You don't need to open your web browser with everytime you want to translate something.
+ Text speech (up to 100 characters)
+ 37 Supported Languages
+

@@ -8,12 +8,17 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
-#include <QKeySequenceEdit>
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QDir>
 #include <QDebug>
 #include <QSpacerItem>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+#include <QKeySequenceEdit>
+#else
+#include "qkeysequenceedit.h"
+#endif
 
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
