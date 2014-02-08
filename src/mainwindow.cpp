@@ -8,6 +8,7 @@
 #include "languagedb.h"
 #include "clipboard.h"
 #include "defines.h"
+#include "textedit.h"
 #include "qxtglobalshortcut.h"
 #include <QCloseEvent>
 #include <QApplication>
@@ -33,8 +34,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    source_text(new QTextEdit(this)),
-    result_text(new QTextBrowser(this)),
+    source_text(new TextEdit(this)),
+    result_text(new TextEdit(this)),
     source_combobox(new QComboBox(this)),
     result_combobox(new QComboBox(this)),
     translate_button(new QPushButton(this)),
@@ -102,12 +103,14 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(new QWidget(this));
     centralWidget()->setLayout(main_layout);
 
+    result_text->setReadOnly(true);
+
     connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
     connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
-    connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copy()));
-    connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copy()));
+    connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copyAll()));
+    connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copyAll()));
     connect(toolbar_source_text, SIGNAL(requestPronounce()), this, SLOT(pronounceSourceText()));
     connect(toolbar_result_text, SIGNAL(requestPronounce()), this, SLOT(pronounceResultText()));
     connect(translate_button, SIGNAL(pressed()), this, SLOT(translate()));
