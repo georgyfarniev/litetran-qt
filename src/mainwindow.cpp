@@ -127,12 +127,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(translate_shortcut_global, SIGNAL(activated()), this, SLOT(translate()));
 
-    tray_icon->addAction(action_exit);
+    tray_icon->addAction(action_settings);
     tray_icon->addSeparator();
     tray_icon->addAction(action_swap);
     tray_icon->addSeparator();
     tray_icon->addAction(action_about);
-    tray_icon->addAction(action_settings);
+    tray_icon->addAction(action_exit);
 
     LanguageList langs = langdb->dump();
     foreach(Language lang, langs) {

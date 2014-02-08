@@ -18,10 +18,7 @@ TrayIcon::~TrayIcon()
 }
 
 void TrayIcon::addAction(QAction *act) {
-    if(menu->actions().isEmpty())
         menu->addAction(act);
-    else
-        menu->insertAction(menu->actions().first(), act);
 }
 
 void TrayIcon::addSeparator() {
