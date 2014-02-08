@@ -12,6 +12,7 @@ class QAction;
 class QCloseEvent;
 class QSettings;
 class QTranslator;
+class QShortcut;
 class QxtGlobalShortcut;
 class TextToolbar;
 class Settings;
@@ -71,7 +72,8 @@ private:
     QMenu *menu_root;
     QSettings *settings;
     QTranslator *ui_translator;
-    QxtGlobalShortcut *translate_shortcut;
+    QShortcut *translate_shortcut;
+    QxtGlobalShortcut *translate_shortcut_global;
 
     Clipboard *clipboard;
     TextToolbar *toolbar_source_text;

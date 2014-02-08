@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QShortcut>
 #ifdef APP_WM_COCOA
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
@@ -48,7 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_root(new QMenu( this)),
     settings(new QSettings(this)),
     ui_translator(NULL),
-    translate_shortcut(new QxtGlobalShortcut(this)),
+    translate_shortcut(new QShortcut(this)),
+    translate_shortcut_global(new QxtGlobalShortcut(this)),
     clipboard(new Clipboard(this)),
     toolbar_source_text(new TextToolbar(this)),
     toolbar_result_text(new TextToolbar(this)),
@@ -70,7 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
     action_exit->setIcon(APP_ICON("exit"));
 
     action_exit->setShortcut(QKeySequence("Ctrl+Q"));
-    translate_button->setShortcut(QKeySequence("Ctrl+T"));
+    translate_shortcut->setKey(QKeySequence("Ctrl+T"));
+    translate_shortcut->setContext(Qt::ApplicationShortcut);
     swap_button->setShortcut(QKeySequence("Ctrl+Shift+S"));
 
     menu_button->setMenu(menu_root);
@@ -108,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
     connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
+    connect(translate_shortcut, SIGNAL(activated()), translate_button, SLOT(click()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
     connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copyAll()));
     connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copyAll()));
@@ -117,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(swap_button, SIGNAL(clicked()), this, SLOT(swap()));
     connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
-    connect(translate_shortcut, SIGNAL(activated()), this, SLOT(translate()));
+    connect(translate_shortcut_global, SIGNAL(activated()), this, SLOT(translate()));
 
     tray_icon->addAction(action_exit);
     tray_icon->addAction(action_about);
@@ -278,8 +282,8 @@ void MainWindow::updateSettings()
         show();
 
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
-    translate_shortcut->setShortcut(settings_dialog->shortcut());
-    translate_shortcut->setEnabled(settings_dialog->shortcutEnabled());
+    translate_shortcut_global->setShortcut(settings_dialog->shortcut());
+    translate_shortcut_global->setEnabled(settings_dialog->shortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
 
     qApp->setQuitOnLastWindowClosed(!settings_dialog->trayIconEnabled());
