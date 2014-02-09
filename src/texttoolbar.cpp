@@ -3,6 +3,11 @@
 #include <QAction>
 #include <QEvent>
 
+#include <QDebug>
+#include <QStyle>
+#include <QCommonStyle>
+#include <QProxyStyle>
+
 TextToolbar::TextToolbar(QWidget *parent) :
     QToolBar(parent),
     action_copy(new QAction(this)),
@@ -19,6 +24,11 @@ TextToolbar::TextToolbar(QWidget *parent) :
 
     setIconSize(QSize(16, 16));
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+
+#ifdef Q_OS_MAC
+    setStyle(new QCommonStyle());
+    setStyleSheet("border: none");
+#endif
 }
 
 void TextToolbar::changeEvent(QEvent *e) {
