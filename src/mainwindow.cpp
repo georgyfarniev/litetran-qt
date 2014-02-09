@@ -90,10 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_root->addAction(action_exit);
 
     QHBoxLayout *top_layout = new QHBoxLayout;
-    QWidget *widget = new QWidget();
-    widget->setLayout(new QHBoxLayout());
-    widget->layout()->addWidget(toolbar_source_text);
-    top_layout->addWidget(widget);
+    top_layout->addWidget(toolbar_source_text);
     top_layout->addStretch();
     top_layout->addWidget(menu_button);
 
