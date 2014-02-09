@@ -1,22 +1,20 @@
-en,English
-de,German
-es,Spanish
-ru,Russian
-fr,French
-fi,Finnish
 sq,Albanian
 ar,Arabic
 bg,Bulgarian
 ca,Catalan
-zh-CN,Chinese 1
-zh-TW,Chinese 2
+zh-CN,Chinese S
+zh-TW,Chinese T
 hr,Croatian
 cs,Czech
 da,Danish
 nl,Dutch
+en,English
 et,Estonian
 tl,Filipino
+fi,Finnish
+fr,French
 gl,Galician
+de,German
 el,Greek
 iw,Hebrew
 hi,Hindi
@@ -32,7 +30,13 @@ no,Norwegian
 pl,Polish
 pt,Portuguese
 ro,Romanian
+ru,Russian
 sr,Serbian
 sk,Slovak
 sl,Slovenian
+es,Spanish
 sv,Swedish
+th,Thai
+tr,Turkish
+uk,Ukrainian
+vi,Vietnamese
