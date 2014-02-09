@@ -33,6 +33,8 @@
 #include <CoreServices/CoreServices.h>
 #endif
 
+#include <QCommonStyle>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     source_text(new TextEdit(this)),
@@ -62,6 +64,13 @@ MainWindow::MainWindow(QWidget *parent) :
     popup(new Popup(this)),
     langdb(new LanguageDB(this))
 {
+#ifdef Q_OS_MAC
+    menu_button->setStyle(new QCommonStyle());
+    swap_button->setStyle(new QCommonStyle());
+//    menu_button->setStyleSheet("border: 1px solid transparent");
+    swap_button->setStyleSheet("border: 1px solid transparent");
+#endif
+
     setWindowTitle(APP_NAME);
     setWindowIcon(APP_ICON("litetran"));
     swap_button->setIcon(APP_ICON("swap"));
