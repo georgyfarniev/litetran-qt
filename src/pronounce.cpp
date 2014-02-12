@@ -13,7 +13,8 @@ Pronounce::Pronounce(QObject *parent) :
 
 void Pronounce::say(const QString &text, const QString &lang)
 {
-    if(text.isEmpty() || lang.isEmpty() || player->state() == QMediaPlayer::PlayingState || text.size() > 100)
+    // TODO: create queue to break 100 chars restriction
+    if(text.isEmpty() || lang.isEmpty() || player->state() == QMediaPlayer::PlayingState || text.size() > TTS_MAXCHAR)
         return;
 
     const QUrl url  = QString(TTS_URL) + QString("?tl=%1&q=%2").arg(lang, text);
@@ -21,14 +22,15 @@ void Pronounce::say(const QString &text, const QString &lang)
     file->open();
     file->setAutoRemove(false);
     file->write(filedata);
-    file->close();
 
-    player->setMedia(QUrl::fromLocalFile(file->fileName()));
+    player->setMedia(QMediaContent(), file);
     player->play();
 }
 
 void Pronounce::removeTemporaryFile()
 {
-    if (player->state() == QMediaPlayer::StoppedState)
+    if (player->state() == QMediaPlayer::StoppedState) {
+        file->close();
         file->remove();
+    }
 }
