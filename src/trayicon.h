@@ -15,7 +15,6 @@ public:
     void addSeparator();
 signals:
     void clicked();
-    void doubleClicked();
 private slots:
     void onActivate(QSystemTrayIcon::ActivationReason reason);
 private:

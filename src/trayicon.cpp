@@ -18,7 +18,7 @@ TrayIcon::~TrayIcon()
 }
 
 void TrayIcon::addAction(QAction *act) {
-        menu->addAction(act);
+    menu->addAction(act);
 }
 
 void TrayIcon::addSeparator() {
@@ -26,8 +26,6 @@ void TrayIcon::addSeparator() {
 }
 
 void TrayIcon::onActivate(QSystemTrayIcon::ActivationReason reason) {
-    if(reason == QSystemTrayIcon::DoubleClick)
-        emit doubleClicked();
-    else if(reason == QSystemTrayIcon::Trigger)
+    if(reason == QSystemTrayIcon::Trigger)
         emit clicked();
 }
