@@ -214,6 +214,7 @@ void MainWindow::translate()
 
     if(!applicationInFocus())
         popup->show(result);
+
 }
 
 void MainWindow::changeVisibility()
@@ -341,7 +342,7 @@ void MainWindow::pronounceSourceText()
 
 void MainWindow::pronounceResultText()
 {
-    pronounce_engine->say(resultText(), resultLanguage());
+    pronounce_engine->say(resultText().split("\n").first(), resultLanguage());
 }
 
 void MainWindow::languageChanged()

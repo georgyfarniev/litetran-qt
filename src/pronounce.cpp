@@ -13,7 +13,7 @@ Pronounce::Pronounce(QObject *parent) :
 
 void Pronounce::say(const QString &text, const QString &lang)
 {
-    // TODO: create queue to break 100 chars restriction
+    // TODO: create queue to override 100 chars restriction
     if(text.isEmpty() || lang.isEmpty() || player->state() == QMediaPlayer::PlayingState || text.size() > TTS_MAXCHAR)
         return;
 
