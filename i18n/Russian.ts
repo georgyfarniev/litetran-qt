@@ -4,7 +4,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="209"/>
+        <location filename="../src/mainwindow.cpp" line="234"/>
+        <location filename="../src/mainwindow.cpp" line="235"/>
         <source>Translate</source>
         <translation>Перевести</translation>
     </message>
@@ -13,27 +14,48 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="228"/>
+        <location filename="../src/mainwindow.cpp" line="236"/>
+        <source>Swap languages</source>
+        <translation>Поменять языки местами</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="229"/>
         <source>Configure</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="205"/>
+        <location filename="../src/mainwindow.cpp" line="230"/>
         <source>Detect language</source>
         <translation>Определить язык</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="206"/>
+        <location filename="../src/mainwindow.cpp" line="231"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="207"/>
+        <location filename="../src/mainwindow.cpp" line="232"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="212"/>
+        <location filename="../src/mainwindow.cpp" line="233"/>
+        <source>Open LiteTran menu</source>
+        <translation>Открыть меню LiteTran</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="237"/>
+        <source>Source language</source>
+        <translation>Исходный язык</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="238"/>
+        <source>Result language</source>
+        <translation>Язык перевода</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="241"/>
         <source>LiteTran is a lightweight text translation program.Just select some text, press hotkey and get translation in small popup!
 
 LiteTran is licensed under GPL3
@@ -52,7 +74,7 @@ flarguner@gmail.com (flareguner) - автор
 0@39.yt (Yurij Mikhalevich) - портирование и тестирование в Mac OS</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="220"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>Enter text to translate here...</source>
         <translation>Введите текст для перевода тут...</translation>
     </message>
@@ -61,12 +83,11 @@ flarguner@gmail.com (flareguner) - автор
         <translation>Меню</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="208"/>
         <source>menu</source>
         <translation>меню</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="211"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>About LiteTran</source>
         <translation>О LiteTran</translation>
     </message>
@@ -92,27 +113,27 @@ LiteTran лицензирован под GPL3
         <translation>Показывать значок в трее</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="105"/>
+        <location filename="../src/settings.cpp" line="110"/>
         <source>Show icon in system tray</source>
         <translation>Показывать значок в трее</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="106"/>
+        <location filename="../src/settings.cpp" line="111"/>
         <source>Popup translate by shortcut</source>
-        <translation type="unfinished">Перевод по нажатию</translation>
+        <translation>Перевод по нажатию</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="107"/>
+        <location filename="../src/settings.cpp" line="112"/>
         <source>Show dictionary results</source>
         <translation>Показывать варианты перевода</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="108"/>
+        <location filename="../src/settings.cpp" line="113"/>
         <source>Application language</source>
         <translation>Язык интерфейса</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="109"/>
+        <location filename="../src/settings.cpp" line="114"/>
         <source>Configure</source>
         <translation>Настройки</translation>
     </message>
@@ -128,12 +149,12 @@ LiteTran лицензирован под GPL3
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../src/texttoolbar.cpp" line="27"/>
+        <location filename="../src/texttoolbar.cpp" line="37"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../src/texttoolbar.cpp" line="28"/>
+        <location filename="../src/texttoolbar.cpp" line="38"/>
         <source>Pronounce</source>
         <translation>Произнести</translation>
     </message>
