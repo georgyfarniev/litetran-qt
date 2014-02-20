@@ -53,5 +53,6 @@
         <file>icons/ui/swap.png</file>
         <file>icons/ui/translate.png</file>
         <file>icons/ui/search.png</file>
+        <file>icons/ui/menu.png</file>
     </qresource>
 </RCC>

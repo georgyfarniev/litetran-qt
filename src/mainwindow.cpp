@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     menu_button->setMenu(menu_root);
     menu_button->setPopupMode(QToolButton::InstantPopup);
-    menu_button->setIcon(APP_ICON("settings"));
+    menu_button->setIcon(APP_ICON("menu"));
     menu_root->addAction(action_settings);
     menu_root->addAction(action_detect);
     menu_root->addAction(action_about);
