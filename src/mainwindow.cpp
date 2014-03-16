@@ -9,6 +9,7 @@
 #include "clipboard.h"
 #include "defines.h"
 #include "textedit.h"
+#include "languages.h"
 #include "qxtglobalshortcut.h"
 #include <QCloseEvent>
 #include <QApplication>
@@ -45,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     swap_button(new QToolButton(this)),
     action_swap(new QAction(this)),
     action_settings(new QAction(this)),
+    action_languages(new QAction(this)),
     action_detect(new QAction(this)),
     action_about(new QAction(this)),
     action_exit(new QAction(this)),
@@ -58,11 +60,11 @@ MainWindow::MainWindow(QWidget *parent) :
     toolbar_source_text(new TextToolbar(this)),
     toolbar_result_text(new TextToolbar(this)),
     settings_dialog(new Settings(this)),
+    languages_dialog(new Languages(this)),
     tray_icon(new TrayIcon(this)),
     translate_engine(new Translate(this)),
     pronounce_engine(new Pronounce(this)),
-    popup(new Popup(this)),
-    langdb(new LanguageDB(this))
+    popup(new Popup(this))
 {
 #ifdef Q_OS_MAC
     menu_button->setStyle(new QCommonStyle());
@@ -78,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
     translate_button->setIcon(APP_ICON("translate"));
     action_swap->setIcon(APP_ICON("swap"));
     action_settings->setIcon(APP_ICON("settings"));
+    action_languages->setIcon(APP_ICON("languages"));
     action_detect->setIcon(APP_ICON("search"));
     action_detect->setCheckable(true);
     action_about->setIcon(APP_ICON("about"));
@@ -92,7 +95,10 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_button->setPopupMode(QToolButton::InstantPopup);
     menu_button->setIcon(APP_ICON("menu"));
     menu_root->addAction(action_settings);
+    menu_root->addAction(action_languages);
+    menu_root->addSeparator();
     menu_root->addAction(action_detect);
+    menu_root->addSeparator();
     menu_root->addAction(action_about);
     menu_root->addAction(action_exit);
 
@@ -122,10 +128,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(action_swap, SIGNAL(triggered()), this, SLOT(swap()));
     connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
+    connect(action_languages, SIGNAL(triggered()), languages_dialog, SLOT(exec()));
     connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
     connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
     connect(translate_shortcut, SIGNAL(activated()), translate_button, SLOT(click()));
     connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
+    connect(languages_dialog, SIGNAL(accepted()), this, SLOT(updateLanguages()));
     connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copyAll()));
     connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copyAll()));
     connect(toolbar_source_text, SIGNAL(requestPronounce()), this, SLOT(pronounceSourceText()));
@@ -143,14 +151,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_exit);
 
-    LanguageList langs = langdb->dump();
-    foreach(Language lang, langs) {
-        const QString name = lang.first;
-        const QString code = lang.second;
-        source_combobox->addItem(APP_FLAG(code), name, code);
-        result_combobox->addItem(APP_FLAG(code), name, code);
-    }
-
+    updateLanguages();
     settings->beginGroup("MainWindow");
 
     action_detect->setChecked(settings->value("DetectSourceLanguage", false).toBool());
@@ -227,6 +228,7 @@ void MainWindow::changeEvent(QEvent *e) {
     if(e->type() ==  QEvent::LanguageChange) {
         action_swap->setText(tr("Swap languages"));
         action_settings->setText(tr("Configure"));
+        action_languages->setText(tr("Languages"));
         action_detect->setText(tr("Detect language"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
@@ -352,4 +354,22 @@ void MainWindow::languageChanged()
     tooltip += " - " + result_combobox->currentText();
 
     tray_icon->setToolTip(tooltip);
+}
+
+void MainWindow::updateLanguages()
+{
+    const QString sl = source_combobox->currentText();
+    const QString tl = result_combobox->currentText();
+
+    source_combobox->clear();
+    result_combobox->clear();
+    LanguageList langs = languages_dialog->languages();
+    foreach(Language lang, langs) {
+        const QString name = lang.first;
+        const QString code = lang.second;
+        source_combobox->addItem(APP_FLAG(code), name, code);
+        result_combobox->addItem(APP_FLAG(code), name, code);
+    }
+    source_combobox->setCurrentText(sl);
+    result_combobox->setCurrentText(tl);
 }

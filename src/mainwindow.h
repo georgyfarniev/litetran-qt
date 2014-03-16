@@ -1,6 +1,5 @@
 #pragma once
 
-#include "languagedb.h"
 #include <QMainWindow>
 
 class QTextEdit;
@@ -19,10 +18,10 @@ class Settings;
 class TrayIcon;
 class Translate;
 class Popup;
-class LanguageDB;
 class Pronounce;
 class Clipboard;
 class TextEdit;
+class Languages;
 
 #define DEFAULT_SOURCE_LANGUAGE "English"
 #define DEFAULT_RESULT_LANGUAGE "Russian"
@@ -43,6 +42,7 @@ private slots:
     void pronounceSourceText();
     void pronounceResultText();
     void languageChanged();
+    void updateLanguages();
 private:
     void changeEvent(QEvent *e);
     bool applicationInFocus();
@@ -66,6 +66,7 @@ private:
 
     QAction *action_swap;
     QAction *action_settings;
+    QAction *action_languages;
     QAction *action_detect;
     QAction *action_about;
     QAction *action_exit;
@@ -80,11 +81,11 @@ private:
     TextToolbar *toolbar_source_text;
     TextToolbar *toolbar_result_text;
     Settings *settings_dialog;
+    Languages *languages_dialog;
     TrayIcon *tray_icon;
     Translate *translate_engine;
     Pronounce *pronounce_engine;
     Popup *popup;
-    LanguageDB *langdb;
 protected:
     void closeEvent(QCloseEvent *event);
 };

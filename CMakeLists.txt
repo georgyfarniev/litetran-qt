@@ -62,6 +62,7 @@ src/request.h
 src/pronounce.h
 src/popup.h
 src/textedit.h
+src/languages.h
 src/clipboard.h)
 
 set(SOURCES
@@ -76,6 +77,7 @@ src/request.cpp
 src/pronounce.cpp
 src/popup.cpp
 src/textedit.cpp
+src/languages.cpp
 src/clipboard.cpp)
 
 set(TRANSLATIONS_FILES
