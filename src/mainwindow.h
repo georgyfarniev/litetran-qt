@@ -21,6 +21,7 @@ class Popup;
 class Pronounce;
 class Clipboard;
 class TextEdit;
+class MenuButton;
 class Languages;
 
 #define DEFAULT_SOURCE_LANGUAGE "English"
@@ -70,7 +71,7 @@ private:
     QAction *action_detect;
     QAction *action_about;
     QAction *action_exit;
-    QToolButton *menu_button;
+    MenuButton *menu_button;
     QMenu *menu_root;
     QSettings *settings;
     QTranslator *ui_translator;

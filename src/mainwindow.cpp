@@ -9,6 +9,7 @@
 #include "clipboard.h"
 #include "defines.h"
 #include "textedit.h"
+#include "menubutton.h"
 #include "languages.h"
 #include "qxtglobalshortcut.h"
 #include <QCloseEvent>
@@ -50,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     action_detect(new QAction(this)),
     action_about(new QAction(this)),
     action_exit(new QAction(this)),
-    menu_button(new QToolButton(this)),
+    menu_button(new MenuButton(this)),
     menu_root(new QMenu( this)),
     settings(new QSettings(this)),
     ui_translator(NULL),
@@ -81,7 +82,6 @@ MainWindow::MainWindow(QWidget *parent) :
     action_swap->setIcon(APP_ICON("swap"));
     action_settings->setIcon(APP_ICON("settings"));
     action_languages->setIcon(APP_ICON("languages"));
-    action_detect->setIcon(APP_ICON("search"));
     action_detect->setCheckable(true);
     action_about->setIcon(APP_ICON("about"));
     action_exit->setIcon(APP_ICON("exit"));
@@ -92,8 +92,6 @@ MainWindow::MainWindow(QWidget *parent) :
     swap_button->setShortcut(QKeySequence("Ctrl+Shift+S"));
 
     menu_button->setMenu(menu_root);
-    menu_button->setPopupMode(QToolButton::InstantPopup);
-    menu_button->setIcon(APP_ICON("menu"));
     menu_root->addAction(action_settings);
     menu_root->addAction(action_languages);
     menu_root->addSeparator();

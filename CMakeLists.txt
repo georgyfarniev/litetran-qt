@@ -62,8 +62,9 @@ src/request.h
 src/pronounce.h
 src/popup.h
 src/textedit.h
-src/languages.h
-src/clipboard.h)
+src/clipboard.h
+src/menubutton.h
+src/languages.h)
 
 set(SOURCES
 src/main.cpp
@@ -77,8 +78,9 @@ src/request.cpp
 src/pronounce.cpp
 src/popup.cpp
 src/textedit.cpp
-src/languages.cpp
-src/clipboard.cpp)
+src/clipboard.cpp
+src/menubutton.cpp
+src/languages.cpp)
 
 set(TRANSLATIONS_FILES
 i18n/English.ts
