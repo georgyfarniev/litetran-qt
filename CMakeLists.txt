@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8.10)
 
 set(APP_EXECUTABLE_NAME litetran)
 set(APP_NAME LiteTran)
-set(APP_VERSION 0.2)
+set(APP_VERSION "1.0")
+exec_program("git" ${CMAKE_CURRENT_SOURCE_DIR} ARGS "describe --tags" OUTPUT_VARIABLE APP_VERSION)
 
 if(APPLE)
     set(APP_GUI_TYPE MACOSX_BUNDLE)

@@ -241,7 +241,8 @@ void MainWindow::changeEvent(QEvent *e) {
         about_text = tr("LiteTran is a lightweight text translation program."
                         "Just select some text, press hotkey and get translation in small popup!"
                         "\n\nLiteTran is licensed under GPL3\n"
-                        "Homepage: https://github.com/flareguner/litetran"
+                        "Homepage: https://github.com/flareguner/litetran\n"
+                        "Version: " APP_VERSION
                         "\n\nAuthors:\n"
                         "flareguner - author <flarguner@gmail.com>\n"
                         "Yurij Mikhalevich - Mac OS port and testing <0@39.yt>\n"
