@@ -33,7 +33,7 @@ bool MenuButton::eventFilter(QObject *o, QEvent *e)
         if(event_menu == NULL)
             return false;
         const QPoint point = parentWidget()->mapToGlobal(geometry().bottomRight());
-        event_menu->move(point.x() - event_menu->sizeHint().width() + 1, point.y() + 1);
+        event_menu->move(point.x() - event_menu->width() + 1, point.y() + 2);
     }
     return QToolButton::eventFilter(o, e);
 }
