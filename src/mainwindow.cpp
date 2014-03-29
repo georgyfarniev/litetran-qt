@@ -243,8 +243,9 @@ void MainWindow::changeEvent(QEvent *e) {
                         "\n\nLiteTran is licensed under GPL3\n"
                         "Homepage: https://github.com/flareguner/litetran"
                         "\n\nAuthors:\n"
-                        "flarguner@gmail.com (flareguner) - author\n"
-                        "0@39.yt (Yurij Mikhalevich) - Mac OS port and testing");
+                        "flareguner - author <flarguner@gmail.com>\n"
+                        "Yurij Mikhalevich - Mac OS port and testing <0@39.yt>\n"
+                        "Uri Herrera, Nitrux S.A. - Icon and logo <contact@nitrux.in>");
 #if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
         source_text->setPlaceholderText(tr("Enter text to translate here..."));
 #endif

@@ -52,7 +52,6 @@
         <file>icons/ui/exit.png</file>
         <file>icons/ui/swap.png</file>
         <file>icons/ui/translate.png</file>
-        <file>icons/ui/search.png</file>
         <file>icons/ui/menu.png</file>
         <file>icons/ui/languages.png</file>
     </qresource>
