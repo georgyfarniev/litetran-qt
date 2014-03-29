@@ -6,6 +6,7 @@
 
 Popup::Popup(QObject *parent) :
     QObject(parent),
+    fm(QToolTip::font()),
     cursor_locked(false)
 {
     timer.setSingleShot(true);
@@ -36,9 +37,7 @@ void Popup::hidePopup()
 
 QString Popup::formatText(const QString &text) const
 {
-    QFontMetrics fm(QToolTip::font());
     QStringList words = text.simplified().split(QRegExp("\\s+"), QString::SkipEmptyParts);
-
     QString outstr;
     QString line;
 
