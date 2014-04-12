@@ -13,6 +13,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QSpacerItem>
+#include <QMessageBox>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
 #include <QKeySequenceEdit>
@@ -24,20 +25,24 @@ Settings::Settings(QWidget *parent) :
     QDialog(parent),
     settings(new QSettings(this)),
     tray_checkbox(new QCheckBox(this)),
-    shortcut_checkbox(new QCheckBox(this)),
     dictionary_checkbox(new QCheckBox(this)),
-    shortcut_edit(new QKeySequenceEdit(this)),
+    translate_shortcut_checkbox(new QCheckBox(this)),
+    reverse_shortcut_checkbox(new QCheckBox(this)),
+    translate_shortcut_edit(new QKeySequenceEdit(this)),
+    reverse_shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
     language_label(new QLabel(this)),
     button_box(new QDialogButtonBox(this))
 {
-    connect(shortcut_checkbox, SIGNAL(toggled(bool)), shortcut_edit, SLOT(setEnabled(bool)));
+    connect(translate_shortcut_checkbox, SIGNAL(toggled(bool)), translate_shortcut_edit, SLOT(setEnabled(bool)));
+    connect(reverse_shortcut_checkbox, SIGNAL(toggled(bool)), reverse_shortcut_edit, SLOT(setEnabled(bool)));
     connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
     connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
 
     QFormLayout *elem_layout = new QFormLayout;    
     elem_layout->addRow(language_label, language_combobox);
-    elem_layout->addRow(shortcut_checkbox, shortcut_edit);
+    elem_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
+    elem_layout->addRow(reverse_shortcut_checkbox, reverse_shortcut_edit);
     elem_layout->addRow(tray_checkbox, new QWidget(this));
     elem_layout->addRow(dictionary_checkbox, new QWidget(this));
 
@@ -74,9 +79,14 @@ int Settings::exec() {
     return QDialog::exec();
 }
 
-bool Settings::shortcutEnabled()
+bool Settings::translateShortcutEnabled()
 {
-    return shortcut_checkbox->isChecked();
+    return translate_shortcut_checkbox->isChecked();
+}
+
+bool Settings::reverseShortcutEnabled()
+{
+    return reverse_shortcut_checkbox->isChecked();
 }
 
 bool Settings::trayIconEnabled()
@@ -89,9 +99,14 @@ bool Settings::dictionaryEnabled()
     return dictionary_checkbox->isChecked();
 }
 
-QKeySequence Settings::shortcut() const
+QKeySequence Settings::translateShortcut() const
 {
-    return shortcut_edit->keySequence();
+    return translate_shortcut_edit->keySequence();
+}
+
+QKeySequence Settings::reverseShortcut() const
+{
+    return reverse_shortcut_edit->keySequence();
 }
 
 QString Settings::language() const
@@ -107,8 +122,10 @@ QString Settings::detectSystemLanguage() const
 void Settings::changeEvent(QEvent *e) {
     QDialog::changeEvent(e);
     if(e->type() == QEvent::LanguageChange) {
+            msg_key_overlap = tr("Translate and reverse key sequences shouldn't be overlapped!");
             tray_checkbox->setText(tr("Show icon in system tray"));
-            shortcut_checkbox->setText(tr("Popup translate by shortcut"));
+            translate_shortcut_checkbox->setText(tr("Translate"));
+            reverse_shortcut_checkbox->setText(tr("Reverse translate"));
             dictionary_checkbox->setText(tr("Show dictionary results"));
             language_label->setText(tr("Application language"));
             setWindowTitle(tr("Configure"));
@@ -117,8 +134,16 @@ void Settings::changeEvent(QEvent *e) {
 
 void Settings::accept()
 {
-    settings->setValue("ScanShortcutEnabled", shortcut_checkbox->isChecked());
-    settings->setValue("ScanShortcut", shortcut_edit->keySequence().toString());
+    if(translateShortcut() == reverseShortcut()) {
+        QMessageBox::warning(this, msg_key_overlap, msg_key_overlap);
+        return;
+    }
+    settings->setValue("TranslateShortcutEnabled", translate_shortcut_checkbox->isChecked());
+    settings->setValue("ReverseShortcutEnabled", reverse_shortcut_checkbox->isChecked());
+    settings->setValue("TranslateShortcut", translate_shortcut_edit->keySequence().toString());
+    settings->setValue("ReverseShortcut", reverse_shortcut_edit->keySequence().toString());
+
+
     settings->setValue("Language", language_combobox->currentText());
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
     settings->setValue("ShowDictionary", dictionary_checkbox->isChecked());
@@ -129,8 +154,15 @@ void Settings::accept()
 void Settings::read()
 {
     language_combobox->setCurrentText(settings->value("Language", default_language).toString());
-    shortcut_checkbox->setChecked(settings->value("ScanShortcutEnabled", true).toBool());
-    shortcut_edit->setKeySequence(settings->value("ScanShortcut", DEFAULT_SHORTCUT).toString());
+
+
+    translate_shortcut_checkbox->setChecked(settings->value("TranslateShortcutEnabled", true).toBool());
+    reverse_shortcut_checkbox->setChecked(settings->value("ReverseShortcutEnabled", true).toBool());
+
+    translate_shortcut_edit->setKeySequence(settings->value("TranslateShortcut", DEFAULT_TRANSLATE_SHORTCUT).toString());
+    reverse_shortcut_edit->setKeySequence(settings->value("ReverseShortcut", DEFAULT_REVERSE_SHORTCUT).toString());
+
+
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
     dictionary_checkbox->setChecked(settings->value("ShowDictionary", false).toBool());
 }

@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui_translator(NULL),
     translate_shortcut(new QShortcut(this)),
     translate_shortcut_global(new QxtGlobalShortcut(this)),
+    reverse_shortcut_global(new QxtGlobalShortcut(this)),
     clipboard(new Clipboard(this)),
     toolbar_source_text(new TextToolbar(this)),
     toolbar_result_text(new TextToolbar(this)),
@@ -141,6 +142,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(translate_shortcut_global, SIGNAL(activated()), this, SLOT(translate()));
+    connect(reverse_shortcut_global, SIGNAL(activated()), this, SLOT(reverse()));
 
     tray_icon->addAction(action_settings);
     tray_icon->addSeparator();
@@ -193,13 +195,22 @@ void MainWindow::swap()
     result_combobox->setCurrentIndex(idx);
 }
 
-void MainWindow::translate()
+void MainWindow::translateText(const QString &sl, const QString &tl)
 {
     popup->freezeCursorPosition();
 
     if(!applicationInFocus())
         source_text->setPlainText(clipboard->selectedText());
 
+    const QString result = translate_engine->translate(sourceText(), sl, tl);
+    result_text->setHtml(result);
+
+    if(!applicationInFocus())
+        popup->show(result);
+}
+
+void MainWindow::translate()
+{
     QString sl = source_combobox->itemData(source_combobox->currentIndex()).toString();
     if(action_detect->isChecked()) {
         sl = translate_engine->detect(sourceText());
@@ -207,13 +218,12 @@ void MainWindow::translate()
             if(source_combobox->itemData(i).toString() == sl)
                 source_combobox->setCurrentIndex(i);
     }
+    translateText(sl, resultLanguage());
+}
 
-    const QString result = translate_engine->translate(sourceText(), sourceLanguage(), resultLanguage());
-    result_text->setHtml(result);
-
-    if(!applicationInFocus())
-        popup->show(result);
-
+void MainWindow::reverse()
+{
+    translateText(resultLanguage(), resultText());
 }
 
 void MainWindow::changeVisibility()
@@ -306,8 +316,10 @@ void MainWindow::updateSettings()
         show();
 
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
-    translate_shortcut_global->setShortcut(settings_dialog->shortcut());
-    translate_shortcut_global->setEnabled(settings_dialog->shortcutEnabled());
+    translate_shortcut_global->setShortcut(settings_dialog->translateShortcut());
+    translate_shortcut_global->setEnabled(settings_dialog->translateShortcutEnabled());
+    reverse_shortcut_global->setShortcut(settings_dialog->reverseShortcut());
+    reverse_shortcut_global->setEnabled(settings_dialog->reverseShortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
 
     qApp->setQuitOnLastWindowClosed(!settings_dialog->trayIconEnabled());
