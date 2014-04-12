@@ -2,8 +2,6 @@
 
 #include <QTextEdit>
 
-class QClipboard;
-
 class TextEdit : public QTextEdit
 {
     Q_OBJECT

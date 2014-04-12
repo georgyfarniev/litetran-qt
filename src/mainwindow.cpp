@@ -30,12 +30,13 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QShortcut>
+#include <QCommonStyle>
+
 #ifdef APP_WM_COCOA
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
 #endif
 
-#include <QCommonStyle>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

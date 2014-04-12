@@ -20,7 +20,6 @@ private  slots:
     void hidePopup();
 private:
     QString formatText(const QString &text) const;
-
     QFontMetrics fm;
     QPoint cursor_pos;
     QTimer timer;

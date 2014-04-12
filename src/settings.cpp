@@ -48,7 +48,6 @@ Settings::Settings(QWidget *parent) :
     main_layout->setSizeConstraint(QLayout::SetFixedSize);
     setLayout(main_layout);
 
-
     button_box->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // Initialize languages combobox.
@@ -135,12 +134,11 @@ void Settings::accept()
         QMessageBox::warning(this, msg_key_overlap_title, msg_key_overlap);
         return;
     }
+
     settings->setValue("TranslateShortcutEnabled", translate_shortcut_checkbox->isChecked());
     settings->setValue("ReverseShortcutEnabled", reverse_shortcut_checkbox->isChecked());
     settings->setValue("TranslateShortcut", translate_shortcut_edit->keySequence().toString());
     settings->setValue("ReverseShortcut", reverse_shortcut_edit->keySequence().toString());
-
-
     settings->setValue("Language", language_combobox->currentText());
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
     settings->setValue("ShowDictionary", dictionary_checkbox->isChecked());
@@ -151,15 +149,10 @@ void Settings::accept()
 void Settings::read()
 {
     language_combobox->setCurrentText(settings->value("Language", default_language).toString());
-
-
     translate_shortcut_checkbox->setChecked(settings->value("TranslateShortcutEnabled", true).toBool());
     reverse_shortcut_checkbox->setChecked(settings->value("ReverseShortcutEnabled", true).toBool());
-
     translate_shortcut_edit->setKeySequence(settings->value("TranslateShortcut", DEFAULT_TRANSLATE_SHORTCUT).toString());
     reverse_shortcut_edit->setKeySequence(settings->value("ReverseShortcut", DEFAULT_REVERSE_SHORTCUT).toString());
-
-
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
     dictionary_checkbox->setChecked(settings->value("ShowDictionary", false).toBool());
 }

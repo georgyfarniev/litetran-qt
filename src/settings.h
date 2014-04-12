@@ -16,7 +16,6 @@ class QLabel;
 class Settings : public QDialog
 {
     Q_OBJECT
-
     Q_PROPERTY(bool translateShortcutEnabled READ translateShortcutEnabled)
     Q_PROPERTY(bool reverseShortcutEnabled READ reverseShortcutEnabled)
     Q_PROPERTY(QKeySequence translateShortcut READ translateShortcut)
@@ -42,8 +41,8 @@ private:
     QString detectSystemLanguage() const;
     QString msg_key_overlap;
     QString msg_key_overlap_title;
-    QSettings *settings;
     QString default_language;
+    QSettings *settings;
     QCheckBox *tray_checkbox;
     QCheckBox *dictionary_checkbox;
     QCheckBox *translate_shortcut_checkbox;
