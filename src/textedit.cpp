@@ -3,12 +3,11 @@
 #include <QClipboard>
 
 TextEdit::TextEdit(QWidget *parent) :
-    QTextEdit(parent),
-    clipboard(qApp->clipboard())
+    QTextEdit(parent)
 {
 }
 
 void TextEdit::copyAll()
 {
-    clipboard->setText(toPlainText());
+    qApp->clipboard()->setText(toPlainText());
 }

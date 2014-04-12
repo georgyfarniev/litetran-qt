@@ -11,6 +11,4 @@ public:
     explicit TextEdit(QWidget *parent = 0);
 public slots:
     void copyAll();
-private:
-    QClipboard *clipboard;
 };
