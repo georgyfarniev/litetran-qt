@@ -20,10 +20,9 @@ class Settings : public QDialog
     Q_PROPERTY(bool translateShortcutEnabled READ translateShortcutEnabled)
     Q_PROPERTY(bool reverseShortcutEnabled READ reverseShortcutEnabled)
     Q_PROPERTY(QKeySequence translateShortcut READ translateShortcut)
-
+    Q_PROPERTY(QKeySequence reverseShortcut READ reverseShortcut)
     Q_PROPERTY(bool trayIconEnabled READ trayIconEnabled)
     Q_PROPERTY(bool dictionaryEnabled READ dictionaryEnabled)
-
     Q_PROPERTY(QString language READ language)
 public:
     explicit Settings(QWidget *parent = 0);
