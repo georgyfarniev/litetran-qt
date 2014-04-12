@@ -211,7 +211,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
 
 void MainWindow::translate()
 {
-    QString sl = source_combobox->itemData(source_combobox->currentIndex()).toString();
+    QString sl = source_combobox->currentData().toString();
     if(action_detect->isChecked()) {
         sl = translate_engine->detect(sourceText());
         for (int i = 0; i < source_combobox->count(); ++i)
@@ -257,9 +257,7 @@ void MainWindow::changeEvent(QEvent *e) {
                         "flareguner - author <flarguner@gmail.com>\n"
                         "Yurij Mikhalevich - Mac OS port and testing <0@39.yt>\n"
                         "Uri Herrera, Nitrux S.A. - Icon and logo <contact@nitrux.in>");
-#if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
         source_text->setPlaceholderText(tr("Enter text to translate here..."));
-#endif
     }
 }
 
@@ -270,12 +268,12 @@ bool MainWindow::applicationInFocus()
 
 QString MainWindow::sourceLanguage() const
 {
-    return source_combobox->itemData(source_combobox->currentIndex()).toString();
+    return source_combobox->currentData().toString();
 }
 
 QString MainWindow::resultLanguage() const
 {
-    return result_combobox->itemData(result_combobox->currentIndex()).toString();
+    return result_combobox->currentData().toString();
 }
 
 QString MainWindow::sourceText() const

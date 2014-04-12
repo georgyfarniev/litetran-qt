@@ -14,12 +14,8 @@
 #include <QDebug>
 #include <QSpacerItem>
 #include <QMessageBox>
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
 #include <QKeySequenceEdit>
-#else
-#include "qkeysequenceedit.h"
-#endif
+
 
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
