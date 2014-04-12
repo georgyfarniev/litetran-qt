@@ -205,6 +205,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
 
 void MainWindow::translate()
 {
+    qDebug() << applicationInFocus();
     translateText(sourceLanguage(), resultLanguage());
 }
 

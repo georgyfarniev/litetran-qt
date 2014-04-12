@@ -1,74 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en">
+<TS version="2.1">
+<context>
+    <name>Languages</name>
+    <message>
+        <location filename="../src/languages.cpp" line="101"/>
+        <source>Set\Unset All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/languages.cpp" line="102"/>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/languages.cpp" line="103"/>
+        <source>At least two languages should be selected to work correctly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="234"/>
-        <location filename="../src/mainwindow.cpp" line="235"/>
-        <source>Translate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="229"/>
-        <source>Configure</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="228"/>
-        <location filename="../src/mainwindow.cpp" line="236"/>
+        <location filename="../src/mainwindow.cpp" line="225"/>
+        <location filename="../src/mainwindow.cpp" line="233"/>
         <source>Swap languages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="230"/>
-        <source>Detect language</source>
+        <location filename="../src/mainwindow.cpp" line="226"/>
+        <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="231"/>
+        <location filename="../src/mainwindow.cpp" line="227"/>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="228"/>
         <source>About</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="232"/>
+        <location filename="../src/mainwindow.cpp" line="229"/>
         <source>Exit</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="233"/>
+        <location filename="../src/mainwindow.cpp" line="230"/>
         <source>Open LiteTran menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="237"/>
+        <location filename="../src/mainwindow.cpp" line="231"/>
+        <location filename="../src/mainwindow.cpp" line="232"/>
+        <source>Translate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="234"/>
         <source>Source language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="235"/>
         <source>Result language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="237"/>
         <source>About LiteTran</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="241"/>
+        <location filename="../src/mainwindow.cpp" line="238"/>
         <source>LiteTran is a lightweight text translation program.Just select some text, press hotkey and get translation in small popup!
 
 LiteTran is licensed under GPL3
 Homepage: https://github.com/flareguner/litetran
-
-Authors:
-flarguner@gmail.com (flareguner) - author
-0@39.yt (Yurij Mikhalevich) - Mac OS port and testing</source>
+Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="249"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>Enter text to translate here...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -76,29 +91,44 @@ flarguner@gmail.com (flareguner) - author
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="110"/>
+        <location filename="../src/settings.cpp" line="121"/>
+        <source>Translate and reverse key sequences shouldn&apos;t be overlapped!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="122"/>
+        <source>Invalid shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="123"/>
         <source>Show icon in system tray</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="111"/>
-        <source>Popup translate by shortcut</source>
-        <translation></translation>
+        <location filename="../src/settings.cpp" line="124"/>
+        <source>Translate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="112"/>
+        <location filename="../src/settings.cpp" line="125"/>
+        <source>Reverse translate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="126"/>
         <source>Show dictionary results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="113"/>
+        <location filename="../src/settings.cpp" line="127"/>
         <source>Application language</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="114"/>
+        <location filename="../src/settings.cpp" line="128"/>
         <source>Configure</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -106,12 +136,12 @@ flarguner@gmail.com (flareguner) - author
     <message>
         <location filename="../src/texttoolbar.cpp" line="37"/>
         <source>Copy</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/texttoolbar.cpp" line="38"/>
         <source>Pronounce</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

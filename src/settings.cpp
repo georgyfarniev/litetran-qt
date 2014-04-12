@@ -119,6 +119,7 @@ void Settings::changeEvent(QEvent *e) {
     QDialog::changeEvent(e);
     if(e->type() == QEvent::LanguageChange) {
             msg_key_overlap = tr("Translate and reverse key sequences shouldn't be overlapped!");
+            msg_key_overlap_title = tr("Invalid shortcuts");
             tray_checkbox->setText(tr("Show icon in system tray"));
             translate_shortcut_checkbox->setText(tr("Translate"));
             reverse_shortcut_checkbox->setText(tr("Reverse translate"));
@@ -131,7 +132,7 @@ void Settings::changeEvent(QEvent *e) {
 void Settings::accept()
 {
     if(translateShortcut() == reverseShortcut()) {
-        QMessageBox::warning(this, msg_key_overlap, msg_key_overlap);
+        QMessageBox::warning(this, msg_key_overlap_title, msg_key_overlap);
         return;
     }
     settings->setValue("TranslateShortcutEnabled", translate_shortcut_checkbox->isChecked());

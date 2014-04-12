@@ -41,6 +41,7 @@ private:
     void changeEvent(QEvent *e);
     QString detectSystemLanguage() const;
     QString msg_key_overlap;
+    QString msg_key_overlap_title;
     QSettings *settings;
     QString default_language;
     QCheckBox *tray_checkbox;
