@@ -263,7 +263,7 @@ void MainWindow::changeEvent(QEvent *e) {
 
 bool MainWindow::applicationInFocus()
 {
-    return (isActiveWindow() || settings_dialog->isActiveWindow());
+    return (isActiveWindow() || settings_dialog->isActiveWindow() || languages_dialog->isActiveWindow());
 }
 
 QString MainWindow::sourceLanguage() const
