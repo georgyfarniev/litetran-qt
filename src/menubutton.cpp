@@ -23,7 +23,6 @@ void MenuButton::setMenu(QMenu *m)
 {
     QToolButton::setMenu(m);
     m->installEventFilter(this);
-    connect(m, SIGNAL(aboutToHide()), this, SLOT(resetMenuFlag()));
 }
 
 bool MenuButton::eventFilter(QObject *o, QEvent *e)
