@@ -70,7 +70,6 @@ private:
     QAction *action_swap;
     QAction *action_settings;
     QAction *action_languages;
-    QAction *action_detect;
     QAction *action_about;
     QAction *action_exit;
     MenuButton *menu_button;

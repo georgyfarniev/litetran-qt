@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     action_swap(new QAction(this)),
     action_settings(new QAction(this)),
     action_languages(new QAction(this)),
-    action_detect(new QAction(this)),
     action_about(new QAction(this)),
     action_exit(new QAction(this)),
     menu_button(new MenuButton(this)),
@@ -83,7 +82,6 @@ MainWindow::MainWindow(QWidget *parent) :
     action_swap->setIcon(APP_ICON("swap"));
     action_settings->setIcon(APP_ICON("settings"));
     action_languages->setIcon(APP_ICON("languages"));
-    action_detect->setCheckable(true);
     action_about->setIcon(APP_ICON("about"));
     action_exit->setIcon(APP_ICON("exit"));
 
@@ -95,8 +93,6 @@ MainWindow::MainWindow(QWidget *parent) :
     menu_button->setMenu(menu_root);
     menu_root->addAction(action_settings);
     menu_root->addAction(action_languages);
-    menu_root->addSeparator();
-    menu_root->addAction(action_detect);
     menu_root->addSeparator();
     menu_root->addAction(action_about);
     menu_root->addAction(action_exit);
@@ -154,7 +150,6 @@ MainWindow::MainWindow(QWidget *parent) :
     updateLanguages();
     settings->beginGroup("MainWindow");
 
-    action_detect->setChecked(settings->value("DetectSourceLanguage", false).toBool());
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
@@ -171,7 +166,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    settings->setValue("DetectSourceLanguage", action_detect->isChecked());
     settings->setValue("SourceLanguage", source_combobox->currentText());
     settings->setValue("ResultLanguage", result_combobox->currentText());
     settings->setValue("Geometry", saveGeometry());
@@ -211,14 +205,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
 
 void MainWindow::translate()
 {
-    QString sl = source_combobox->currentData().toString();
-    if(action_detect->isChecked()) {
-        sl = translate_engine->detect(sourceText());
-        for (int i = 0; i < source_combobox->count(); ++i)
-            if(source_combobox->itemData(i).toString() == sl)
-                source_combobox->setCurrentIndex(i);
-    }
-    translateText(sl, resultLanguage());
+    translateText(sourceLanguage(), resultLanguage());
 }
 
 void MainWindow::reverse()
@@ -237,7 +224,6 @@ void MainWindow::changeEvent(QEvent *e) {
         action_swap->setText(tr("Swap languages"));
         action_settings->setText(tr("Configure"));
         action_languages->setText(tr("Languages"));
-        action_detect->setText(tr("Detect language"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
         menu_button->setToolTip(tr("Open LiteTran menu"));
