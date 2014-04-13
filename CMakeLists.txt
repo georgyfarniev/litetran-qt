@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.10)
 
 set(APP_EXECUTABLE_NAME litetran)
 set(APP_NAME LiteTran)
-set(APP_VERSION "1.0")
+set(APP_VERSION "1.2")
 
 find_program(GIT_EXECUTABLE NAME git PATHS PATH)
 if(NOT ${GIT_EXECUTABLE} MATCHES "GIT_EXECUTABLE-NOTFOUND")
