@@ -240,7 +240,7 @@ void MainWindow::changeEvent(QEvent *e) {
                         "Just select some text, press hotkey and get translation in small popup!"
                         "\n\nLiteTran is licensed under GPL3\n"
                         "Homepage: https://github.com/flareguner/litetran\n"
-                        "\n\nAuthors:\n"
+                        "\nAuthors:\n"
                         "flareguner - author <flarguner@gmail.com>\n"
                         "Yurij Mikhalevich - Mac OS port and testing <0@39.yt>\n"
                         "Uri Herrera, Nitrux S.A. - Icon and logo <contact@nitrux.in>");
