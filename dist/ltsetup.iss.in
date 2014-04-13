@@ -1,0 +1,45 @@
+#define MyAppName "LiteTran"
+#define MyAppVersion "@APP_VERSION@"
+#define MyAppPublisher "LiteTran, Inc."
+#define MyAppURL "https://github.com/flareguner/litetran"
+#define MyAppExeName "litetran.exe"
+#define MyAppBinaryPath "@APP_BINARY_INSTALL_PATH@"
+
+[Setup]
+AppId={{2DF0F9F9-8B35-4650-AC9B-FA9C00C48D26}
+AppName={#MyAppName}
+AppVersion={#MyAppVersion}
+AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
+AppUpdatesURL={#MyAppURL}
+DefaultDirName={pf}\{#MyAppName}
+DefaultGroupName={#MyAppName}
+AllowNoIcons=yes
+OutputBaseFilename="{#MyAppName}-{#MyAppVersion}_Setup"
+Compression=lzma
+SolidCompression=yes
+
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
+Name: startup; Description: "Automatically start on login"; GroupDescription: "{cm:AdditionalIcons}"
+
+[Files]
+Source: "{#MyAppBinaryPath}\litetran.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyAppBinaryPath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[Icons]
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: startup
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
