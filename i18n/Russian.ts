@@ -80,7 +80,6 @@
 LiteTran is licensed under GPL3
 Homepage: https://github.com/flareguner/litetran
 
-
 Authors:
 flareguner - author &lt;flarguner@gmail.com&gt;
 Yurij Mikhalevich - Mac OS port and testing &lt;0@39.yt&gt;
@@ -89,7 +88,6 @@ Uri Herrera, Nitrux S.A. - Icon and logo &lt;contact@nitrux.in&gt;</source>
 
 LiteTran лицензирован под GPL3
 Домашняя страница: https://github.com/flareguner/litetran
-
 
 Авторы:
 flareguner - автор &lt;flarguner@gmail.com&gt;
