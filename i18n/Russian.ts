@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.0" language="ru_RU">
 <context>
     <name>Languages</name>
     <message>
@@ -56,7 +56,7 @@
         <location filename="../src/mainwindow.cpp" line="232"/>
         <location filename="../src/mainwindow.cpp" line="233"/>
         <source>Translate</source>
-        <translation>Перевод</translation>
+        <translation>Перевести</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="235"/>
