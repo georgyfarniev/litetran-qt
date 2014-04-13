@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="227"/>
         <source>Configure</source>
-        <translation>Настроить</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="228"/>
