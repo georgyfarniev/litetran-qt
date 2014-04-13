@@ -142,7 +142,7 @@ Uri Herrera, Nitrux S.A. - автор иконки и логотипа &lt;conta
     <message>
         <location filename="../src/settings.cpp" line="127"/>
         <source>Configure</source>
-        <translation>Настроить</translation>
+        <translation>Настройки</translation>
     </message>
 </context>
 <context>
