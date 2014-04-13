@@ -54,6 +54,7 @@ ${CMAKE_CURRENT_BINARY_DIR}/src
 ${CMAKE_CURRENT_SOURCE_DIR}/src/3rdparty/qxtshortcut)
 
 configure_file(src/defines.h.in src/defines.h)
+configure_file(dist/ltsetup.iss.in dist/ltsetup.iss)
 
 set(HEADERS
 src/mainwindow.h
