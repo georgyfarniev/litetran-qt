@@ -83,6 +83,30 @@ Homepage: https://github.com/flareguner/litetran
 Authors:
 flareguner - author &lt;flarguner@gmail.com&gt;
 Yurij Mikhalevich - Mac OS port and testing &lt;0@39.yt&gt;
+Uri Herrera, Nitrux S.A. - Icon and logo &lt;contact@nitrux.in&gt;
+
+Version: </source>
+        <translation type="unfinished">LiteTran - это небольшая программа для перевода текста. Просто выделите текст, нажмите комбинацию клавиш, и получите перевод в небольшом всплывающем окне!
+
+LiteTran лицензирован под GPL3
+Домашняя страница: https://github.com/flareguner/litetran
+
+Авторы:
+flareguner - автор &lt;flarguner@gmail.com&gt;
+Yurij Mikhalevich - Портирование и тестирование Mac OS &lt;0@39.yt&gt;
+Uri Herrera, Nitrux S.A. - автор иконки и логотипа &lt;contact@nitrux.in&gt;
+
+Версия:</translation>
+    </message>
+    <message>
+        <source>LiteTran is a lightweight text translation program.Just select some text, press hotkey and get translation in small popup!
+
+LiteTran is licensed under GPL3
+Homepage: https://github.com/flareguner/litetran
+
+Authors:
+flareguner - author &lt;flarguner@gmail.com&gt;
+Yurij Mikhalevich - Mac OS port and testing &lt;0@39.yt&gt;
 Uri Herrera, Nitrux S.A. - Icon and logo &lt;contact@nitrux.in&gt;</source>
         <translation>LiteTran - это небольшая программа для перевода текста. Просто выделите текст, нажмите комбинацию клавиш, и получите перевод в небольшом всплывающем окне!
 
@@ -95,7 +119,7 @@ Yurij Mikhalevich - Портирование и тестирование Mac OS 
 Uri Herrera, Nitrux S.A. - автор иконки и логотипа &lt;contact@nitrux.in&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>Enter text to translate here...</source>
         <translation>Введите текст для перевода...</translation>
     </message>

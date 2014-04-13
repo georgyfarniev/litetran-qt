@@ -80,15 +80,16 @@
 LiteTran is licensed under GPL3
 Homepage: https://github.com/flareguner/litetran
 
-
 Authors:
 flareguner - author &lt;flarguner@gmail.com&gt;
 Yurij Mikhalevich - Mac OS port and testing &lt;0@39.yt&gt;
-Uri Herrera, Nitrux S.A. - Icon and logo &lt;contact@nitrux.in&gt;</source>
+Uri Herrera, Nitrux S.A. - Icon and logo &lt;contact@nitrux.in&gt;
+
+Version: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>Enter text to translate here...</source>
         <translation></translation>
     </message>

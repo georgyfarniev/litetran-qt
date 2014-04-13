@@ -243,8 +243,9 @@ void MainWindow::changeEvent(QEvent *e) {
                         "\nAuthors:\n"
                         "flareguner - author <flarguner@gmail.com>\n"
                         "Yurij Mikhalevich - Mac OS port and testing <0@39.yt>\n"
-                        "Uri Herrera, Nitrux S.A. - Icon and logo <contact@nitrux.in>");
-        about_text += "\n\nVersion: " APP_VERSION;
+                        "Uri Herrera, Nitrux S.A. - Icon and logo <contact@nitrux.in>"
+                        "\n\nVersion: ");
+        about_text += APP_VERSION;
         source_text->setPlaceholderText(tr("Enter text to translate here..."));
     }
 }
