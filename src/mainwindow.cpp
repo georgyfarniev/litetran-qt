@@ -212,7 +212,7 @@ void MainWindow::translate()
 
 void MainWindow::reverse()
 {
-    translateText(resultLanguage(), resultText());
+    translateText(resultLanguage(), sourceLanguage());
 }
 
 void MainWindow::changeVisibility()
