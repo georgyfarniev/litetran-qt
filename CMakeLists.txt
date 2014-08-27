@@ -51,36 +51,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/3rdparty/qxtshortcut)
 configure_file(src/defines.h.in src/defines.h)
 configure_file(dist/ltsetup.iss.in dist/ltsetup.iss)
 
-set(HEADERS
-src/mainwindow.h
-src/texttoolbar.h
-src/settings.h
-src/trayicon.h
-src/languagedb.h
-src/translate.h
-src/request.h
-src/pronounce.h
-src/popup.h
-src/textedit.h
-src/clipboard.h
-src/menubutton.h
-src/languages.h)
-
-set(SOURCES
-src/main.cpp
-src/mainwindow.cpp
-src/texttoolbar.cpp
-src/settings.cpp
-src/trayicon.cpp
-src/languagedb.cpp
-src/translate.cpp
-src/request.cpp
-src/pronounce.cpp
-src/popup.cpp
-src/textedit.cpp
-src/clipboard.cpp
-src/menubutton.cpp
-src/languages.cpp)
+file(GLOB HEADERS "src/*.h")
+file(GLOB SOURCES "src/*.cpp")
 
 set(TRANSLATIONS_FILES
 i18n/English.ts
