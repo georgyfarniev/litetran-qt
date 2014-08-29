@@ -3,7 +3,6 @@
 #include <QObject>
 #include "defines.h"
 
-
 class QSettings;
 
 class AutoStart : public QObject
