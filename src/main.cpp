@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QLocalSocket>
 #include <QLocalServer>
+#include <QCommandLineParser>
 
 int main(int argc, char *argv[])
 {
@@ -24,8 +25,20 @@ int main(int argc, char *argv[])
     app.setApplicationName(APP_NAME);
     app.setOrganizationName(APP_ORG);
     app.setOrganizationDomain(APP_ORG);
+    app.setApplicationVersion(APP_VERSION);
 
-    MainWindow window;
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.setApplicationDescription(APP_NAME);
+
+    QCommandLineOption opt_collapsed(QStringList() << "c" << "collapsed", "Run collapsed in tray.");
+    parser.addOption(opt_collapsed);
+
+    parser.process(app);
+
+    bool collapsed = parser.isSet(opt_collapsed);
+    MainWindow window(collapsed);
 
     QObject::connect(&srv, SIGNAL(newConnection()), &window, SLOT(show()));
 

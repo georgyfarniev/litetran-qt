@@ -19,12 +19,19 @@
 #define APP_OSX_TEXTFILE "/tmp/litetran-selection.tmp"
 #endif
 
+#define APP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}"
 #define APP_LOCAL_SERVER_NAME "litetran_singleapplication.lock"
 #define APP_NAME "${APP_NAME}"
 #define APP_ORG "LiteTran"
 #define APP_VERSION "${APP_VERSION}"
 #define APP_NAME_FULL APP_NAME " " APP_VERSION
+
+#ifdef APP_WM_WINDOWS
+#include <QApplication>
+#define APP_I18N_DIR (QCoreApplication::applicationDirPath() + "/i18n")
+#else
 #define APP_I18N_DIR "${APP_I18N_LOAD_PATH}"
+#endif
 
 #define APP_ICON(x) QIcon(QString(":/icons/ui/%1.png").arg(x))
 #define APP_FLAG(x) QIcon(QString(":/icons/flags/%1.png").arg(x))

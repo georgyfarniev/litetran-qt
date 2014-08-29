@@ -38,7 +38,7 @@
 #endif
 
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     QMainWindow(parent),
     source_text(new TextEdit(this)),
     result_text(new TextEdit(this)),
@@ -159,7 +159,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setVisible(true);
 #else
     connect(tray_icon, SIGNAL(clicked()), this, SLOT(changeVisibility()));
-    setVisible(settings->value("Visible", true).toBool() || !settings_dialog->trayIconEnabled());
+    setVisible((settings->value("Visible", true).toBool() || !settings_dialog->trayIconEnabled()) && !collapsed);
 #endif
 
     updateSettings();
@@ -209,7 +209,9 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
 void MainWindow::translate()
 {
     qDebug() << applicationInFocus();
+    setCursor(QCursor(Qt::WaitCursor));
     translateText(sourceLanguage(), resultLanguage());
+    setCursor(QCursor());
 }
 
 void MainWindow::reverse()
