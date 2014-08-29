@@ -12,6 +12,7 @@ class QComboBox;
 class QKeySequenceEdit;
 class QDialogButtonBox;
 class QLabel;
+class AutoStart;
 
 class Settings : public QDialog
 {
@@ -22,6 +23,7 @@ class Settings : public QDialog
     Q_PROPERTY(QKeySequence reverseShortcut READ reverseShortcut)
     Q_PROPERTY(bool trayIconEnabled READ trayIconEnabled)
     Q_PROPERTY(bool dictionaryEnabled READ dictionaryEnabled)
+    Q_PROPERTY(bool runAtStartup READ runAtStartup)
     Q_PROPERTY(QString language READ language)
 public:
     explicit Settings(QWidget *parent = 0);
@@ -30,6 +32,7 @@ public:
     bool reverseShortcutEnabled();
     bool trayIconEnabled();
     bool dictionaryEnabled();
+    bool runAtStartup();
     QKeySequence translateShortcut() const;
     QKeySequence reverseShortcut() const;
     QString language() const;
@@ -45,6 +48,7 @@ private:
     QSettings *settings;
     QCheckBox *tray_checkbox;
     QCheckBox *dictionary_checkbox;
+    QCheckBox *run_at_startup_checkbox;
     QCheckBox *translate_shortcut_checkbox;
     QCheckBox *reverse_shortcut_checkbox;
     QKeySequenceEdit *translate_shortcut_edit;
@@ -52,4 +56,5 @@ private:
     QComboBox *language_combobox;
     QLabel *language_label;
     QDialogButtonBox *button_box;
+    AutoStart *autostart_manager;
 };

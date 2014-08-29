@@ -1,5 +1,6 @@
 #include "settings.h"
 #include "defines.h"
+#include "autostart.h"
 #include <QApplication>
 #include <QSettings>
 #include <QLocale>
@@ -22,13 +23,15 @@ Settings::Settings(QWidget *parent) :
     settings(new QSettings(this)),
     tray_checkbox(new QCheckBox(this)),
     dictionary_checkbox(new QCheckBox(this)),
+    run_at_startup_checkbox(new QCheckBox(this)),
     translate_shortcut_checkbox(new QCheckBox(this)),
     reverse_shortcut_checkbox(new QCheckBox(this)),
     translate_shortcut_edit(new QKeySequenceEdit(this)),
     reverse_shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
     language_label(new QLabel(this)),
-    button_box(new QDialogButtonBox(this))
+    button_box(new QDialogButtonBox(this)),
+    autostart_manager(new AutoStart(this))
 {
     connect(translate_shortcut_checkbox, SIGNAL(toggled(bool)), translate_shortcut_edit, SLOT(setEnabled(bool)));
     connect(reverse_shortcut_checkbox, SIGNAL(toggled(bool)), reverse_shortcut_edit, SLOT(setEnabled(bool)));
@@ -41,6 +44,7 @@ Settings::Settings(QWidget *parent) :
     elem_layout->addRow(reverse_shortcut_checkbox, reverse_shortcut_edit);
     elem_layout->addRow(tray_checkbox, new QWidget(this));
     elem_layout->addRow(dictionary_checkbox, new QWidget(this));
+    elem_layout->addRow(run_at_startup_checkbox, new QWidget(this));
 
     QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->addLayout(elem_layout);
@@ -94,6 +98,11 @@ bool Settings::dictionaryEnabled()
     return dictionary_checkbox->isChecked();
 }
 
+bool Settings::runAtStartup()
+{
+    return run_at_startup_checkbox->isChecked();
+}
+
 QKeySequence Settings::translateShortcut() const
 {
     return translate_shortcut_edit->keySequence();
@@ -123,6 +132,7 @@ void Settings::changeEvent(QEvent *e) {
             translate_shortcut_checkbox->setText(tr("Translate"));
             reverse_shortcut_checkbox->setText(tr("Reverse translate"));
             dictionary_checkbox->setText(tr("Show dictionary results"));
+            run_at_startup_checkbox->setText(tr("Run at Startup"));
             language_label->setText(tr("Application language"));
             setWindowTitle(tr("Configure"));
     }
@@ -142,6 +152,7 @@ void Settings::accept()
     settings->setValue("Language", language_combobox->currentText());
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
     settings->setValue("ShowDictionary", dictionary_checkbox->isChecked());
+    autostart_manager->setAutoStart(run_at_startup_checkbox->isChecked());
 
     QDialog::accept();
 }
@@ -155,4 +166,5 @@ void Settings::read()
     reverse_shortcut_edit->setKeySequence(settings->value("ReverseShortcut", DEFAULT_REVERSE_SHORTCUT).toString());
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
     dictionary_checkbox->setChecked(settings->value("ShowDictionary", false).toBool());
+    run_at_startup_checkbox->setChecked(autostart_manager->autoStart());
 }
