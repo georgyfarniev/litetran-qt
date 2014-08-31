@@ -1,84 +1,140 @@
 #include "popup.h"
-#include <QToolTip>
+#include "defines.h"
+#include "pronounce.h"
+#include <QPainter>
+#include <QPixmap>
+#include <QBitmap>
+#include <QPaintEvent>
 #include <QDebug>
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QToolButton>
+#include <QAction>
+#include <QToolBar>
+#include <QToolTip>
 #include <QTextBrowser>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QToolButton>
+#include <QCursor>
 #include <QScrollBar>
-#include <QLabel>
+#include <QClipboard>
+#include <QApplication>
 
-Popup::Popup(QWidget *parent) :
-    QFrame(parent),
-    cursor_locked(false),
-    textLabel(new QTextBrowser(this)),
-    fm(textLabel->font()),
-    button_copy(new QToolButton(this)),
-    button_pronounce(new QToolButton(this))
+#define TOOLTIP_ROUNDNESS 6
+
+PopupToolBar::PopupToolBar(QWidget *parent) :
+    QWidget(parent),
+    main_layout(new QHBoxLayout)
 {
-    timer.setSingleShot(true);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(hide()));
-
-
-    QLabel *l2 = new QLabel("LiteTran (tm)", this);
-    QHBoxLayout *top_layout = new QHBoxLayout;
-    top_layout->addWidget(button_copy);
-    top_layout->addWidget(button_pronounce);
-    top_layout->addStretch();
-    top_layout->addWidget(l2);
-
-    QVBoxLayout *l = new QVBoxLayout;
-    l->addLayout(top_layout);
-    l->addWidget(textLabel);
-
-
-    button_copy->setFixedSize(16,16);
-    button_pronounce->setFixedSize(16,16);
-
-    this->setLayout(l);
-
-    setWindowFlags(Qt::CustomizeWindowHint | Qt::Popup);
-    l->setContentsMargins(0,0,0,0);
-    top_layout->setContentsMargins(4,4,2,2);
-//    textLabel->setContentsMargins(0,0,0,0);
-    button_copy->setContentsMargins(2,2,2,2);
-    button_pronounce->setContentsMargins(2,2,2,2);
-
-//    setMinimumWidth(250);
-//    setMinimumHeight(250);
-
-    setMaximumWidth(350);
-    setMaximumHeight(400);
-
-//    setStyleSheet("background: white;");
-//    setStyleSheet("background: white; border: 1px solid black 25px");
-    setFrameShape(QFrame::StyledPanel);
-    setFrameShadow(QFrame::Sunken);
-
-    textLabel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    textLabel->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    textLabel->verticalScrollBar()->setStyleSheet("QScrollBar {width:4px; background: white;}");
-
+//    main_layout->setContentsMargins(0, 0, 20, 0);
+    main_layout->setContentsMargins(0, 0, 0, 0);
+    setLayout(main_layout);
+    main_layout->addStretch();
 }
 
-void Popup::displayText(const QString &text)
+void PopupToolBar::addAction(QAction *action)
 {
-    //calculate longest string
-    textLabel->setText(text);
-//    uint sz = (fm.height() * text.split("<br>").size()) + 20;
-    uint sz = (fm.height() * text.count("<br>")) + 30;
-    qDebug() << "HEIGHT: " << sz;
-    this->resize(fm.width(text) + 20, sz);//fm.width(text));
-
-    move(cursor_pos);
-
-    show();
-    timer.start(POPUP_MIN_TIMEOUT + (text.split(" ").size() * 1000));
+    QToolButton *button = new QToolButton(this);
+    button->setAutoRaise(true);
+    button->setDefaultAction(action);
+    main_layout->addWidget(button);
 }
 
-void Popup::freezeCursorPosition()
+
+Popup::Popup(Pronounce *pronounce, QWidget *parent) :
+    QWidget(parent),
+    pronounce_engine(pronounce),
+    text_browser(new QTextBrowser(this)),
+    bottom_toolbar(new PopupToolBar(this)),
+    action_copy(new QAction(APP_ICON("copy"), "Copy", this)),
+    action_speak(new QAction(APP_ICON("play"), "Speak", this)),
+    action_open(new QAction(APP_ICON("litetran"), "Open LiteTran", this)),
+    action_close(new QAction(APP_ICON("exit"), "About", this))
 {
-    cursor_pos = QCursor::pos();
+    setWindowFlags(Qt::Popup);
+    bottom_toolbar->setContentsMargins(55, 0, 0, 0);
+    bottom_toolbar->addAction(action_copy);
+    bottom_toolbar->addAction(action_speak);
+    bottom_toolbar->addAction(action_open);
+    bottom_toolbar->addAction(action_close);
+
+    QVBoxLayout *main_layout = new QVBoxLayout;
+    main_layout->setContentsMargins(6, 6, 6, 6);
+    main_layout->addWidget(text_browser);
+    main_layout->addWidget(bottom_toolbar);
+
+    setLayout(main_layout);
+
+    connect(action_copy, &QAction::triggered, this, &Popup::copy);
+    connect(action_speak, &QAction::triggered, this, &Popup::pronounce);
+    connect(action_open, &QAction::triggered, this, &Popup::showMainWindow);
+    connect(action_close, &QAction::triggered, this, &Popup::disappear);
+
+    this->setMouseTracking(true);
+}
+
+void Popup::show(const QString &tl, const QString &text)
+{
+    lang = tl;
+    text_browser->setHtml(text);
+    move(QCursor::pos() + QPoint(16, 16));
+    QWidget::show();
+}
+
+void Popup::copy()
+{
+    qApp->clipboard()->setText(translatedWord());
+}
+
+void Popup::pronounce()
+{
+    pronounce_engine->say(translatedWord(), lang);
+}
+
+void Popup::showMainWindow()
+{
+    hide();
+    parentWidget()->setWindowState(Qt::WindowActive);
+    parentWidget()->show();
+}
+
+void Popup::disappear()
+{
+    hide();
+}
+
+QString Popup::translatedWord() const
+{
+    return  text_browser->toPlainText().split("\n").first();
+}
+
+void Popup::paintEvent(QPaintEvent *e)
+{
+    redraw();
+    e->accept();
+}
+
+void Popup::mouseMoveEvent(QMouseEvent *e)
+{
+    redraw();
+    text_browser->setVerticalScrollBarPolicy((this->underMouse() || text_browser->underMouse()) ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
+    e->accept();
+}
+
+void Popup::redraw()
+{
+    QPixmap pixmap(size());
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.fillRect(pixmap.rect(), Qt::white);
+    painter.setBrush(Qt::black);
+
+    QRect rect = pixmap.rect();
+    rect.setHeight(rect.height() - bottom_toolbar->height() - TOOLTIP_ROUNDNESS);
+
+    painter.drawRoundedRect(rect, TOOLTIP_ROUNDNESS, TOOLTIP_ROUNDNESS);
+
+    if (this->underMouse() || text_browser->underMouse()) {
+        QRect rect2(rect.topLeft(), rect.bottomRight());
+        rect2.setHeight(rect2.height() + bottom_toolbar->height() + TOOLTIP_ROUNDNESS);
+        painter.drawRoundedRect(rect2, TOOLTIP_ROUNDNESS, TOOLTIP_ROUNDNESS);
+    }
+    setMask(pixmap.createMaskFromColor(Qt::white));
 }

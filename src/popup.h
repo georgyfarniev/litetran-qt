@@ -1,33 +1,50 @@
 #pragma once
 
-#include <QObject>
-#include <QPoint>
-#include <QTimer>
-#include <QFontMetrics>
-#include <QFrame>
+#include <QWidget>
+#include <QTextBrowser>
 
-#define POPUP_MIN_TIMEOUT 5000
-#define POPUP_WIDTH 640
-
+class QPaintEvent;
+class QMouseEvent;
+class QToolBar;
+class QAction;
+class QHBoxLayout;
 class QTextBrowser;
-class QToolButton;
+class Pronounce;
 
-class Popup : public QFrame
+
+class PopupToolBar : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Popup(QWidget *parent = 0);
-public slots:
-    void displayText(const QString &text);
-    void freezeCursorPosition();
+    explicit PopupToolBar(QWidget *parent = 0);
+    void addAction(QAction *action);
 private:
-    bool cursor_locked;
-    QPoint cursor_pos;
-    QTimer timer;
-    QTextBrowser *textLabel;
-    QFontMetrics fm;
+    QHBoxLayout *main_layout;
+};
 
-    QToolButton *button_copy;
-    QToolButton *button_pronounce;
-    QToolButton *button_pin;
+class Popup : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit Popup(Pronounce *pronounce, QWidget *parent = 0);
+    void show(const QString &tl, const QString &text);
+private slots:
+    void copy();
+    void pronounce();
+    void showMainWindow();
+    void disappear();
+private:
+    QString translatedWord() const;
+    void paintEvent(QPaintEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+
+    void redraw();
+    QString lang;
+    Pronounce *pronounce_engine;
+    QTextBrowser *text_browser;
+    PopupToolBar *bottom_toolbar;
+    QAction *action_copy;
+    QAction *action_speak;
+    QAction *action_open;
+    QAction *action_close;
 };

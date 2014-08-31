@@ -66,7 +66,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     tray_icon(new TrayIcon(this)),
     translate_engine(new Translate(this)),
     pronounce_engine(new Pronounce(this)),
-    popup(new Popup())
+    popup(new Popup(pronounce_engine, this))
 {
 #ifdef Q_OS_MAC
     menu_button->setStyle(new QCommonStyle());
@@ -171,8 +171,6 @@ MainWindow::~MainWindow()
     settings->setValue("ResultLanguage", result_combobox->currentText());
     settings->setValue("Geometry", saveGeometry());
     settings->setValue("Visible", isVisible());
-
-    delete popup;
 }
 
 void MainWindow::about()
@@ -194,7 +192,7 @@ void MainWindow::swap()
 
 void MainWindow::translateText(const QString &sl, const QString &tl)
 {
-    popup->freezeCursorPosition();
+//    popup->freezeCursorPosition();
 
     if(!applicationInFocus())
         source_text->setPlainText(clipboard->selectedText());
@@ -203,7 +201,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
     result_text->setHtml(result);
 
     if(!applicationInFocus())
-        popup->displayText(result);
+        popup->show(tl, result);
 }
 
 void MainWindow::translate()
