@@ -19,8 +19,8 @@ TextToolbar::TextToolbar(QWidget *parent) :
     addAction(action_copy);
     addAction(action_pronounce);
 
-    connect(action_copy, SIGNAL(triggered()), SIGNAL(requestCopy()));
-    connect(action_pronounce, SIGNAL(triggered()), SIGNAL(requestPronounce()));
+    connect(action_copy, &QAction::triggered, this, &TextToolbar::requestCopy);
+    connect(action_pronounce, &QAction::triggered, this,  &TextToolbar::requestPronounce);
 
     setIconSize(QSize(16, 16));
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));

@@ -9,7 +9,7 @@ TrayIcon::TrayIcon(QObject *parent) :
 {
     setContextMenu(menu);
     setIcon(APP_ICON("litetran"));
-    connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(onActivate(QSystemTrayIcon::ActivationReason)));
+    connect(this, &TrayIcon::activated, this, &TrayIcon::onActivate);
 }
 
 TrayIcon::~TrayIcon()

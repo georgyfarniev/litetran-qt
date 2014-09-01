@@ -8,7 +8,7 @@ Pronounce::Pronounce(QObject *parent) :
     player(new QMediaPlayer(this)),
     file(new QTemporaryFile(this))
 {
-    connect(player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(removeTemporaryFile()));
+    connect(player, &QMediaPlayer::stateChanged, this, &Pronounce::removeTemporaryFile);
 }
 
 void Pronounce::say(const QString &text, const QString &lang)

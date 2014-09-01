@@ -33,10 +33,10 @@ Settings::Settings(QWidget *parent) :
     button_box(new QDialogButtonBox(this)),
     autostart_manager(new AutoStart(this))
 {
-    connect(translate_shortcut_checkbox, SIGNAL(toggled(bool)), translate_shortcut_edit, SLOT(setEnabled(bool)));
-    connect(reverse_shortcut_checkbox, SIGNAL(toggled(bool)), reverse_shortcut_edit, SLOT(setEnabled(bool)));
-    connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(translate_shortcut_checkbox, &QCheckBox::toggled, translate_shortcut_edit, &QKeySequenceEdit::setEnabled);
+    connect(reverse_shortcut_checkbox, &QCheckBox::toggled, reverse_shortcut_edit, &QKeySequenceEdit::setEnabled);
+    connect(button_box, &QDialogButtonBox::accepted, this, &Settings::accept);
+    connect(button_box, &QDialogButtonBox::rejected, this, &Settings::reject);
 
     QFormLayout *elem_layout = new QFormLayout;    
     elem_layout->addRow(language_label, language_combobox);

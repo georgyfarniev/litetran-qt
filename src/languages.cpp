@@ -31,7 +31,7 @@ Languages::Languages(QWidget *parent) :
         QListWidgetItem *item = new QListWidgetItem;
         item->setText(lang.first);
         item->setIcon(APP_FLAG(lang.second));
-        item->setData(Qt::UserRole,lang.second);
+        item->setData(Qt::UserRole, lang.second);
         lang_widget->addItem(item);
     }
 
@@ -41,9 +41,9 @@ Languages::Languages(QWidget *parent) :
     lang_widget->setIconSize(QSize(16, 16));
     lang_widget->setWrapping(true);
 
-    connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(set_button, SIGNAL(clicked()), this, SLOT(setUnsetAll()));
+    connect(button_box, &QDialogButtonBox::accepted, this, &Languages::accept);
+    connect(button_box, &QDialogButtonBox::rejected, this, &Languages::reject);
+    connect(set_button, &QPushButton::clicked, this, &Languages::setUnsetAll);
 
     setFixedSize(450, 300);
 }

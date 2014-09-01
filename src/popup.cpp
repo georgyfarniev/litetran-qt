@@ -10,7 +10,7 @@ Popup::Popup(QObject *parent) :
     cursor_locked(false)
 {
     timer.setSingleShot(true);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(hidePopup()));
+    connect(&timer, &QTimer::timeout, this, &Popup::hidePopup);
 }
 
 void Popup::show(const QString &text)
