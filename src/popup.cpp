@@ -11,11 +11,13 @@
 #include <QToolTip>
 #include <QTextBrowser>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QToolButton>
 #include <QCursor>
 #include <QScrollBar>
 #include <QClipboard>
 #include <QApplication>
+#include <QSpacerItem>
 
 #define TOOLTIP_ROUNDNESS 6
 
@@ -23,10 +25,8 @@ PopupToolBar::PopupToolBar(QWidget *parent) :
     QWidget(parent),
     main_layout(new QHBoxLayout)
 {
-//    main_layout->setContentsMargins(0, 0, 20, 0);
     main_layout->setContentsMargins(0, 0, 0, 0);
     setLayout(main_layout);
-    main_layout->addStretch();
 }
 
 void PopupToolBar::addAction(QAction *action)
@@ -35,6 +35,11 @@ void PopupToolBar::addAction(QAction *action)
     button->setAutoRaise(true);
     button->setDefaultAction(action);
     main_layout->addWidget(button);
+}
+
+void PopupToolBar::addStretch()
+{
+    main_layout->addStretch();
 }
 
 
@@ -50,6 +55,8 @@ Popup::Popup(Pronounce *pronounce, QWidget *parent) :
 {
     setWindowFlags(Qt::Popup);
     bottom_toolbar->setContentsMargins(55, 0, 0, 0);
+
+    bottom_toolbar->addStretch();
     bottom_toolbar->addAction(action_copy);
     bottom_toolbar->addAction(action_speak);
     bottom_toolbar->addAction(action_open);
@@ -68,6 +75,7 @@ Popup::Popup(Pronounce *pronounce, QWidget *parent) :
     connect(action_close, &QAction::triggered, this, &Popup::disappear);
 
     this->setMouseTracking(true);
+//    setStyleSheet("Popup {background: #6B6B6B;}");
 }
 
 void Popup::show(const QString &tl, const QString &text)
@@ -114,7 +122,13 @@ void Popup::paintEvent(QPaintEvent *e)
 void Popup::mouseMoveEvent(QMouseEvent *e)
 {
     redraw();
-    text_browser->setVerticalScrollBarPolicy((this->underMouse() || text_browser->underMouse()) ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
+//    text_browser->setVerticalScrollBarPolicy((this->underMouse() || text_browser->underMouse()) ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
+    e->accept();
+}
+
+void Popup::keyPressEvent(QKeyEvent *e)
+{
+//    hide();
     e->accept();
 }
 
@@ -137,4 +151,13 @@ void Popup::redraw()
         painter.drawRoundedRect(rect2, TOOLTIP_ROUNDNESS, TOOLTIP_ROUNDNESS);
     }
     setMask(pixmap.createMaskFromColor(Qt::white));
+    painter.end();
+
+    painter.begin(this);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.setPen(Qt::black);
+    QRect r3 = this->rect();
+    r3.setWidth(r3.width() - 1);
+    r3.setHeight(r3.height() - 1);
+    painter.drawRoundedRect(r3, TOOLTIP_ROUNDNESS, TOOLTIP_ROUNDNESS);
 }

@@ -5,6 +5,7 @@
 
 class QPaintEvent;
 class QMouseEvent;
+class QKeyEvent;
 class QToolBar;
 class QAction;
 class QHBoxLayout;
@@ -18,6 +19,7 @@ class PopupToolBar : public QWidget
 public:
     explicit PopupToolBar(QWidget *parent = 0);
     void addAction(QAction *action);
+    void addStretch();
 private:
     QHBoxLayout *main_layout;
 };
@@ -37,6 +39,7 @@ private:
     QString translatedWord() const;
     void paintEvent(QPaintEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void keyPressEvent(QKeyEvent *e);
 
     void redraw();
     QString lang;
