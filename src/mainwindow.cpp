@@ -241,16 +241,13 @@ void MainWindow::changeEvent(QEvent *e) {
         result_combobox->setToolTip(tr("Result language"));
 
         about_title = tr("About LiteTran");
-        about_text = tr("LiteTran is a lightweight text translation program."
-                        "Just select some text, press hotkey and get translation in small popup!"
-                        "\n\nLiteTran is licensed under GPL3\n"
-                        "Homepage: https://github.com/flareguner/litetran\n"
-                        "\nAuthors:\n"
-                        "flareguner - author <flarguner@gmail.com>\n"
-                        "Yurij Mikhalevich - Mac OS port and testing <0@39.yt>\n"
-                        "Uri Herrera, Nitrux S.A. - Icon and logo <contact@nitrux.in>"
-                        "\n\nVersion: ");
-        about_text += APP_VERSION;
+
+        QFile file(QString("%1/about/%2.html").arg(APP_I18N_DIR, settings_dialog->language()));
+        if (!file.open(QFile::ReadOnly))
+            qWarning() << "Cannot open About dialog text file: " << file.errorString();
+        about_text = file.readAll();
+        about_text.replace("@VERSION@", APP_VERSION);
+        file.close();
         source_text->setPlaceholderText(tr("Enter text to translate here..."));
     }
 }
