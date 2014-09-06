@@ -1,17 +1,18 @@
 #pragma once
 
 #include <QWidget>
-#include <QTextBrowser>
+#include <QTimer>
+#include <QRect>
 
+class QEvent;
 class QPaintEvent;
 class QMouseEvent;
 class QKeyEvent;
 class QToolBar;
 class QAction;
-class QHBoxLayout;
 class QTextBrowser;
-class Pronounce;
-
+class QLabel;
+class QHBoxLayout;
 
 class PopupToolBar : public QWidget
 {
@@ -19,6 +20,7 @@ class PopupToolBar : public QWidget
 public:
     explicit PopupToolBar(QWidget *parent = 0);
     void addAction(QAction *action);
+    void addWidget(QWidget *widget);
     void addStretch();
 private:
     QHBoxLayout *main_layout;
@@ -28,26 +30,32 @@ class Popup : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Popup(Pronounce *pronounce, QWidget *parent = 0);
-    void show(const QString &tl, const QString &text);
+    explicit Popup(QWidget *parent = 0);
+    void display(const QString &sl, const QString &tl, const QString &text);
+    void recordCursorPosition();
 private slots:
     void copy();
-    void pronounce();
     void showMainWindow();
     void disappear();
+signals:
+    void pronounceRequested();
 private:
+    QString getLongestString(const QStringList &lst) const;
     QString translatedWord() const;
     void paintEvent(QPaintEvent *e);
-    void mouseMoveEvent(QMouseEvent *e);
-    void keyPressEvent(QKeyEvent *e);
-
-    void redraw();
-    QString lang;
-    Pronounce *pronounce_engine;
+    void mouseReleaseEvent(QMouseEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
+    void changeEvent(QEvent *e);
+    PopupToolBar *toolbar;
+    QPoint cursor_pos;
+    QTimer disappear_timer;
+    QRect screen_geometry;
     QTextBrowser *text_browser;
-    PopupToolBar *bottom_toolbar;
     QAction *action_copy;
-    QAction *action_speak;
+    QAction *action_pronounce;
     QAction *action_open;
     QAction *action_close;
+    QLabel *label_text;
+    QLabel *label_sl;
+    QLabel *label_tl;
 };

@@ -19,7 +19,6 @@ elseif(WIN32)
     set(APP_GUI_TYPE WIN32)
     set(QT_USE_QTMAIN TRUE)
 endif()
-
 project(${APP_NAME})
 set(PROJECT_VERSION ${APP_VERSION})
 

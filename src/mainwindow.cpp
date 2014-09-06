@@ -66,7 +66,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     tray_icon(new TrayIcon(this)),
     translate_engine(new Translate(this)),
     pronounce_engine(new Pronounce(this)),
-    popup(new Popup(pronounce_engine, this))
+    popup(new Popup(this))
 {
 #ifdef Q_OS_MAC
     menu_button->setStyle(new QCommonStyle());
@@ -140,6 +140,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(translate_shortcut_global, SIGNAL(activated()), this, SLOT(translate()));
     connect(reverse_shortcut_global, SIGNAL(activated()), this, SLOT(reverse()));
+    connect(popup, SIGNAL(pronounceRequested()), this, SLOT(pronounceResultText()));
 
     tray_icon->addAction(action_settings);
     tray_icon->addSeparator();
@@ -192,7 +193,7 @@ void MainWindow::swap()
 
 void MainWindow::translateText(const QString &sl, const QString &tl)
 {
-//    popup->freezeCursorPosition();
+    popup->recordCursorPosition();
 
     if(!applicationInFocus())
         source_text->setPlainText(clipboard->selectedText());
@@ -201,7 +202,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
     result_text->setHtml(result);
 
     if(!applicationInFocus())
-        popup->show(tl, result);
+        popup->display(sl, tl, result);
 }
 
 void MainWindow::translate()
