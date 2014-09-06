@@ -210,7 +210,6 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
 
 void MainWindow::translate()
 {
-    qDebug() << applicationInFocus();
     setCursor(QCursor(Qt::WaitCursor));
     translateText(sourceLanguage(), resultLanguage());
     setCursor(QCursor());

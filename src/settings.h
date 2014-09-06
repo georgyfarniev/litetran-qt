@@ -12,6 +12,7 @@ class QComboBox;
 class QKeySequenceEdit;
 class QDialogButtonBox;
 class QLabel;
+class QGroupBox;
 class AutoStart;
 
 class Settings : public QDialog
@@ -55,6 +56,8 @@ private:
     QKeySequenceEdit *reverse_shortcut_edit;
     QComboBox *language_combobox;
     QLabel *language_label;
+    QGroupBox *groupbox_app;
+    QGroupBox *groupbox_keyboard;
     QDialogButtonBox *button_box;
     AutoStart *autostart_manager;
 };

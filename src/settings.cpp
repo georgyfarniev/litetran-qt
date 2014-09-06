@@ -16,6 +16,7 @@
 #include <QSpacerItem>
 #include <QMessageBox>
 #include <QKeySequenceEdit>
+#include <QGroupBox>
 
 
 Settings::Settings(QWidget *parent) :
@@ -30,6 +31,8 @@ Settings::Settings(QWidget *parent) :
     reverse_shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
     language_label(new QLabel(this)),
+    groupbox_app(new QGroupBox(this)),
+    groupbox_keyboard(new QGroupBox(this)),
     button_box(new QDialogButtonBox(this)),
     autostart_manager(new AutoStart(this))
 {
@@ -38,16 +41,22 @@ Settings::Settings(QWidget *parent) :
     connect(button_box, &QDialogButtonBox::accepted, this, &Settings::accept);
     connect(button_box, &QDialogButtonBox::rejected, this, &Settings::reject);
 
-    QFormLayout *elem_layout = new QFormLayout;    
-    elem_layout->addRow(language_label, language_combobox);
-    elem_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
-    elem_layout->addRow(reverse_shortcut_checkbox, reverse_shortcut_edit);
-    elem_layout->addRow(tray_checkbox, new QWidget(this));
-    elem_layout->addRow(dictionary_checkbox, new QWidget(this));
-    elem_layout->addRow(run_at_startup_checkbox, new QWidget(this));
+    QFormLayout *app_layout = new QFormLayout;
+    app_layout->addRow(language_label, language_combobox);
+    app_layout->addRow(tray_checkbox, new QWidget(this));
+    app_layout->addRow(dictionary_checkbox, new QWidget(this));
+    app_layout->addRow(run_at_startup_checkbox, new QWidget(this));
+
+    QFormLayout *keyboard_layout = new QFormLayout;
+    keyboard_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
+    keyboard_layout->addRow(reverse_shortcut_checkbox, reverse_shortcut_edit);
+
+    groupbox_app->setLayout(app_layout);
+    groupbox_keyboard->setLayout(keyboard_layout);
 
     QVBoxLayout *main_layout = new QVBoxLayout;
-    main_layout->addLayout(elem_layout);
+    main_layout->addWidget(groupbox_app);
+    main_layout->addWidget(groupbox_keyboard);
     main_layout->addWidget(button_box);
     main_layout->setSizeConstraint(QLayout::SetFixedSize);
     setLayout(main_layout);
@@ -63,6 +72,7 @@ Settings::Settings(QWidget *parent) :
         language_combobox->addItem(qmfile);
     }
 
+    language_combobox->adjustSize();
     settings->beginGroup("Settings");
 
     // Try to set language from locale, English is a fallback language.
@@ -135,6 +145,8 @@ void Settings::changeEvent(QEvent *e) {
             run_at_startup_checkbox->setText(tr("Run at Startup"));
             language_label->setText(tr("Application language"));
             setWindowTitle(tr("Configure"));
+            groupbox_app->setTitle(tr("Application"));
+            groupbox_keyboard->setTitle(tr("Keyboard"));
     }
 }
 
