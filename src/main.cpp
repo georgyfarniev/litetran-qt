@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     bool collapsed = parser.isSet(opt_collapsed);
     MainWindow window(collapsed);
 
-    QObject::connect(&srv, SIGNAL(newConnection()), &window, SLOT(show()));
+    QObject::connect(&srv, &QLocalServer::newConnection, &window, &MainWindow::show);
 
     return app.exec();
 }

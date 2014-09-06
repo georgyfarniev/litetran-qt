@@ -17,13 +17,9 @@ Clipboard::Clipboard(QObject *parent) :
 
 QString Clipboard::selectedText() const {
     QString text;
-
-#ifdef APP_WM_X11
+#if defined(APP_WM_X11)
     text = clipboard->text(QClipboard::Selection);
-#endif
-
-
-#ifdef APP_WM_WINDOWS
+#elif defined(APP_WM_WINDOWS)
     Sleep(200);
     // Send Ctrl+C to current window
     INPUT ip;
@@ -55,9 +51,7 @@ QString Clipboard::selectedText() const {
     Sleep(200);
 
     text = clipboard->text(QClipboard::Clipboard);
-#endif
-
-#ifdef APP_WM_COCOCA
+#elif defined(APP_WM_COCOCA)
     QFile file(APP_OSX_TEXTFILE);
     if(!file.open(QFile::ReadOnly | QFile::Text))
         qWarning() << "Cannot open temp file at " << APP_OSX_TEXTFILE;

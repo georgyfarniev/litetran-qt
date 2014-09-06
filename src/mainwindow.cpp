@@ -122,25 +122,25 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 
     result_text->setReadOnly(true);
 
-    connect(action_swap, SIGNAL(triggered()), this, SLOT(swap()));
-    connect(action_settings, SIGNAL(triggered()), settings_dialog, SLOT(exec()));
-    connect(action_languages, SIGNAL(triggered()), languages_dialog, SLOT(exec()));
-    connect(action_exit, SIGNAL(triggered()), this, SLOT(quit()));
-    connect(action_about, SIGNAL(triggered()), this, SLOT(about()));
-    connect(translate_shortcut, SIGNAL(activated()), translate_button, SLOT(click()));
-    connect(settings_dialog, SIGNAL(accepted()), this, SLOT(updateSettings()));
-    connect(languages_dialog, SIGNAL(accepted()), this, SLOT(updateLanguages()));
-    connect(toolbar_source_text, SIGNAL(requestCopy()), source_text, SLOT(copyAll()));
-    connect(toolbar_result_text, SIGNAL(requestCopy()), result_text, SLOT(copyAll()));
-    connect(toolbar_source_text, SIGNAL(requestPronounce()), this, SLOT(pronounceSourceText()));
-    connect(toolbar_result_text, SIGNAL(requestPronounce()), this, SLOT(pronounceResultText()));
-    connect(translate_button, SIGNAL(pressed()), this, SLOT(translate()));
-    connect(swap_button, SIGNAL(clicked()), this, SLOT(swap()));
-    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
+    connect(action_swap, &QAction::triggered, this, &MainWindow::swap);
+    connect(action_settings, &QAction::triggered, settings_dialog, &Settings::exec);
+    connect(action_languages, &QAction::triggered, languages_dialog, &Languages::exec);
+    connect(action_exit, &QAction::triggered, this, &MainWindow::quit);
+    connect(action_about, &QAction::triggered, this, &MainWindow::about);
+    connect(translate_shortcut, &QShortcut::activated, translate_button, &QPushButton::click);
+    connect(settings_dialog, &QDialog::accepted, this, &MainWindow::updateSettings);
+    connect(languages_dialog, &QDialog::accepted, this, &MainWindow::updateLanguages);
+    connect(toolbar_source_text, &TextToolbar::requestCopy, source_text, &TextEdit::copyAll);
+    connect(toolbar_result_text, &TextToolbar::requestCopy, result_text, &TextEdit::copyAll);
+    connect(toolbar_source_text, &TextToolbar::requestPronounce, this, &MainWindow::pronounceSourceText);
+    connect(toolbar_result_text, &TextToolbar::requestPronounce, this, &MainWindow::pronounceResultText);
+    connect(translate_button, &QPushButton::clicked, this, &MainWindow::translate);
+    connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
+    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(translate()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
-    connect(translate_shortcut_global, SIGNAL(activated()), this, SLOT(translate()));
-    connect(reverse_shortcut_global, SIGNAL(activated()), this, SLOT(reverse()));
-    connect(popup, SIGNAL(pronounceRequested()), this, SLOT(pronounceResultText()));
+    connect(translate_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
+    connect(reverse_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
+    connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounceResultText);
 
     tray_icon->addAction(action_settings);
     tray_icon->addSeparator();

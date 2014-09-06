@@ -14,7 +14,7 @@ QByteArray Request::GET(QUrl req)
     QNetworkAccessManager manager;
     QEventLoop loop;
 
-    QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
+    QObject::connect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
     QNetworkReply *reply  = manager.get(QNetworkRequest(req));
 
     loop.exec();
