@@ -136,7 +136,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(toolbar_result_text, &TextToolbar::requestPronounce, this, &MainWindow::pronounceResultText);
     connect(translate_button, &QPushButton::clicked, this, &MainWindow::translate);
     connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
-    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(translate()));
+    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(translate_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
     connect(reverse_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
@@ -149,8 +149,11 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_exit);
 
+
     updateLanguages();
     settings->beginGroup("MainWindow");
+
+
 
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
@@ -187,8 +190,8 @@ void MainWindow::quit()
 void MainWindow::swap()
 {
     const int idx = source_combobox->currentIndex();
-    source_combobox->setCurrentIndex(result_combobox->currentIndex());
-    result_combobox->setCurrentIndex(idx);
+    source_combobox->setCurrentIndex(result_combobox->currentIndex()  + 1);
+    result_combobox->setCurrentIndex(idx - 1);
 }
 
 void MainWindow::translateText(const QString &sl, const QString &tl)
@@ -355,6 +358,10 @@ void MainWindow::languageChanged()
     tooltip += "\n\n" + source_combobox->currentText();
     tooltip += " - " + result_combobox->currentText();
 
+    const bool enabled = source_combobox->currentIndex() != 0;
+    action_swap->setEnabled(enabled);
+    swap_button->setEnabled(enabled);
+
     tray_icon->setToolTip(tooltip);
 }
 
@@ -365,6 +372,7 @@ void MainWindow::updateLanguages()
 
     source_combobox->clear();
     result_combobox->clear();
+    source_combobox->addItem(APP_FLAG("auto"), "Auto", "auto");
     LanguageList langs = languages_dialog->languages();
     foreach(Language lang, langs) {
         const QString name = lang.first;
