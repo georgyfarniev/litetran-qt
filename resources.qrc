@@ -55,5 +55,6 @@
         <file>icons/ui/menu.png</file>
         <file>icons/ui/languages.png</file>
         <file>icons/flags/auto.png</file>
+        <file>icons/ui/close.png</file>
     </qresource>
 </RCC>

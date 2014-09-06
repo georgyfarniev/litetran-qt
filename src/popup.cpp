@@ -62,7 +62,7 @@ Popup::Popup(QWidget *parent) :
     action_copy->setIcon(APP_ICON("copy"));
     action_pronounce->setIcon(APP_ICON("play"));
     action_open->setIcon(APP_ICON("litetran"));
-    action_close->setIcon(APP_ICON("exit"));
+    action_close->setIcon(APP_ICON("close"));
     setWindowFlags(Qt::Popup);
     toolbar->setContentsMargins(0, 0, 0, 0);
     toolbar->addAction(action_close);
