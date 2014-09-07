@@ -5,11 +5,6 @@
 #include <QNetworkRequest>
 #include <QMessageBox>
 
-Request::Request(QObject *parent) :
-    QObject(parent)
-{
-}
-
 QByteArray Request::GET(QUrl req)
 {
     QNetworkAccessManager manager;
