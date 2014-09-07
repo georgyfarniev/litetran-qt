@@ -31,7 +31,7 @@ class Popup : public QWidget
     Q_OBJECT
 public:
     explicit Popup(QWidget *parent = 0);
-    void display(const QString &sl, const QString &tl, const QString &text);
+    void display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text);
     void recordCursorPosition();
 private slots:
     void copy();

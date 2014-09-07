@@ -94,10 +94,13 @@ Popup::Popup(QWidget *parent) :
     disappear_timer.setSingleShot(true);
 }
 
-void Popup::display(const QString &sl, const QString &tl, const QString &text)
+void Popup::display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text)
 {
-    label_sl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sl)).scaled(16, 16));
-    label_tl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tl)).scaled(16, 16));
+    label_sl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)).scaled(16, 16));
+    label_tl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)).scaled(16, 16));
+
+    label_sl->setToolTip(sl);
+    label_tl->setToolTip(tl);
     const int words_count = translatedWord().split(" ").size();
     text_browser->setHtml(text);
 

@@ -205,7 +205,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
     result_text->setHtml(result);
 
     if(!applicationInFocus())
-        popup->display(sl, tl, result);
+        popup->display(source_combobox->currentText(), result_combobox->currentText(), sl, tl, result);
 }
 
 void MainWindow::translate()
