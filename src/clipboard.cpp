@@ -20,17 +20,13 @@ QString Clipboard::selectedText() const {
 #if defined(APP_WM_X11)
     text = clipboard->text(QClipboard::Selection);
 #elif defined(APP_WM_WINDOWS)
-    HWND hwnd = GetActiveWindow();
-    if (IsWindow(hwnd)) {
-//        SendMessage(hwnd, WM_KEYDOWN, VK_CONTROL, 0);
-//        SendMessage(hwnd, WM_KEYDOWN, 'C', 0);
-//        SendMessage(hwnd, WM_KEYUP, 'C', 0);
-//        SendMessage(hwnd, WM_KEYUP, VK_CONTROL, 0);
-        SendMessage(hwnd, WM_COPY, 0, 0);
-
-        Sleep(200);
-        text = clipboard->text(QClipboard::Clipboard);
-    }
+    Sleep(200);
+    keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL,0), KEYEVENTF_EXTENDEDKEY | 0,0);
+    keybd_event('C', MapVirtualKey('C',0), KEYEVENTF_EXTENDEDKEY | 0,0);
+    keybd_event('C', MapVirtualKey('C',0), KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
+    keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL,0), KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
+    Sleep(200);
+    text = clipboard->text(QClipboard::Clipboard);
 #elif defined(APP_WM_COCOCA)
     QFile file(APP_OSX_TEXTFILE);
     if(!file.open(QFile::ReadOnly | QFile::Text))
