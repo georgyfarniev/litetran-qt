@@ -3,6 +3,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QMessageBox>
 
 Request::Request(QObject *parent) :
     QObject(parent)
@@ -18,6 +19,7 @@ QByteArray Request::GET(QUrl req)
     QNetworkReply *reply  = manager.get(QNetworkRequest(req));
 
     loop.exec();
+    Request::checkForError(reply);
 
     return reply->readAll();
 }
@@ -36,6 +38,14 @@ QByteArray Request::POST(const QUrl &url, const QByteArray &data)
     QNetworkReply *reply  = manager.post(req, data);
 
     loop.exec();
+    Request::checkForError(reply);
 
     return reply->readAll();
+}
+
+void Request::checkForError(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+        QMessageBox::critical(0, "Network Error", reply->errorString());
+    }
 }
