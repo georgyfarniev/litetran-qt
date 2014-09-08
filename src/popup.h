@@ -14,18 +14,6 @@ class QTextBrowser;
 class QLabel;
 class QHBoxLayout;
 
-class PopupToolBar : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit PopupToolBar(QWidget *parent = 0);
-    void addAction(QAction *action);
-    void addWidget(QWidget *widget);
-    void addStretch();
-private:
-    QHBoxLayout *main_layout;
-};
-
 class Popup : public QWidget
 {
     Q_OBJECT
@@ -46,7 +34,7 @@ private:
     void mouseReleaseEvent(QMouseEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
     void changeEvent(QEvent *e);
-    PopupToolBar *toolbar;
+    QToolBar *toolbar;
     QPoint cursor_pos;
     QTimer disappear_timer;
     QRect screen_geometry;

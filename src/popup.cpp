@@ -7,8 +7,6 @@
 #include <QToolBar>
 #include <QTextBrowser>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QToolButton>
 #include <QCursor>
 #include <QClipboard>
 #include <QApplication>
@@ -17,38 +15,14 @@
 
 #define POPUP_MIN_TIMEOUT 5000
 #define DEFAULT_SIZE (QSize(300, 220))
+#define ICON_SIZE (QSize(16, 16))
 #define UNICODE_ARROW "\u2192"
 #define SCREEN_CORNER_PADDING 5
 
-PopupToolBar::PopupToolBar(QWidget *parent) :
-    QWidget(parent),
-    main_layout(new QHBoxLayout)
-{
-    main_layout->setContentsMargins(0, 0, 0, 0);
-    setLayout(main_layout);
-}
-
-void PopupToolBar::addAction(QAction *action)
-{
-    QToolButton *button = new QToolButton(this);
-    button->setAutoRaise(true);
-    button->setDefaultAction(action);
-    main_layout->addWidget(button);
-}
-
-void PopupToolBar::addWidget(QWidget *widget)
-{
-    main_layout->addWidget(widget);
-}
-
-void PopupToolBar::addStretch()
-{
-    main_layout->addStretch();
-}
 
 Popup::Popup(QWidget *parent) :
     QWidget(parent),
-    toolbar(new PopupToolBar(this)),
+    toolbar(new QToolBar(this)),
     screen_geometry(qApp->desktop()->geometry()),
     text_browser(new QTextBrowser(this)),
     action_copy(new QAction(this)),
@@ -64,12 +38,21 @@ Popup::Popup(QWidget *parent) :
     action_open->setIcon(APP_ICON("litetran"));
     action_close->setIcon(APP_ICON("close"));
     setWindowFlags(Qt::Popup);
+
+    toolbar->setMovable(false);
+    toolbar->setIconSize(ICON_SIZE);
+    toolbar->setContentsMargins(0, 0, 0, 0);
+    toolbar->setStyleSheet("QToolBar {padding: 0px;}");
+    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+
     toolbar->setContentsMargins(0, 0, 0, 0);
     toolbar->addAction(action_close);
     toolbar->addAction(action_open);
     toolbar->addAction(action_copy);
     toolbar->addAction(action_pronounce);
-    toolbar->addStretch();
+    QWidget *separator = new QWidget(this);
+    separator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    toolbar->addWidget(separator);
     label_sl->setFixedSize(16, 16);
     label_tl->setFixedSize(16, 16);
     toolbar->addWidget(label_sl);
@@ -89,32 +72,32 @@ Popup::Popup(QWidget *parent) :
     connect(action_close, &QAction::triggered, this, &QWidget::hide);
     connect(&disappear_timer, &QTimer::timeout, this, &Popup::disappear);
 
-
     this->setMouseTracking(true);
     disappear_timer.setSingleShot(true);
 }
 
 void Popup::display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text)
 {
-    label_sl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)).scaled(16, 16));
-    label_tl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)).scaled(16, 16));
-
-    label_sl->setToolTip(sl);
-    label_tl->setToolTip(tl);
-    const int words_count = translatedWord().split(" ").size();
     text_browser->setHtml(text);
 
+    label_sl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)).scaled(16, 16));
+    label_tl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)).scaled(16, 16));
+    label_sl->setToolTip(sl);
+    label_tl->setToolTip(tl);
+
+    //DO NOT allow popup to move outside of the screen
     QPoint new_pos(cursor_pos + QPoint(16, 16));
     const QRect intersect = screen_geometry.intersected(QRect(new_pos, DEFAULT_SIZE));
     if (intersect.height() != this->height())
         new_pos = QPoint(new_pos.x(), new_pos.y() - (this->height() - intersect.height()) - SCREEN_CORNER_PADDING);
-
     if (intersect.width() != this->width())
         new_pos = QPoint(new_pos.x() - (this->width() - intersect.width())  - SCREEN_CORNER_PADDING, new_pos.y());
     move(new_pos);
 
     QWidget::show();
     activateWindow();
+
+    const int words_count = translatedWord().split(" ").size();
     disappear_timer.start(POPUP_MIN_TIMEOUT + (words_count * 1000));
 }
 
@@ -181,7 +164,6 @@ void Popup::keyReleaseEvent(QKeyEvent *e)
     hide();
     e->accept();
 }
-
 
 void Popup::changeEvent(QEvent *e)
 {
