@@ -43,6 +43,7 @@ public:
         buf = (wchar_t *)GlobalLock(hMem);
         if(buf == NULL) {
             qWarning() << "GlobalLock() failed";
+            GlobalFree(hMem);
             return;
         }
 
@@ -89,7 +90,6 @@ public:
 #endif
 
 QString Clipboard::selectedText() const {
-    qDebug() << Q_FUNC_INFO;
 #if defined(APP_WM_X11)
     return qApp->clipboard()->text(QClipboard::Selection);
 #elif defined(APP_WM_WINDOWS)
