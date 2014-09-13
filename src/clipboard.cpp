@@ -27,14 +27,14 @@ public:
         if(text == NULL)
             return;
 
-        size = (wcslen(text) * sizeof(wchar_t)) + 1;
+        size = (wcslen(text) + 1) * sizeof(wchar_t);
         if(size < 2)
             return;
 
         if (!EmptyClipboard())
             qWarning() << "EmptyClipboard() failed";
 
-        hMem = GlobalAlloc(GMEM_DDESHARE | GMEM_MOVEABLE, size);
+        hMem = GlobalAlloc(GMEM_ZEROINIT | GMEM_MOVEABLE, size);
         if(hMem == NULL) {
             qWarning() << "GlobalAlloc() failed";
             return;
