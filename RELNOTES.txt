@@ -1,0 +1,17 @@
+version 1.3
+
++ added cli option to launch litetran collapsed
++ added large icon for unity and windows
++ added command line option to start litetran collapsed in tray
++ added notification about network errors
++ added source language detection
++ added wait cursor during translation
+
+* improved translation result popup
+* length of text to pronounce is unlimited
+* redesign in about dialog
+* redesign in config dialog
+* updated application icon
+* save clipboard content in win32 and restore after translation
+* removed icu dependency in windows distribution (reduced dist size)
+* inno setup was replaced to nsis (via cpack)
