@@ -259,7 +259,10 @@ bool MainWindow::applicationInFocus()
 
 QString MainWindow::sourceLanguage() const
 {
-    return source_combobox->currentData().toString();
+    QString sl = source_combobox->currentData().toString();
+    if(sl == "auto")
+        sl = translate_engine->detect(sourceText());
+    return sl;
 }
 
 QString MainWindow::resultLanguage() const
