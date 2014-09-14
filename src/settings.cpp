@@ -18,7 +18,6 @@
 #include <QKeySequenceEdit>
 #include <QGroupBox>
 
-
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     settings(new QSettings(this)),
@@ -44,8 +43,9 @@ Settings::Settings(QWidget *parent) :
     QFormLayout *app_layout = new QFormLayout;
     app_layout->addRow(language_label, language_combobox);
     app_layout->addRow(tray_checkbox, new QWidget(this));
-    app_layout->addRow(dictionary_checkbox, new QWidget(this));
     app_layout->addRow(run_at_startup_checkbox, new QWidget(this));
+    app_layout->addRow(dictionary_checkbox, new QWidget(this));
+
 
     QFormLayout *keyboard_layout = new QFormLayout;
     keyboard_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
@@ -138,15 +138,15 @@ void Settings::changeEvent(QEvent *e) {
     if(e->type() == QEvent::LanguageChange) {
             msg_key_overlap = tr("Translate and reverse key sequences shouldn't be overlapped!");
             msg_key_overlap_title = tr("Invalid shortcuts");
-            tray_checkbox->setText(tr("Show icon in system tray"));
-            translate_shortcut_checkbox->setText(tr("Translate"));
-            reverse_shortcut_checkbox->setText(tr("Reverse translate"));
-            dictionary_checkbox->setText(tr("Show dictionary results"));
-            run_at_startup_checkbox->setText(tr("Run at Startup"));
-            language_label->setText(tr("Application language"));
-            setWindowTitle(tr("Configure"));
+            tray_checkbox->setText(tr("Show in tray"));
+            translate_shortcut_checkbox->setText(tr("Translation"));
+            reverse_shortcut_checkbox->setText(tr("Reverse translation"));
+            dictionary_checkbox->setText(tr("Show multiple translations"));
+            run_at_startup_checkbox->setText(tr("Add to Autostart"));
+            language_label->setText(tr("Language"));
+            setWindowTitle(tr("Settings"));
             groupbox_app->setTitle(tr("Application"));
-            groupbox_keyboard->setTitle(tr("Keyboard"));
+            groupbox_keyboard->setTitle(tr("HotKeys"));
     }
 }
 

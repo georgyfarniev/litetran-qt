@@ -5,7 +5,7 @@
     <name>Languages</name>
     <message>
         <location filename="../src/languages.cpp" line="101"/>
-        <source>Set\Unset All</source>
+        <source>All</source>
         <translation></translation>
     </message>
     <message>
@@ -15,7 +15,7 @@
     </message>
     <message>
         <location filename="../src/languages.cpp" line="103"/>
-        <source>At least two languages should be selected to work correctly.</source>
+        <source>At least two languages should be enabled!</source>
         <translation></translation>
     </message>
 </context>
@@ -23,13 +23,13 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/mainwindow.cpp" line="231"/>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="238"/>
         <source>Swap languages</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="232"/>
-        <source>Configure</source>
+        <source>Settings</source>
         <translation></translation>
     </message>
     <message>
@@ -54,50 +54,49 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="237"/>
-        <location filename="../src/mainwindow.cpp" line="238"/>
         <source>Translate</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>Source language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="241"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Result language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="243"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>About LiteTran</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="251"/>
-        <source>Enter text to translate here...</source>
+        <location filename="../src/mainwindow.cpp" line="250"/>
+        <source>Enter text here...</source>
         <translation></translation>
     </message>
 </context>
 <context>
     <name>Popup</name>
     <message>
-        <location filename="../src/popup.cpp" line="172"/>
+        <location filename="../src/popup.cpp" line="171"/>
         <source>Copy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/popup.cpp" line="173"/>
+        <location filename="../src/popup.cpp" line="172"/>
         <source>Pronounce</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/popup.cpp" line="174"/>
+        <location filename="../src/popup.cpp" line="173"/>
         <source>Open LiteTran</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/popup.cpp" line="175"/>
+        <location filename="../src/popup.cpp" line="174"/>
         <source>Close Popup</source>
         <translation></translation>
     </message>
@@ -116,47 +115,47 @@
     </message>
     <message>
         <location filename="../src/settings.cpp" line="141"/>
-        <source>Show icon in system tray</source>
+        <source>Show in tray</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="142"/>
-        <source>Translate</source>
+        <source>Translation</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="143"/>
-        <source>Reverse translate</source>
+        <source>Reverse translation</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="144"/>
-        <source>Show dictionary results</source>
+        <source>Show multiple translations</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="145"/>
-        <source>Run at Startup</source>
+        <source>Add to Autostart</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="146"/>
-        <source>Application language</source>
+        <source>Language</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="147"/>
-        <source>Configure</source>
+        <source>Settings</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="149"/>
+        <source>HotKeys</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="148"/>
         <source>Application</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/settings.cpp" line="149"/>
-        <source>Keyboard</source>
         <translation></translation>
     </message>
 </context>

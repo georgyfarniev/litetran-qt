@@ -16,7 +16,6 @@
 #define POPUP_MIN_TIMEOUT 5000
 #define DEFAULT_SIZE (QSize(300, 220))
 #define ICON_SIZE (QSize(16, 16))
-#define UNICODE_ARROW "\u2192"
 #define SCREEN_CORNER_PADDING 5
 
 

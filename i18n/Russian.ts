@@ -4,9 +4,13 @@
 <context>
     <name>Languages</name>
     <message>
-        <location filename="../src/languages.cpp" line="101"/>
         <source>Set\Unset All</source>
-        <translation>Выбрать\Убрать всё</translation>
+        <translation type="vanished">Выбрать\Убрать всё</translation>
+    </message>
+    <message>
+        <location filename="../src/languages.cpp" line="101"/>
+        <source>All</source>
+        <translation>Все</translation>
     </message>
     <message>
         <location filename="../src/languages.cpp" line="102"/>
@@ -15,21 +19,29 @@
     </message>
     <message>
         <location filename="../src/languages.cpp" line="103"/>
+        <source>At least two languages should be enabled!</source>
+        <translation>Необходимо включить как минимум два языка!</translation>
+    </message>
+    <message>
         <source>At least two languages should be selected to work correctly.</source>
-        <translation>Необходимо как минимум два языка для корректной работы программы.</translation>
+        <translation type="vanished">Необходимо как минимум два языка для корректной работы программы.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/mainwindow.cpp" line="231"/>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="238"/>
         <source>Swap languages</source>
         <translation>Поменять языки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="232"/>
         <source>Configure</source>
+        <translation type="vanished">Настройки</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="232"/>
+        <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
@@ -54,24 +66,28 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="237"/>
-        <location filename="../src/mainwindow.cpp" line="238"/>
         <source>Translate</source>
         <translation>Перевести</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>Source language</source>
         <translation>Исходный язык</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="241"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Result language</source>
         <translation>Язык перевода</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="243"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>About LiteTran</source>
         <translation>О LiteTran</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="250"/>
+        <source>Enter text here...</source>
+        <translation>Введите текст тут...</translation>
     </message>
     <message>
         <source>LiteTran is a lightweight text translation program.Just select some text, press hotkey and get translation in small popup!
@@ -118,30 +134,29 @@ Yurij Mikhalevich - Портирование и тестирование Mac OS 
 Uri Herrera, Nitrux S.A. - автор иконки и логотипа &lt;contact@nitrux.in&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="251"/>
         <source>Enter text to translate here...</source>
-        <translation>Введите текст для перевода...</translation>
+        <translation type="vanished">Введите текст для перевода...</translation>
     </message>
 </context>
 <context>
     <name>Popup</name>
     <message>
-        <location filename="../src/popup.cpp" line="172"/>
+        <location filename="../src/popup.cpp" line="171"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../src/popup.cpp" line="173"/>
+        <location filename="../src/popup.cpp" line="172"/>
         <source>Pronounce</source>
         <translation>Произнести</translation>
     </message>
     <message>
-        <location filename="../src/popup.cpp" line="174"/>
+        <location filename="../src/popup.cpp" line="173"/>
         <source>Open LiteTran</source>
         <translation>Открыть LiteTran</translation>
     </message>
     <message>
-        <location filename="../src/popup.cpp" line="175"/>
+        <location filename="../src/popup.cpp" line="174"/>
         <source>Close Popup</source>
         <translation>Закрыть окно</translation>
     </message>
@@ -160,38 +175,71 @@ Uri Herrera, Nitrux S.A. - автор иконки и логотипа &lt;conta
     </message>
     <message>
         <location filename="../src/settings.cpp" line="141"/>
-        <source>Show icon in system tray</source>
-        <translation>Показывать иконку в трее</translation>
+        <source>Show in tray</source>
+        <translation>Показывать в трее</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="142"/>
-        <source>Translate</source>
+        <source>Translation</source>
         <translation>Перевод</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="143"/>
-        <source>Reverse translate</source>
+        <source>Reverse translation</source>
         <translation>Обратный перевод</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="144"/>
-        <source>Show dictionary results</source>
+        <source>Show multiple translations</source>
         <translation>Показывать варианты перевода</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="145"/>
-        <source>Run at Startup</source>
-        <translation>Запускать при загрузке</translation>
+        <source>Add to Autostart</source>
+        <translation>Добавить в Автозагрузку</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="146"/>
-        <source>Application language</source>
-        <translation>Язык приложения</translation>
+        <source>Language</source>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="147"/>
-        <source>Configure</source>
+        <source>Settings</source>
         <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="149"/>
+        <source>HotKeys</source>
+        <translation>Горячие Клавиши</translation>
+    </message>
+    <message>
+        <source>Show icon in system tray</source>
+        <translation type="vanished">Показывать иконку в трее</translation>
+    </message>
+    <message>
+        <source>Translate</source>
+        <translation type="vanished">Перевод</translation>
+    </message>
+    <message>
+        <source>Reverse translate</source>
+        <translation type="vanished">Обратный перевод</translation>
+    </message>
+    <message>
+        <source>Show dictionary results</source>
+        <translation type="vanished">Показывать варианты перевода</translation>
+    </message>
+    <message>
+        <source>Run at Startup</source>
+        <translation type="vanished">Запускать при загрузке</translation>
+    </message>
+    <message>
+        <source>Application language</source>
+        <translation type="vanished">Язык приложения</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation type="vanished">Настройки</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="148"/>
@@ -199,9 +247,8 @@ Uri Herrera, Nitrux S.A. - автор иконки и логотипа &lt;conta
         <translation>Приложение</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="149"/>
         <source>Keyboard</source>
-        <translation>Клавиатура</translation>
+        <translation type="vanished">Клавиатура</translation>
     </message>
 </context>
 <context>

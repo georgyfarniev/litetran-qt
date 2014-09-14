@@ -229,13 +229,12 @@ void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
         action_swap->setText(tr("Swap languages"));
-        action_settings->setText(tr("Configure"));
+        action_settings->setText(tr("Settings"));
         action_languages->setText(tr("Languages"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
         menu_button->setToolTip(tr("Open LiteTran menu"));
         translate_button->setText(tr("Translate"));
-        translate_button->setToolTip(tr("Translate"));
         swap_button->setToolTip(tr("Swap languages"));
         source_combobox->setToolTip(tr("Source language"));
         result_combobox->setToolTip(tr("Result language"));
@@ -248,7 +247,7 @@ void MainWindow::changeEvent(QEvent *e) {
         about_text = file.readAll();
         about_text.replace("@VERSION@", APP_VERSION);
         file.close();
-        source_text->setPlaceholderText(tr("Enter text to translate here..."));
+        source_text->setPlaceholderText(tr("Enter text here..."));
     }
 }
 
@@ -355,7 +354,7 @@ void MainWindow::languageChanged()
 {
     QString tooltip = APP_NAME;
     tooltip += "\n\n" + source_combobox->currentText();
-    tooltip += " - " + result_combobox->currentText();
+    tooltip += " " UNICODE_ARROW " "  + result_combobox->currentText();
 
     const bool enabled = source_combobox->currentIndex() != 0;
     action_swap->setEnabled(enabled);
