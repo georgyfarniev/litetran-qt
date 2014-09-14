@@ -177,6 +177,6 @@ void Settings::read()
     translate_shortcut_edit->setKeySequence(settings->value("TranslateShortcut", DEFAULT_TRANSLATE_SHORTCUT).toString());
     reverse_shortcut_edit->setKeySequence(settings->value("ReverseShortcut", DEFAULT_REVERSE_SHORTCUT).toString());
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
-    dictionary_checkbox->setChecked(settings->value("ShowDictionary", false).toBool());
+    dictionary_checkbox->setChecked(settings->value("ShowDictionary", true).toBool());
     run_at_startup_checkbox->setChecked(autostart_manager->autoStart());
 }
