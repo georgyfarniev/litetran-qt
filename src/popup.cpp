@@ -79,8 +79,8 @@ void Popup::display(const QString &sl, const QString &tl, const QString &sc, con
 {
     text_browser->setHtml(text);
 
-    label_sl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)).scaled(16, 16));
-    label_tl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)).scaled(16, 16));
+    label_sl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)));
+    label_tl->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)));
     label_sl->setToolTip(sl);
     label_tl->setToolTip(tl);
 
