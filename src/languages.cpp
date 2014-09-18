@@ -17,15 +17,19 @@ Languages::Languages(QWidget *parent) :
     set_button(new QPushButton(this)),
     all_langs(LanguageDB().dump())
 {
-    QVBoxLayout *main_layout = new QVBoxLayout;
     QDialogButtonBox *button_box = new QDialogButtonBox(this);
-
-    main_layout->addWidget(lang_widget);
-    main_layout->addWidget(button_box);
-    setLayout(main_layout);
-
     button_box->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     button_box->addButton(set_button, QDialogButtonBox::ResetRole);
+
+    QVBoxLayout *main_layout = new QVBoxLayout;
+    main_layout->addWidget(lang_widget);
+    main_layout->addWidget(button_box);
+
+    lang_widget->setIconSize(QSize(16, 16));
+    lang_widget->setWrapping(true);
+
+    setLayout(main_layout);
+    setFixedSize(450, 300);
 
     foreach(Language lang, all_langs) {
         QListWidgetItem *item = new QListWidgetItem;
@@ -38,14 +42,9 @@ Languages::Languages(QWidget *parent) :
     settings->beginGroup("Languages");
     readSettings();
 
-    lang_widget->setIconSize(QSize(16, 16));
-    lang_widget->setWrapping(true);
-
     connect(button_box, &QDialogButtonBox::accepted, this, &Languages::accept);
     connect(button_box, &QDialogButtonBox::rejected, this, &Languages::reject);
     connect(set_button, &QPushButton::clicked, this, &Languages::setUnsetAll);
-
-    setFixedSize(450, 300);
 }
 
 int Languages::exec()
@@ -114,4 +113,3 @@ LanguageList Languages::languages() const
     }
     return list;
 }
-

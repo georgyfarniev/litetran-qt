@@ -3,24 +3,18 @@
 #include <QDir>
 #include <QFile>
 #include <QDebug>
-
-#ifdef APP_WM_WINDOWS
 #include <QSettings>
 #include <QApplication>
-#endif
 
-#if defined(APP_WM_X11)
 #define DESKTOP_FILE APP_INSTALL_PREFIX"/share/applications/litetran.desktop"
-#elif defined(APP_WM_WINDOWS)
 #define REGISTRY_RUN_PATH "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
-#endif
 
 AutoStart::AutoStart(QObject *parent) :
     QObject(parent)
-#ifdef APP_WM_WINDOWS
-  ,settings(new QSettings(REGISTRY_RUN_PATH, QSettings::NativeFormat, this))
-#endif
 {
+#ifdef APP_WM_WINDOWS
+  settings = new QSettings(REGISTRY_RUN_PATH, QSettings::NativeFormat, this);
+#endif
 }
 
 void AutoStart::setAutoStart(bool enabled)
@@ -52,7 +46,6 @@ bool AutoStart::autoStart()
 #endif
 }
 
-#ifdef APP_WM_X11
 QString AutoStart::xdgAutostartFile() const
 {
     QString dirpath;
@@ -65,4 +58,3 @@ QString AutoStart::xdgAutostartFile() const
 
     return dirpath;
 }
-#endif

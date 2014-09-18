@@ -6,17 +6,19 @@
 
 class QMediaPlayer;
 class QTemporaryFile;
+class Translate;
 
 class Pronounce : public QObject
 {
     Q_OBJECT
 public:
-    explicit Pronounce(QObject *parent = 0);
-    void say(const QString &text, const QString &lang);
+    explicit Pronounce(Translate *ts, QObject *parent = 0);
+    void say(const QString &text, QString lang);
 private slots:
     void stateChanged();
 private:
     void process();
+    Translate *translate_engine;
     QMediaPlayer *player;
     QBuffer *mp3_buffer;
     QQueue<QString> queue;

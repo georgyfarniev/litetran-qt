@@ -24,7 +24,6 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
     foreach(const QJsonValue &val, sentences)
         result += val.toObject().value("trans").toString();
 
-
     if(enable_dict && !dict.isEmpty()) {
         result += "<hr>";
         foreach(const QJsonValue &val, dict) {

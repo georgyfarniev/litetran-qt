@@ -3,7 +3,6 @@
 #include <QToolButton>
 
 class QPaintEvent;
-class QMouseEvent;
 
 class MenuButton : public QToolButton
 {

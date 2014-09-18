@@ -37,6 +37,8 @@
 #include <CoreServices/CoreServices.h>
 #endif
 
+#define DEFAULT_SOURCE_LANGUAGE "English"
+#define DEFAULT_RESULT_LANGUAGE "Russian"
 
 MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     QMainWindow(parent),
@@ -65,7 +67,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     languages_dialog(new Languages(this)),
     tray_icon(new TrayIcon(this)),
     translate_engine(new Translate(this)),
-    pronounce_engine(new Pronounce(this)),
+    pronounce_engine(new Pronounce(translate_engine, this)),
     popup(new Popup(this))
 {
 #ifdef Q_OS_MAC
@@ -149,11 +151,8 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_exit);
 
-
     updateLanguages();
     settings->beginGroup("MainWindow");
-
-
 
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
@@ -258,10 +257,7 @@ bool MainWindow::applicationInFocus()
 
 QString MainWindow::sourceLanguage() const
 {
-    QString sl = source_combobox->currentData().toString();
-    if(sl == "auto")
-        sl = translate_engine->detect(sourceText());
-    return sl;
+    return source_combobox->currentData().toString();
 }
 
 QString MainWindow::resultLanguage() const

@@ -14,9 +14,6 @@ public:
     void setAutoStart(bool enabled);
     bool autoStart();
 private:
-#if defined(APP_WM_X11)
     QString xdgAutostartFile() const;
-#elif defined(APP_WM_WINDOWS)
     QSettings *settings;
-#endif
 };

@@ -1,23 +1,29 @@
 #include "pronounce.h"
 #include "request.h"
+#include "translate.h"
 #include <QMediaPlayer>
 #include <QTemporaryFile>
 
 #define TTS_URL "http://translate.google.com/translate_tts"
 #define TTS_MAXCHAR 100
 
-Pronounce::Pronounce(QObject *parent) :
+Pronounce::Pronounce(Translate *ts, QObject *parent) :
     QObject(parent),
+    translate_engine(ts),
     player(new QMediaPlayer(this)),
     mp3_buffer(new QBuffer(this))
 {
+    Q_ASSERT(translate_engine != NULL);
     connect(player, &QMediaPlayer::stateChanged, this, &Pronounce::stateChanged);
 }
 
-void Pronounce::say(const QString &text, const QString &lang)
+void Pronounce::say(const QString &text, QString lang)
 {
     if (text.isEmpty() || player->state() == QMediaPlayer::PlayingState)
         return;
+
+    if(lang == "auto")
+        lang = translate_engine->detect(text);
 
     // Split text by spaces to chunks with size <= TTS_MAXCHAR
     const QStringList words = text.simplified().split(" ", QString::SkipEmptyParts);

@@ -12,7 +12,6 @@ class QToolBar;
 class QAction;
 class QTextBrowser;
 class QLabel;
-class QHBoxLayout;
 
 class Popup : public QWidget
 {

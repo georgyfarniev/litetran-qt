@@ -13,11 +13,9 @@
 #include <QLabel>
 #include <QDesktopWidget>
 
-#define POPUP_MIN_TIMEOUT 5000
+#define CHARACTER_READ_TIME_FACTOR 500
 #define DEFAULT_SIZE (QSize(300, 220))
-#define ICON_SIZE (QSize(16, 16))
 #define SCREEN_CORNER_PADDING 5
-
 
 Popup::Popup(QWidget *parent) :
     QWidget(parent),
@@ -32,6 +30,7 @@ Popup::Popup(QWidget *parent) :
     label_sl(new QLabel(this)),
     label_tl(new QLabel(this))
 {
+    Q_ASSERT(parent != NULL);
     action_copy->setIcon(APP_ICON("copy"));
     action_pronounce->setIcon(APP_ICON("play"));
     action_open->setIcon(APP_ICON("litetran"));
@@ -39,7 +38,7 @@ Popup::Popup(QWidget *parent) :
     setWindowFlags(Qt::Popup);
 
     toolbar->setMovable(false);
-    toolbar->setIconSize(ICON_SIZE);
+    toolbar->setIconSize(QSize(16, 16));
     toolbar->setContentsMargins(0, 0, 0, 0);
     toolbar->setStyleSheet("QToolBar {padding: 0px;}");
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -96,8 +95,7 @@ void Popup::display(const QString &sl, const QString &tl, const QString &sc, con
     QWidget::show();
     activateWindow();
 
-    const int words_count = translatedWord().split(" ").size();
-    disappear_timer.start(POPUP_MIN_TIMEOUT + (words_count * 1000));
+    disappear_timer.start(translatedWord().size() * CHARACTER_READ_TIME_FACTOR);
 }
 
 void Popup::recordCursorPosition()
@@ -107,7 +105,9 @@ void Popup::recordCursorPosition()
 
 void Popup::copy()
 {
-    const QString text = text_browser->textCursor().hasSelection() ? text_browser->textCursor().selectedText() : translatedWord();
+    const QString text = text_browser->textCursor().hasSelection()
+              ? text_browser->textCursor().selectedText()
+              : translatedWord();
     qApp->clipboard()->setText(text);
 }
 
@@ -120,23 +120,13 @@ void Popup::showMainWindow()
 
 void Popup::disappear()
 {
-    if(!this->underMouse())
+    if (!this->underMouse())
         hide();
-}
-
-QString Popup::getLongestString(const QStringList &lst) const
-{
-    QString ret;
-    foreach(QString current, lst) {
-        if (current.size() > ret.size())
-            ret = current;
-    }
-    return ret;
 }
 
 QString Popup::translatedWord() const
 {
-    return  text_browser->toPlainText().split("\n").first();
+    return text_browser->toPlainText().split("\n").first();
 }
 
 void Popup::paintEvent(QPaintEvent *e)
@@ -157,7 +147,6 @@ void Popup::mouseReleaseEvent(QMouseEvent *e)
     e->accept();
 }
 
-
 void Popup::keyReleaseEvent(QKeyEvent *e)
 {
     hide();
@@ -167,7 +156,7 @@ void Popup::keyReleaseEvent(QKeyEvent *e)
 void Popup::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
-    if(e->type() ==  QEvent::LanguageChange) {
+    if (e->type() ==  QEvent::LanguageChange) {
         action_copy->setText(tr("Copy"));
         action_pronounce->setText(tr("Pronounce"));
         action_open->setText(tr("Open LiteTran"));

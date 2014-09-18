@@ -81,7 +81,8 @@ public:
         CloseClipboard();
     }
 
-    inline static void clearClipboard() {
+    inline static void clearClipboard()
+    {
         OpenClipboard(NULL);
         EmptyClipboard();
         CloseClipboard();
@@ -125,5 +126,6 @@ QString Clipboard::selectedText() const {
     file.close();
     if(!file.remove())
         qWarning() << "Cannot remove temp file at " << APP_OSX_TEXTFILE;
+    return text;
 #endif
 }
