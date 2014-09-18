@@ -7,6 +7,8 @@
 #include <QStringList>
 #include <QTextDocumentFragment>
 
+#define TRANSLATOR_URL "http://www.translate.google.com/translate_a/t"
+
 Translate::Translate(QObject *parent)
     :QObject(parent),
      enable_dict(false)

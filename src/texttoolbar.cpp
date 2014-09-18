@@ -25,7 +25,7 @@ TextToolbar::TextToolbar(QWidget *parent) :
     setIconSize(QSize(16, 16));
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-#ifdef Q_OS_MAC
+#ifdef APP_WM_COCOA
     setStyle(new QCommonStyle());
     setStyleSheet("border: none");
 #endif

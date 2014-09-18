@@ -70,7 +70,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     pronounce_engine(new Pronounce(translate_engine, this)),
     popup(new Popup(this))
 {
-#ifdef Q_OS_MAC
+#ifdef APP_WM_COCOA
     menu_button->setStyle(new QCommonStyle());
     swap_button->setStyle(new QCommonStyle());
 //    menu_button->setStyleSheet("border: 1px solid transparent");
