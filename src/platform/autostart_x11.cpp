@@ -7,9 +7,7 @@
 #include <QApplication>
 
 #define DESKTOP_FILE APP_INSTALL_PREFIX"/share/applications/litetran.desktop"
-
-#define XDG_CONFIG_HOME (QDir::homePath() + "/.config")
-#define XDG_AUTOSTART_DIR (XDG_CONFIG_HOME + "/autostart/")
+#define XDG_AUTOSTART_DIR (QDir::homePath() + "/.config/autostart/")
 #define XDG_AUTOSTART_FILE (XDG_AUTOSTART_DIR + "/litetran.desktop")
 
 AutoStart::AutoStart(QObject *parent) :
