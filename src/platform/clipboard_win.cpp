@@ -1,17 +1,6 @@
 #include "clipboard.h"
 #include "defines.h"
-#include <QApplication>
-#include <QClipboard>
 #include <QDebug>
-#include <QFile>
-#include <QWindowList>
-
-Clipboard::Clipboard(QObject *parent) :
-    QObject(parent)
-{
-}
-
-#ifdef APP_WM_WINDOWS
 #include <qt_windows.h>
 
 // TODO: move this class to another file
@@ -88,12 +77,13 @@ public:
         CloseClipboard();
     }
 };
-#endif
+
+Clipboard::Clipboard(QObject *parent) :
+    QObject(parent)
+{
+}
 
 QString Clipboard::selectedText() const {
-#if defined(APP_WM_X11)
-    return qApp->clipboard()->text(QClipboard::Selection);
-#elif defined(APP_WM_WINDOWS)
     // Preserve old text
     wchar_t *old_data = WinClipboard::getClipboardText();
 
@@ -117,15 +107,4 @@ QString Clipboard::selectedText() const {
     free(old_data);
 
     return text;
-#elif defined(APP_WM_COCOCA)
-    QFile file(APP_OSX_TEXTFILE);
-    if(!file.open(QFile::ReadOnly | QFile::Text))
-        qWarning() << "Cannot open temp file at " << APP_OSX_TEXTFILE;
-
-    text = file.readAll();
-    file.close();
-    if(!file.remove())
-        qWarning() << "Cannot remove temp file at " << APP_OSX_TEXTFILE;
-    return text;
-#endif
 }

@@ -14,6 +14,5 @@ public:
     void setAutoStart(bool enabled);
     bool autoStart();
 private:
-    QString xdgAutostartFile() const;
     QSettings *settings;
 };

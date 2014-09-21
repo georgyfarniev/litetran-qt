@@ -6,7 +6,7 @@
 #include "popup.h"
 #include "pronounce.h"
 #include "languagedb.h"
-#include "clipboard.h"
+#include "platform/clipboard.h"
 #include "defines.h"
 #include "textedit.h"
 #include "menubutton.h"

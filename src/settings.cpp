@@ -1,6 +1,6 @@
 #include "settings.h"
 #include "defines.h"
-#include "autostart.h"
+#include "platform/autostart.h"
 #include <QApplication>
 #include <QSettings>
 #include <QLocale>

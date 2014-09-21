@@ -47,8 +47,6 @@ find_package(Qt5Network 5.2 REQUIRED)
 find_package(Qt5Multimedia 5.2 REQUIRED)
 find_package(Qt5LinguistTools 5.2 REQUIRED)
 
-add_subdirectory(src/3rdparty)
-
 include_directories(
 ${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}/src
@@ -56,23 +54,56 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/3rdparty/qxtshortcut)
 
 configure_file(src/defines.h.in src/defines.h)
 
-file(GLOB HEADERS "src/*.h")
-file(GLOB SOURCES "src/*.cpp")
+set(HEADERS
+src/mainwindow.h
+src/texttoolbar.h
+src/settings.h
+src/trayicon.h
+src/languagedb.h
+src/translate.h
+src/request.h
+src/pronounce.h
+src/popup.h
+src/textedit.h
+src/menubutton.h
+src/languages.h
+CACHE INTERNAL "Headers")
+
+set(SOURCES
+src/main.cpp
+src/mainwindow.cpp
+src/texttoolbar.cpp
+src/settings.cpp
+src/trayicon.cpp
+src/languagedb.cpp
+src/translate.cpp
+src/request.cpp
+src/pronounce.cpp
+src/popup.cpp
+src/textedit.cpp
+src/menubutton.cpp
+src/languages.cpp
+CACHE INTERNAL "Sources")
 
 set(TRANSLATIONS_FILES
 i18n/English.ts
 i18n/Russian.ts)
 
-file(GLOB ABOUT_TS "i18n/about/*.html")
+set(ABOUT_TS
+i18n/about/English.html
+i18n/about/Russian.html)
 
 set(RESOURCES resources.qrc)
-set(FILES_TO_TRANSLATE ${SOURCES})
+
+add_subdirectory(src/platform)
+add_subdirectory(src/3rdparty)
+
 
 option(UPDATE_TRANSLATIONS OFF)
 set(UPDATE_TRANSLATIONS OFF)
 if(UPDATE_TRANSLATIONS)
     message(WARNING "Updating translation files")
-    qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TRANSLATIONS_FILES})
+    qt5_create_translation(QM_FILES ${SOURCES} ${TRANSLATIONS_FILES})
 else()
     qt5_add_translation(QM_FILES ${TRANSLATIONS_FILES})
 endif()
