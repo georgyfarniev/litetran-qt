@@ -7,6 +7,7 @@
 class QMediaPlayer;
 class QTemporaryFile;
 class Translate;
+class NetworkManager;
 
 class Pronounce : public QObject
 {
@@ -23,4 +24,5 @@ private:
     QBuffer *mp3_buffer;
     QQueue<QString> queue;
     QString m_lang;
+    NetworkManager *network_manager;
 };

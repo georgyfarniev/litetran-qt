@@ -1,5 +1,5 @@
 #include "pronounce.h"
-#include "request.h"
+#include "networkmanager.h"
 #include "translate.h"
 #include <QMediaPlayer>
 #include <QTemporaryFile>
@@ -11,7 +11,8 @@ Pronounce::Pronounce(Translate *ts, QObject *parent) :
     QObject(parent),
     translate_engine(ts),
     player(new QMediaPlayer(this)),
-    mp3_buffer(new QBuffer(this))
+    mp3_buffer(new QBuffer(this)),
+    network_manager(NetworkManager::instance())
 {
     Q_ASSERT(translate_engine != NULL);
     connect(player, &QMediaPlayer::stateChanged, this, &Pronounce::stateChanged);
@@ -51,7 +52,7 @@ void Pronounce::process()
     const QUrl url = QString("%1?tl=%2&q=%3").arg(TTS_URL, m_lang, QString(text));
     //TODO: maybe fill buffer with all segments?
     mp3_buffer->close();
-    mp3_buffer->setData(Request::GET(url));
+    mp3_buffer->setData(network_manager->GET(url));
     mp3_buffer->open(QBuffer::ReadOnly);
     player->setMedia(NULL, mp3_buffer);
     player->play();

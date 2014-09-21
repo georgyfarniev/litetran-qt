@@ -3,6 +3,8 @@
 #include <QString>
 #include <QObject>
 
+class NetworkManager;
+
 class Translate : public QObject
 {
     Q_OBJECT
@@ -14,4 +16,5 @@ public:
 private:
     QJsonDocument query(const QString &params, const QString &text) const;
     bool enable_dict;
+    NetworkManager *network_manager;
 };

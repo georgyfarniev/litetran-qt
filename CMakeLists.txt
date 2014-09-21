@@ -61,7 +61,7 @@ src/settings.h
 src/trayicon.h
 src/languagedb.h
 src/translate.h
-src/request.h
+src/networkmanager.h
 src/pronounce.h
 src/popup.h
 src/textedit.h
@@ -77,7 +77,7 @@ src/settings.cpp
 src/trayicon.cpp
 src/languagedb.cpp
 src/translate.cpp
-src/request.cpp
+src/networkmanager.cpp
 src/pronounce.cpp
 src/popup.cpp
 src/textedit.cpp

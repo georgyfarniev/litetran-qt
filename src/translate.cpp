@@ -1,5 +1,5 @@
 #include "translate.h"
-#include "request.h"
+#include "networkmanager.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -11,7 +11,8 @@
 
 Translate::Translate(QObject *parent)
     :QObject(parent),
-     enable_dict(false)
+     enable_dict(false),
+     network_manager(NetworkManager::instance())
 {
 }
 
@@ -55,7 +56,7 @@ QJsonDocument Translate::query(const QString &params, const QString &text) const
     const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();
     const QString req = params + encoded_text;
     const QUrl url = QUrl(TRANSLATOR_URL);
-    const QString response = Request::POST(url, req.toUtf8());
+    const QString response = network_manager->POST(url, req.toUtf8());
 
     return QJsonDocument::fromJson(response.toUtf8());
 }
