@@ -97,7 +97,7 @@ void Languages::setUnsetAll()
 void Languages::changeEvent(QEvent *e) {
     QDialog::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
-        set_button->setText(tr("All"));
+        set_button->setText(tr("Toggle all"));
         setWindowTitle(tr("Languages"));
         warning_str = tr("At least two languages should be enabled!");
     }
