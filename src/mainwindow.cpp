@@ -76,7 +76,6 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 //    menu_button->setStyleSheet("border: 1px solid transparent");
     swap_button->setStyleSheet("border: 1px solid transparent");
 #endif
-
     setWindowTitle(APP_NAME);
     setWindowIcon(APP_ICON("litetran"));
     swap_button->setIcon(APP_ICON("swap"));
@@ -143,6 +142,10 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(translate_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
     connect(reverse_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
     connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounceResultText);
+    connect(&translate_timer, SIGNAL(timeout()), this, SLOT(timerTranslate()));
+
+    translate_timer.setSingleShot(true);
+    translate_timer.setInterval(500);
 
     tray_icon->addAction(action_settings);
     tray_icon->addSeparator();
@@ -212,6 +215,12 @@ void MainWindow::translate()
     setCursor(QCursor(Qt::WaitCursor));
     translateText(sourceLanguage(), resultLanguage());
     setCursor(QCursor());
+}
+
+void MainWindow::timerTranslate()
+{
+    if (applicationInFocus())
+        translate();
 }
 
 void MainWindow::reverse()
@@ -308,6 +317,12 @@ void MainWindow::updateSettings()
     reverse_shortcut_global->setShortcut(settings_dialog->reverseShortcut());
     reverse_shortcut_global->setEnabled(settings_dialog->reverseShortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
+
+    if (settings_dialog->autoTranslate())
+        connect(source_text, SIGNAL(textChanged()), &translate_timer, SLOT(start()));
+    else
+        disconnect(source_text, SIGNAL(textChanged()), &translate_timer, SLOT(start()));
+
 
     qApp->setQuitOnLastWindowClosed(!settings_dialog->trayIconEnabled());
 

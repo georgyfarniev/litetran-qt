@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QTimer>
 
 class QTextEdit;
 class QTextBrowser;
@@ -35,6 +36,7 @@ private slots:
     void quit();
     void swap();
     void translate();
+    void timerTranslate();
     void reverse();
     void changeVisibility();
     void updateSettings();
@@ -55,6 +57,7 @@ private:
     QString last_locale;
     QString about_text;
     QString about_title;
+    QTimer translate_timer;
 
     TextEdit *source_text;
     TextEdit *result_text;

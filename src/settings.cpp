@@ -23,13 +23,14 @@ Settings::Settings(QWidget *parent) :
     settings(new QSettings(this)),
     tray_checkbox(new QCheckBox(this)),
     dictionary_checkbox(new QCheckBox(this)),
+    autotranslate_checkbox(new QCheckBox(this)),
     run_at_startup_checkbox(new QCheckBox(this)),
     translate_shortcut_checkbox(new QCheckBox(this)),
     reverse_shortcut_checkbox(new QCheckBox(this)),
     translate_shortcut_edit(new QKeySequenceEdit(this)),
     reverse_shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
-    language_label(new QLabel(this)),
+    label_language(new QLabel(this)),
     groupbox_app(new QGroupBox(this)),
     groupbox_keyboard(new QGroupBox(this)),
     button_box(new QDialogButtonBox(this)),
@@ -41,11 +42,11 @@ Settings::Settings(QWidget *parent) :
     connect(button_box, &QDialogButtonBox::rejected, this, &Settings::reject);
 
     QFormLayout *app_layout = new QFormLayout;
-    app_layout->addRow(language_label, language_combobox);
+    app_layout->addRow(label_language, language_combobox);
     app_layout->addRow(tray_checkbox, new QWidget(this));
     app_layout->addRow(run_at_startup_checkbox, new QWidget(this));
     app_layout->addRow(dictionary_checkbox, new QWidget(this));
-
+    app_layout->addRow(autotranslate_checkbox, new QWidget(this));
 
     QFormLayout *keyboard_layout = new QFormLayout;
     keyboard_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
@@ -53,7 +54,6 @@ Settings::Settings(QWidget *parent) :
 
     groupbox_app->setLayout(app_layout);
     groupbox_keyboard->setLayout(keyboard_layout);
-
     QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->addWidget(groupbox_app);
     main_layout->addWidget(groupbox_keyboard);
@@ -108,6 +108,11 @@ bool Settings::dictionaryEnabled()
     return dictionary_checkbox->isChecked();
 }
 
+bool Settings::autoTranslate()
+{
+    return autotranslate_checkbox->isChecked();
+}
+
 bool Settings::runAtStartup()
 {
     return run_at_startup_checkbox->isChecked();
@@ -142,8 +147,9 @@ void Settings::changeEvent(QEvent *e) {
             translate_shortcut_checkbox->setText(tr("Translation"));
             reverse_shortcut_checkbox->setText(tr("Reverse translation"));
             dictionary_checkbox->setText(tr("Show multiple translations"));
+            autotranslate_checkbox->setText(tr("Auto translate text"));
             run_at_startup_checkbox->setText(tr("Add to Autostart"));
-            language_label->setText(tr("Language"));
+            label_language->setText(tr("Language"));
             setWindowTitle(tr("Settings"));
             groupbox_app->setTitle(tr("Application"));
             groupbox_keyboard->setTitle(tr("HotKeys"));
@@ -164,6 +170,7 @@ void Settings::accept()
     settings->setValue("Language", language_combobox->currentText());
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
     settings->setValue("ShowDictionary", dictionary_checkbox->isChecked());
+    settings->setValue("AutoTranslate", autotranslate_checkbox->isChecked());
     autostart_manager->setAutoStart(run_at_startup_checkbox->isChecked());
 
     QDialog::accept();
@@ -178,5 +185,6 @@ void Settings::read()
     reverse_shortcut_edit->setKeySequence(settings->value("ReverseShortcut", DEFAULT_REVERSE_SHORTCUT).toString());
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
     dictionary_checkbox->setChecked(settings->value("ShowDictionary", true).toBool());
+    autotranslate_checkbox->setChecked(settings->value("AutoTranslate", true).toBool());
     run_at_startup_checkbox->setChecked(autostart_manager->autoStart());
 }

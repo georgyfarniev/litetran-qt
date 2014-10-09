@@ -24,6 +24,7 @@ class Settings : public QDialog
     Q_PROPERTY(QKeySequence reverseShortcut READ reverseShortcut)
     Q_PROPERTY(bool trayIconEnabled READ trayIconEnabled)
     Q_PROPERTY(bool dictionaryEnabled READ dictionaryEnabled)
+    Q_PROPERTY(bool autoTranslate READ autoTranslate)
     Q_PROPERTY(bool runAtStartup READ runAtStartup)
     Q_PROPERTY(QString language READ language)
 public:
@@ -33,6 +34,7 @@ public:
     bool reverseShortcutEnabled();
     bool trayIconEnabled();
     bool dictionaryEnabled();
+    bool autoTranslate();
     bool runAtStartup();
     QKeySequence translateShortcut() const;
     QKeySequence reverseShortcut() const;
@@ -49,13 +51,14 @@ private:
     QSettings *settings;
     QCheckBox *tray_checkbox;
     QCheckBox *dictionary_checkbox;
+    QCheckBox *autotranslate_checkbox;
     QCheckBox *run_at_startup_checkbox;
     QCheckBox *translate_shortcut_checkbox;
     QCheckBox *reverse_shortcut_checkbox;
     QKeySequenceEdit *translate_shortcut_edit;
     QKeySequenceEdit *reverse_shortcut_edit;
     QComboBox *language_combobox;
-    QLabel *language_label;
+    QLabel *label_language;
     QGroupBox *groupbox_app;
     QGroupBox *groupbox_keyboard;
     QDialogButtonBox *button_box;
