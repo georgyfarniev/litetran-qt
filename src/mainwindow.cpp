@@ -230,6 +230,7 @@ void MainWindow::reverse()
 
 void MainWindow::changeVisibility()
 {
+    source_text->setFocus();
     setVisible(!isVisible());
 }
 
