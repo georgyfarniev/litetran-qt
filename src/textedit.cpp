@@ -9,5 +9,5 @@ TextEdit::TextEdit(QWidget *parent) :
 
 void TextEdit::copyAll()
 {
-    qApp->clipboard()->setText(toPlainText());
+    QApplication::clipboard()->setText(toPlainText());
 }

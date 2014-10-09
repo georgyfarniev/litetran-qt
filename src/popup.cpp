@@ -20,7 +20,7 @@
 Popup::Popup(QWidget *parent) :
     QWidget(parent),
     toolbar(new QToolBar(this)),
-    screen_geometry(qApp->desktop()->geometry()),
+    screen_geometry(QApplication::desktop()->geometry()),
     text_browser(new QTextBrowser(this)),
     action_copy(new QAction(this)),
     action_pronounce(new QAction(this)),
@@ -108,7 +108,7 @@ void Popup::copy()
     const QString text = text_browser->textCursor().hasSelection()
               ? text_browser->textCursor().selectedText()
               : translatedWord();
-    qApp->clipboard()->setText(text);
+    QApplication::clipboard()->setText(text);
 }
 
 void Popup::disappear()

@@ -11,5 +11,5 @@ Clipboard::Clipboard(QObject *parent) :
 }
 
 QString Clipboard::selectedText() const {
-    return qApp->clipboard()->text(QClipboard::Selection);
+    return QApplication::clipboard()->text(QClipboard::Selection);
 }

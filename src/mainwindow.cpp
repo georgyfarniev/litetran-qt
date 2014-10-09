@@ -196,7 +196,7 @@ void MainWindow::about()
 
 void MainWindow::quit()
 {
-    qApp->quit();
+    QApplication::quit();
 }
 
 void MainWindow::swap()
@@ -336,15 +336,14 @@ void MainWindow::updateSettings()
     else
         disconnect(source_text, SIGNAL(textChanged()), &translate_timer, SLOT(start()));
 
-
-    qApp->setQuitOnLastWindowClosed(!settings_dialog->trayIconEnabled());
+    QApplication::setQuitOnLastWindowClosed(!settings_dialog->trayIconEnabled());
 
     const QString locale = settings_dialog->language();
 
 //     retranslate only if language changed
     if(locale != last_locale) {
         if(ui_translator != NULL) {
-            qApp->removeTranslator(ui_translator);
+            QApplication::removeTranslator(ui_translator);
             delete ui_translator;
         }
 
@@ -355,7 +354,7 @@ void MainWindow::updateSettings()
             return;
         }
 
-        if(!qApp->installTranslator(ui_translator)) {
+        if(!QApplication::installTranslator(ui_translator)) {
             qWarning() << "Cannot install translator for language " << locale;
             return;
         }
