@@ -32,6 +32,7 @@ public:
     explicit MainWindow(bool collapsed, QWidget *parent = 0);
     ~MainWindow();
 private slots:
+    void appear();
     void about();
     void quit();
     void swap();
@@ -44,6 +45,7 @@ private slots:
     void pronounceResultText();
     void languageChanged();
     void updateLanguages();
+
 private:
     void translateText(const QString &sl, const QString &tl);
     void changeEvent(QEvent *e);
@@ -77,8 +79,9 @@ private:
     QSettings *settings;
     QTranslator *ui_translator;
     QShortcut *translate_shortcut;
-    QxtGlobalShortcut *translate_shortcut_global;
-    QxtGlobalShortcut *reverse_shortcut_global;
+    QxtGlobalShortcut *shortcut_translate;
+    QxtGlobalShortcut *shortcut_reverse;
+    QxtGlobalShortcut *shortcut_appear;
 
     Clipboard *clipboard;
     TextToolbar *toolbar_source_text;

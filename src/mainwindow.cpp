@@ -58,8 +58,9 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     settings(new QSettings(this)),
     ui_translator(NULL),
     translate_shortcut(new QShortcut(this)),
-    translate_shortcut_global(new QxtGlobalShortcut(this)),
-    reverse_shortcut_global(new QxtGlobalShortcut(this)),
+    shortcut_translate(new QxtGlobalShortcut(this)),
+    shortcut_reverse(new QxtGlobalShortcut(this)),
+    shortcut_appear(new QxtGlobalShortcut(this)),
     clipboard(new Clipboard(this)),
     toolbar_source_text(new TextToolbar(this)),
     toolbar_result_text(new TextToolbar(this)),
@@ -139,8 +140,9 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
     connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
-    connect(translate_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
-    connect(reverse_shortcut_global, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
+    connect(shortcut_translate, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
+    connect(shortcut_reverse, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
+    connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appear);
     connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounceResultText);
     connect(&translate_timer, SIGNAL(timeout()), this, SLOT(timerTranslate()));
 
@@ -177,6 +179,13 @@ MainWindow::~MainWindow()
     settings->setValue("ResultLanguage", result_combobox->currentText());
     settings->setValue("Geometry", saveGeometry());
     settings->setValue("Visible", isVisible());
+}
+
+void MainWindow::appear()
+{
+        hide();
+        show();
+        activateWindow();
 }
 
 void MainWindow::about()
@@ -313,10 +322,12 @@ void MainWindow::updateSettings()
         show();
 
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
-    translate_shortcut_global->setShortcut(settings_dialog->translateShortcut());
-    translate_shortcut_global->setEnabled(settings_dialog->translateShortcutEnabled());
-    reverse_shortcut_global->setShortcut(settings_dialog->reverseShortcut());
-    reverse_shortcut_global->setEnabled(settings_dialog->reverseShortcutEnabled());
+    shortcut_translate->setShortcut(settings_dialog->translateShortcut());
+    shortcut_translate->setEnabled(settings_dialog->translateShortcutEnabled());
+    shortcut_reverse->setShortcut(settings_dialog->reverseShortcut());
+    shortcut_reverse->setEnabled(settings_dialog->reverseShortcutEnabled());
+    shortcut_appear->setShortcut(settings_dialog->appearShortcut());
+    shortcut_appear->setEnabled(settings_dialog->appearShortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
 
     if (settings_dialog->autoTranslate())

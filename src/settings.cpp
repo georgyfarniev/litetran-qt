@@ -18,6 +18,11 @@
 #include <QKeySequenceEdit>
 #include <QGroupBox>
 
+#define DEFAULT_LANGUAGE "English"
+#define DEFAULT_TRANSLATE_SHORTCUT "Alt+T"
+#define DEFAULT_REVERSE_SHORTCUT "Alt+R"
+#define DEFAULT_APPEAR_SHORTCUT "Ctrl+Shift+T"
+
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     settings(new QSettings(this)),
@@ -27,8 +32,10 @@ Settings::Settings(QWidget *parent) :
     run_at_startup_checkbox(new QCheckBox(this)),
     translate_shortcut_checkbox(new QCheckBox(this)),
     reverse_shortcut_checkbox(new QCheckBox(this)),
+    appear_shortcut_checkbox(new QCheckBox(this)),
     translate_shortcut_edit(new QKeySequenceEdit(this)),
     reverse_shortcut_edit(new QKeySequenceEdit(this)),
+    appear_shortcut_edit(new QKeySequenceEdit(this)),
     language_combobox(new QComboBox(this)),
     label_language(new QLabel(this)),
     groupbox_app(new QGroupBox(this)),
@@ -51,6 +58,8 @@ Settings::Settings(QWidget *parent) :
     QFormLayout *keyboard_layout = new QFormLayout;
     keyboard_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
     keyboard_layout->addRow(reverse_shortcut_checkbox, reverse_shortcut_edit);
+    keyboard_layout->addRow(appear_shortcut_checkbox, appear_shortcut_edit);
+
 
     groupbox_app->setLayout(app_layout);
     groupbox_keyboard->setLayout(keyboard_layout);
@@ -98,6 +107,11 @@ bool Settings::reverseShortcutEnabled()
     return reverse_shortcut_checkbox->isChecked();
 }
 
+bool Settings::appearShortcutEnabled()
+{
+    return appear_shortcut_checkbox->isChecked();
+}
+
 bool Settings::trayIconEnabled()
 {
     return tray_checkbox->isChecked();
@@ -128,6 +142,11 @@ QKeySequence Settings::reverseShortcut() const
     return reverse_shortcut_edit->keySequence();
 }
 
+QKeySequence Settings::appearShortcut() const
+{
+    return appear_shortcut_edit->keySequence();
+}
+
 QString Settings::language() const
 {
     return language_combobox->currentText();
@@ -146,6 +165,7 @@ void Settings::changeEvent(QEvent *e) {
             tray_checkbox->setText(tr("Show in tray"));
             translate_shortcut_checkbox->setText(tr("Translation"));
             reverse_shortcut_checkbox->setText(tr("Reverse translation"));
+            appear_shortcut_checkbox->setText(tr("Show LiteTran window"));
             dictionary_checkbox->setText(tr("Show multiple translations"));
             autotranslate_checkbox->setText(tr("Auto translate text"));
             run_at_startup_checkbox->setText(tr("Add to Autostart"));
@@ -158,15 +178,17 @@ void Settings::changeEvent(QEvent *e) {
 
 void Settings::accept()
 {
-    if(translateShortcut() == reverseShortcut()) {
+    if(hasShortcutIntersection()) {
         QMessageBox::warning(this, msg_key_overlap_title, msg_key_overlap);
         return;
     }
 
     settings->setValue("TranslateShortcutEnabled", translate_shortcut_checkbox->isChecked());
     settings->setValue("ReverseShortcutEnabled", reverse_shortcut_checkbox->isChecked());
+    settings->setValue("AppearShortcutEnabled", appear_shortcut_checkbox->isChecked());
     settings->setValue("TranslateShortcut", translate_shortcut_edit->keySequence().toString());
     settings->setValue("ReverseShortcut", reverse_shortcut_edit->keySequence().toString());
+    settings->setValue("AppearShortcut", appear_shortcut_edit->keySequence().toString());
     settings->setValue("Language", language_combobox->currentText());
     settings->setValue("TrayIconEnabled", tray_checkbox->isChecked());
     settings->setValue("ShowDictionary", dictionary_checkbox->isChecked());
@@ -181,10 +203,24 @@ void Settings::read()
     language_combobox->setCurrentText(settings->value("Language", default_language).toString());
     translate_shortcut_checkbox->setChecked(settings->value("TranslateShortcutEnabled", true).toBool());
     reverse_shortcut_checkbox->setChecked(settings->value("ReverseShortcutEnabled", true).toBool());
+    appear_shortcut_checkbox->setChecked(settings->value("AppearShortcutEnabled", true).toBool());
     translate_shortcut_edit->setKeySequence(settings->value("TranslateShortcut", DEFAULT_TRANSLATE_SHORTCUT).toString());
     reverse_shortcut_edit->setKeySequence(settings->value("ReverseShortcut", DEFAULT_REVERSE_SHORTCUT).toString());
+    appear_shortcut_edit->setKeySequence(settings->value("AppearShortcut", DEFAULT_APPEAR_SHORTCUT).toString());
     tray_checkbox->setChecked(settings->value("TrayIconEnabled", true).toBool());
     dictionary_checkbox->setChecked(settings->value("ShowDictionary", true).toBool());
     autotranslate_checkbox->setChecked(settings->value("AutoTranslate", true).toBool());
     run_at_startup_checkbox->setChecked(autostart_manager->autoStart());
+}
+
+bool Settings::hasShortcutIntersection()
+{
+    QStringList shortcuts = QStringList()
+            << translate_shortcut_edit->keySequence().toString()
+            << reverse_shortcut_edit->keySequence().toString()
+            << appear_shortcut_edit->keySequence().toString();
+
+    if (shortcuts.removeDuplicates() > 0)
+        return true;
+    return false;
 }
