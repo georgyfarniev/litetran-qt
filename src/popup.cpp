@@ -66,7 +66,7 @@ Popup::Popup(QWidget *parent) :
 
     connect(action_copy, &QAction::triggered, this, &Popup::copy);
     connect(action_pronounce, &QAction::triggered, this, &Popup::pronounceRequested);
-    connect(action_open, &QAction::triggered, this, &Popup::showMainWindow);
+    connect(action_open, &QAction::triggered, this, &Popup::appearRequested);
     connect(action_close, &QAction::triggered, this, &QWidget::hide);
     connect(&disappear_timer, &QTimer::timeout, this, &Popup::disappear);
 
@@ -109,13 +109,6 @@ void Popup::copy()
               ? text_browser->textCursor().selectedText()
               : translatedWord();
     qApp->clipboard()->setText(text);
-}
-
-void Popup::showMainWindow()
-{
-    hide();
-    parentWidget()->show();
-    parentWidget()->activateWindow();
 }
 
 void Popup::disappear()

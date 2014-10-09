@@ -22,10 +22,10 @@ public:
     void recordCursorPosition();
 private slots:
     void copy();
-    void showMainWindow();
     void disappear();
 signals:
     void pronounceRequested();
+    void appearRequested();
 private:
     QString getLongestString(const QStringList &lst) const;
     QString translatedWord() const;

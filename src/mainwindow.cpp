@@ -144,6 +144,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(shortcut_reverse, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
     connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appear);
     connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounceResultText);
+    connect(popup, &Popup::appearRequested, this, &MainWindow::appear);
     connect(&translate_timer, SIGNAL(timeout()), this, SLOT(timerTranslate()));
 
     translate_timer.setSingleShot(true);
