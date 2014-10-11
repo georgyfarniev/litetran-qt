@@ -15,10 +15,8 @@ class Settings : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(bool translateShortcutEnabled READ translateShortcutEnabled)
-    Q_PROPERTY(bool reverseShortcutEnabled READ reverseShortcutEnabled)
     Q_PROPERTY(bool appearShortcutEnabled READ appearShortcutEnabled)
     Q_PROPERTY(QKeySequence translateShortcut READ translateShortcut)
-    Q_PROPERTY(QKeySequence reverseShortcut READ reverseShortcut)
     Q_PROPERTY(QKeySequence appearShortcut READ appearShortcut)
     Q_PROPERTY(bool trayIconEnabled READ trayIconEnabled)
     Q_PROPERTY(bool dictionaryEnabled READ dictionaryEnabled)
@@ -29,14 +27,12 @@ public:
     explicit Settings(QWidget *parent = 0);
     int exec();
     bool translateShortcutEnabled();
-    bool reverseShortcutEnabled();
     bool appearShortcutEnabled();
     bool trayIconEnabled();
     bool dictionaryEnabled();
     bool autoTranslate();
     bool runAtStartup();
     QKeySequence translateShortcut() const;
-    QKeySequence reverseShortcut() const;
     QKeySequence appearShortcut() const;
     QString language() const;
 private slots:
@@ -44,7 +40,6 @@ private slots:
 private:
     void read();
     bool hasShortcutIntersection();
-
     void changeEvent(QEvent *e);
     QString detectSystemLanguage() const;
     QString msg_key_overlap;
@@ -56,10 +51,8 @@ private:
     QCheckBox *autotranslate_checkbox;
     QCheckBox *run_at_startup_checkbox;
     QCheckBox *translate_shortcut_checkbox;
-    QCheckBox *reverse_shortcut_checkbox;
     QCheckBox *appear_shortcut_checkbox;
     QKeySequenceEdit *translate_shortcut_edit;
-    QKeySequenceEdit *reverse_shortcut_edit;
     QKeySequenceEdit *appear_shortcut_edit;
     QComboBox *language_combobox;
     QLabel *label_language;

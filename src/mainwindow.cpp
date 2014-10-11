@@ -61,7 +61,6 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     ui_translator(NULL),
     translate_shortcut(new QShortcut(this)),
     shortcut_translate(new QxtGlobalShortcut(this)),
-    shortcut_reverse(new QxtGlobalShortcut(this)),
     shortcut_appear(new QxtGlobalShortcut(this)),
     clipboard(new Clipboard(this)),
     settings_dialog(new Settings(this)),
@@ -135,12 +134,11 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(action_copy, &QAction::triggered, this, &MainWindow::copy);
     connect(translate_button, &QPushButton::clicked, this, &MainWindow::translate);
     connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
-    connect(shortcut_translate, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
-    connect(shortcut_reverse, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
+    connect(shortcut_translate, &QxtGlobalShortcut::activated, this, &MainWindow::popupTranslate);
     connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appear);
     connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounce);
     connect(popup, &Popup::appearRequested, this, &MainWindow::appear);
-    connect(&translate_timer, SIGNAL(timeout()), this, SLOT(timerTranslate()));
+    connect(&translate_timer, SIGNAL(timeout()), this, SLOT(translate()));
 
     translate_timer.setSingleShot(true);
     translate_timer.setInterval(500);
@@ -210,37 +208,31 @@ void MainWindow::swap()
     result_combobox->setCurrentIndex(idx - 1);
 }
 
-void MainWindow::translateText(const QString &sl, const QString &tl)
-{
-    popup->recordCursorPosition();
-
-    if(!applicationInFocus())
-        source_text->setPlainText(clipboard->selectedText());
-
-    const QString result = translate_engine->translate(sourceText(), sl, tl);
-    result_text->setHtml(result);
-
-    if(!applicationInFocus() && !result.isEmpty())
-        popup->display(source_combobox->currentText(), result_combobox->currentText(), sl, tl, result);
-}
-
 void MainWindow::translate()
 {
     setCursor(QCursor(Qt::WaitCursor));
-    qDebug() << sourceText();
-    translateText(sourceLanguage(), resultLanguage());
+    const QString result = translate_engine->translate(sourceText(), sourceLanguage(), resultLanguage());
+    result_text->setHtml(result);
     setCursor(QCursor());
 }
 
-void MainWindow::timerTranslate()
+void MainWindow::popupTranslate()
 {
     if (applicationInFocus())
-        translate();
-}
+        return;
 
-void MainWindow::reverse()
-{
-    translateText(resultLanguage(), sourceLanguage());
+    popup->recordCursorPosition();
+    source_text->setPlainText(clipboard->selectedText());
+    translate();
+    const QString result = result_text->toHtml();
+
+    if (!result.isEmpty()) {
+        popup->display(source_combobox->currentText(),
+                       result_combobox->currentText(),
+                       sourceLanguage(),
+                       resultLanguage(),
+                       result);
+    }
 }
 
 void MainWindow::changeVisibility()
@@ -332,8 +324,6 @@ void MainWindow::updateSettings()
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
     shortcut_translate->setShortcut(settings_dialog->translateShortcut());
     shortcut_translate->setEnabled(settings_dialog->translateShortcutEnabled());
-    shortcut_reverse->setShortcut(settings_dialog->reverseShortcut());
-    shortcut_reverse->setEnabled(settings_dialog->reverseShortcutEnabled());
     shortcut_appear->setShortcut(settings_dialog->appearShortcut());
     shortcut_appear->setEnabled(settings_dialog->appearShortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
