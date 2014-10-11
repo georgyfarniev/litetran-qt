@@ -77,6 +77,7 @@ private:
     QAction *action_exit;
     MenuButton *menu_button;
     QMenu *menu_root;
+    QMenu *menu_tray;
     QSettings *settings;
     QTranslator *ui_translator;
     QShortcut *translate_shortcut;

@@ -55,7 +55,8 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     action_about(new QAction(this)),
     action_exit(new QAction(this)),
     menu_button(new MenuButton(this)),
-    menu_root(new QMenu( this)),
+    menu_root(new QMenu(this)),
+    menu_tray(new QMenu(this)),
     settings(new QSettings(this)),
     ui_translator(NULL),
     translate_shortcut(new QShortcut(this)),
@@ -144,12 +145,13 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     translate_timer.setSingleShot(true);
     translate_timer.setInterval(500);
 
-    tray_icon->addAction(action_settings);
-    tray_icon->addSeparator();
-    tray_icon->addAction(action_swap);
-    tray_icon->addSeparator();
-    tray_icon->addAction(action_about);
-    tray_icon->addAction(action_exit);
+    menu_tray->addAction(action_settings);
+    menu_tray->addSeparator();
+    menu_tray->addAction(action_swap);
+    menu_tray->addSeparator();
+    menu_tray->addAction(action_about);
+    menu_tray->addAction(action_exit);
+    tray_icon->setContextMenu(menu_tray);
 
     source_text->addAction(action_copy);
     source_text->addAction(action_pronounce);
@@ -170,6 +172,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 #endif
 
     updateSettings();
+    languageChanged();
 
     connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
@@ -185,7 +188,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::appear()
 {
-
     hide();
     show();
     activateWindow();
