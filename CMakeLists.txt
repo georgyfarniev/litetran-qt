@@ -56,7 +56,6 @@ configure_file(src/defines.h.in src/defines.h)
 
 set(HEADERS
 src/mainwindow.h
-src/texttoolbar.h
 src/settings.h
 src/trayicon.h
 src/languagedb.h
@@ -72,7 +71,6 @@ CACHE INTERNAL "Headers")
 set(SOURCES
 src/main.cpp
 src/mainwindow.cpp
-src/texttoolbar.cpp
 src/settings.cpp
 src/trayicon.cpp
 src/languagedb.cpp

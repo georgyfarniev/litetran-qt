@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "texttoolbar.h"
 #include "settings.h"
 #include "trayicon.h"
 #include "translate.h"
@@ -48,6 +47,8 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     result_combobox(new QComboBox(this)),
     translate_button(new QPushButton(this)),
     swap_button(new QToolButton(this)),
+    action_copy(new QAction(this)),
+    action_pronounce(new QAction(this)),
     action_swap(new QAction(this)),
     action_settings(new QAction(this)),
     action_languages(new QAction(this)),
@@ -62,8 +63,6 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     shortcut_reverse(new QxtGlobalShortcut(this)),
     shortcut_appear(new QxtGlobalShortcut(this)),
     clipboard(new Clipboard(this)),
-    toolbar_source_text(new TextToolbar(this)),
-    toolbar_result_text(new TextToolbar(this)),
     settings_dialog(new Settings(this)),
     languages_dialog(new Languages(this)),
     tray_icon(new TrayIcon(this)),
@@ -81,6 +80,8 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     setWindowIcon(APP_ICON("litetran"));
     swap_button->setIcon(APP_ICON("swap"));
 
+    action_copy->setIcon(APP_ICON("copy"));
+    action_pronounce->setIcon(APP_ICON("play"));
     translate_button->setIcon(APP_ICON("translate"));
     action_swap->setIcon(APP_ICON("swap"));
     action_settings->setIcon(APP_ICON("settings"));
@@ -101,16 +102,13 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     menu_root->addAction(action_exit);
 
     QHBoxLayout *top_layout = new QHBoxLayout;
-    top_layout->addWidget(toolbar_source_text);
     top_layout->addStretch();
     top_layout->addWidget(menu_button);
 
     QHBoxLayout *middle_layout = new QHBoxLayout;
-    middle_layout->addWidget(toolbar_result_text);
     middle_layout->addWidget(source_combobox);
     middle_layout->addWidget(swap_button);
     middle_layout->addWidget(result_combobox);
-    middle_layout->addStretch();
     middle_layout->addWidget(translate_button);
 
     QVBoxLayout *main_layout = new QVBoxLayout;
@@ -132,18 +130,14 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(translate_shortcut, &QShortcut::activated, translate_button, &QPushButton::click);
     connect(settings_dialog, &QDialog::accepted, this, &MainWindow::updateSettings);
     connect(languages_dialog, &QDialog::accepted, this, &MainWindow::updateLanguages);
-    connect(toolbar_source_text, &TextToolbar::requestCopy, source_text, &TextEdit::copyAll);
-    connect(toolbar_result_text, &TextToolbar::requestCopy, result_text, &TextEdit::copyAll);
-    connect(toolbar_source_text, &TextToolbar::requestPronounce, this, &MainWindow::pronounceSourceText);
-    connect(toolbar_result_text, &TextToolbar::requestPronounce, this, &MainWindow::pronounceResultText);
+    connect(action_pronounce, &QAction::triggered, this, &MainWindow::pronounce);
+    connect(action_copy, &QAction::triggered, this, &MainWindow::copy);
     connect(translate_button, &QPushButton::clicked, this, &MainWindow::translate);
     connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
-    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
-    connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(shortcut_translate, &QxtGlobalShortcut::activated, this, &MainWindow::translate);
     connect(shortcut_reverse, &QxtGlobalShortcut::activated, this, &MainWindow::reverse);
     connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appear);
-    connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounceResultText);
+    connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounce);
     connect(popup, &Popup::appearRequested, this, &MainWindow::appear);
     connect(&translate_timer, SIGNAL(timeout()), this, SLOT(timerTranslate()));
 
@@ -157,6 +151,10 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     tray_icon->addAction(action_about);
     tray_icon->addAction(action_exit);
 
+    source_text->addAction(action_copy);
+    source_text->addAction(action_pronounce);
+    result_text->addAction(action_copy);
+    result_text->addAction(action_pronounce);
     updateLanguages();
     settings->beginGroup("MainWindow");
 
@@ -172,6 +170,9 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 #endif
 
     updateSettings();
+
+    connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
+    connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -184,9 +185,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::appear()
 {
-        hide();
-        show();
-        activateWindow();
+
+    hide();
+    show();
+    activateWindow();
 }
 
 void MainWindow::about()
@@ -223,6 +225,7 @@ void MainWindow::translateText(const QString &sl, const QString &tl)
 void MainWindow::translate()
 {
     setCursor(QCursor(Qt::WaitCursor));
+    qDebug() << sourceText();
     translateText(sourceLanguage(), resultLanguage());
     setCursor(QCursor());
 }
@@ -247,6 +250,8 @@ void MainWindow::changeVisibility()
 void MainWindow::changeEvent(QEvent *e) {
     QMainWindow::changeEvent(e);
     if(e->type() ==  QEvent::LanguageChange) {
+        action_copy->setText(tr("Copy"));
+        action_pronounce->setText(tr("Pronounce"));
         action_swap->setText(tr("Swap languages"));
         action_settings->setText(tr("Settings"));
         action_languages->setText(tr("Languages"));
@@ -363,14 +368,20 @@ void MainWindow::updateSettings()
     }
 }
 
-void MainWindow::pronounceSourceText()
+void MainWindow::copy()
 {
-    pronounce_engine->say(sourceText(), sourceLanguage());
+    if (source_text->underMouse())
+        source_text->copy();
+    else
+        result_text->copy();
 }
 
-void MainWindow::pronounceResultText()
+void MainWindow::pronounce()
 {
-    pronounce_engine->say(resultText().split("\n").first(), resultLanguage());
+    if (source_text->underMouse())
+        pronounce_engine->say(sourceText(), sourceLanguage());
+    else
+        pronounce_engine->say(resultText().split("\n").first(), resultLanguage());
 }
 
 void MainWindow::languageChanged()
@@ -384,6 +395,9 @@ void MainWindow::languageChanged()
     swap_button->setEnabled(enabled);
 
     tray_icon->setToolTip(tooltip);
+
+    if (settings_dialog->autoTranslate())
+        translate();
 }
 
 void MainWindow::updateLanguages()

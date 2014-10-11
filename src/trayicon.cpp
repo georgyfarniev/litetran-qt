@@ -5,7 +5,7 @@
 
 TrayIcon::TrayIcon(QObject *parent) :
     QSystemTrayIcon(parent),
-    menu(new QMenu())
+    menu(new QMenu)
 {
     setContextMenu(menu);
     setIcon(APP_ICON("litetran"));

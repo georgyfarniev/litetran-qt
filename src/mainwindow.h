@@ -41,11 +41,10 @@ private slots:
     void reverse();
     void changeVisibility();
     void updateSettings();
-    void pronounceSourceText();
-    void pronounceResultText();
+    void copy();
+    void pronounce();
     void languageChanged();
     void updateLanguages();
-
 private:
     void translateText(const QString &sl, const QString &tl);
     void changeEvent(QEvent *e);
@@ -69,6 +68,8 @@ private:
     QPushButton *translate_button;
     QToolButton *swap_button;
 
+    QAction *action_copy;
+    QAction *action_pronounce;
     QAction *action_swap;
     QAction *action_settings;
     QAction *action_languages;
@@ -84,8 +85,6 @@ private:
     QxtGlobalShortcut *shortcut_appear;
 
     Clipboard *clipboard;
-    TextToolbar *toolbar_source_text;
-    TextToolbar *toolbar_result_text;
     Settings *settings_dialog;
     Languages *languages_dialog;
     TrayIcon *tray_icon;
