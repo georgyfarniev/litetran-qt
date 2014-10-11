@@ -25,8 +25,6 @@ void TextEdit::addAction(QAction *action)
 
 void TextEdit::enterEvent(QEvent *e)
 {
-    if (toPlainText().isEmpty())
-        return;
     foreach(QToolButton *btn, mBtnList)
             btn->show();
     e->accept();
