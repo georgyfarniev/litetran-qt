@@ -189,6 +189,9 @@ void MainWindow::appear()
     hide();
     show();
     activateWindow();
+    source_text->clear();
+    result_text->clear();
+    source_text->setFocus();
 }
 
 void MainWindow::about()
