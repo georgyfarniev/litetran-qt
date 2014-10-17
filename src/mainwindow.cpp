@@ -135,7 +135,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(translate_button, &QPushButton::clicked, this, &MainWindow::translate);
     connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
     connect(shortcut_translate, &QxtGlobalShortcut::activated, this, &MainWindow::popupTranslate);
-    connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appear);
+    connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appearClean);
     connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounce);
     connect(popup, &Popup::appearRequested, this, &MainWindow::appear);
     connect(&translate_timer, SIGNAL(timeout()), this, SLOT(translate()));
@@ -189,9 +189,14 @@ void MainWindow::appear()
     hide();
     show();
     activateWindow();
+    source_text->setFocus();
+}
+
+void MainWindow::appearClean()
+{
     source_text->clear();
     result_text->clear();
-    source_text->setFocus();
+    appear();
 }
 
 void MainWindow::about()

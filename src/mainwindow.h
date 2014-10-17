@@ -33,6 +33,7 @@ public:
     ~MainWindow();
 private slots:
     void appear();
+    void appearClean();
     void about();
     void quit();
     void swap();
