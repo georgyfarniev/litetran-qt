@@ -1,6 +1,7 @@
 #include "textedit.h"
 #include <QApplication>
 #include <QClipboard>
+#include <QAction>
 #include <QToolButton>
 #include <QMouseEvent>
 #include <QPaintEvent>
@@ -10,31 +11,22 @@
 TextEdit::TextEdit(QWidget *parent) :
     QTextEdit(parent)
 {
+    connect(this, &QTextEdit::textChanged, this, &TextEdit::onTextChange);
 }
 
 void TextEdit::addAction(QAction *action)
 {
     QToolButton *button = new QToolButton(this);
     button->setDefaultAction(action);
-    button->hide();
     button->setAutoRaise(true);
+    action->setDisabled(true);
     mBtnList.append(button);
 
     QTextEdit::addAction(action);
-}
+//    button->setDisabled(true);
+//    button->setEnabled(false);
 
-void TextEdit::enterEvent(QEvent *e)
-{
-    foreach(QToolButton *btn, mBtnList)
-            btn->show();
-    e->accept();
-}
 
-void TextEdit::leaveEvent(QEvent *e)
-{
-    foreach(QToolButton *btn, mBtnList)
-            btn->hide();
-        e->accept();
 }
 
 void TextEdit::paintEvent(QPaintEvent *e)
@@ -60,4 +52,12 @@ void TextEdit::paintEvent(QPaintEvent *e)
 void TextEdit::copy()
 {
     QApplication::clipboard()->setText(toPlainText());
+}
+
+void TextEdit::onTextChange()
+{
+    qDebug() << Q_FUNC_INFO;
+    bool enabled = !toPlainText().isEmpty();
+    foreach(QToolButton *btn, mBtnList)
+        btn->defaultAction()->setEnabled(enabled);
 }
