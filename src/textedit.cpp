@@ -21,12 +21,7 @@ void TextEdit::addAction(QAction *action)
     button->setAutoRaise(true);
     action->setDisabled(true);
     mBtnList.append(button);
-
     QTextEdit::addAction(action);
-//    button->setDisabled(true);
-//    button->setEnabled(false);
-
-
 }
 
 void TextEdit::paintEvent(QPaintEvent *e)
