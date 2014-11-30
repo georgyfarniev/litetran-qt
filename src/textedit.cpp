@@ -11,7 +11,6 @@
 TextEdit::TextEdit(QWidget *parent) :
     QTextEdit(parent)
 {
-    connect(this, &QTextEdit::textChanged, this, &TextEdit::onTextChange);
 }
 
 void TextEdit::addAction(QAction *action)
@@ -19,7 +18,6 @@ void TextEdit::addAction(QAction *action)
     QToolButton *button = new QToolButton(this);
     button->setDefaultAction(action);
     button->setAutoRaise(true);
-    action->setDisabled(true);
     mBtnList.append(button);
     QTextEdit::addAction(action);
 }
@@ -47,12 +45,4 @@ void TextEdit::paintEvent(QPaintEvent *e)
 void TextEdit::copy()
 {
     QApplication::clipboard()->setText(toPlainText());
-}
-
-void TextEdit::onTextChange()
-{
-    qDebug() << Q_FUNC_INFO;
-    bool enabled = !toPlainText().isEmpty();
-    foreach(QToolButton *btn, mBtnList)
-        btn->defaultAction()->setEnabled(enabled);
 }

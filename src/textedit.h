@@ -15,8 +15,6 @@ public:
     void addAction(QAction *action);
 public slots:
     void copy();
-private slots:
-    void onTextChange();
 private:
     void paintEvent(QPaintEvent *e);
     QList<QToolButton *>mBtnList;
