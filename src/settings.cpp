@@ -46,10 +46,10 @@ Settings::Settings(QWidget *parent) :
 
     QFormLayout *app_layout = new QFormLayout;
     app_layout->addRow(label_language, language_combobox);
-    app_layout->addRow(tray_checkbox, new QWidget(this));
-    app_layout->addRow(run_at_startup_checkbox, new QWidget(this));
-    app_layout->addRow(dictionary_checkbox, new QWidget(this));
-    app_layout->addRow(autotranslate_checkbox, new QWidget(this));
+    app_layout->addRow(tray_checkbox);
+    app_layout->addRow(run_at_startup_checkbox);
+    app_layout->addRow(dictionary_checkbox);
+    app_layout->addRow(autotranslate_checkbox);
 
     QFormLayout *keyboard_layout = new QFormLayout;
     keyboard_layout->addRow(translate_shortcut_checkbox, translate_shortcut_edit);
