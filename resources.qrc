@@ -43,18 +43,18 @@
         <file>icons/flags/vi.png</file>
         <file>icons/flags/zh-CN.png</file>
         <file>icons/flags/zh-TW.png</file>
-        <file>icons/ui/about.png</file>
-        <file>icons/ui/clear.png</file>
-        <file>icons/ui/copy.png</file>
+        <file>icons/ui/help-about.png</file>
+        <file>icons/ui/edit-clear.png</file>
+        <file>icons/ui/edit-copy.png</file>
         <file>icons/ui/litetran.png</file>
-        <file>icons/ui/play.png</file>
-        <file>icons/ui/settings.png</file>
-        <file>icons/ui/exit.png</file>
+        <file>icons/ui/media-playback-start.png</file>
+        <file>icons/ui/preferences-system.png</file>
+        <file>icons/ui/application-exit.png</file>
         <file>icons/ui/swap.png</file>
-        <file>icons/ui/translate.png</file>
+        <file>icons/ui/go-next.png</file>
         <file>icons/ui/menu.png</file>
         <file>icons/ui/languages.png</file>
         <file>icons/flags/auto.png</file>
-        <file>icons/ui/close.png</file>
+        <file>icons/ui/window-close.png</file>
     </qresource>
 </RCC>

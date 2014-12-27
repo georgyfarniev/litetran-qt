@@ -78,16 +78,16 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 #endif
     setWindowTitle(APP_NAME);
     setWindowIcon(APP_ICON("litetran"));
-    swap_button->setIcon(APP_ICON("swap"));
+    swap_button->setIcon(APP_ICON("view-refresh"));
 
-    action_copy->setIcon(APP_ICON("copy"));
-    action_pronounce->setIcon(APP_ICON("play"));
-    translate_button->setIcon(APP_ICON("translate"));
-    action_swap->setIcon(APP_ICON("swap"));
-    action_settings->setIcon(APP_ICON("settings"));
-    action_languages->setIcon(APP_ICON("languages"));
-    action_about->setIcon(APP_ICON("about"));
-    action_exit->setIcon(APP_ICON("exit"));
+    action_copy->setIcon(APP_ICON("edit-copy"));
+    action_pronounce->setIcon(APP_ICON("media-playback-start"));
+    translate_button->setIcon(APP_ICON("go-next"));
+    action_swap->setIcon(APP_ICON("view-refresh"));
+    action_settings->setIcon(APP_ICON("preferences-system"));
+    action_languages->setIcon(APP_ICON("preferences-desktop-locale"));
+    action_about->setIcon(APP_ICON("help-about"));
+    action_exit->setIcon(APP_ICON("application-exit"));
 
     action_exit->setShortcut(QKeySequence("Ctrl+Q"));
     translate_shortcut->setKey(QKeySequence("Ctrl+T"));

@@ -30,10 +30,10 @@ Popup::Popup(QWidget *parent) :
     label_sl(new QLabel(this)),
     label_tl(new QLabel(this))
 {
-    action_copy->setIcon(APP_ICON("copy"));
-    action_pronounce->setIcon(APP_ICON("play"));
+    action_copy->setIcon(APP_ICON("edit-copy"));
+    action_pronounce->setIcon(APP_ICON("media-playback-start"));
     action_open->setIcon(APP_ICON("litetran"));
-    action_close->setIcon(APP_ICON("close"));
+    action_close->setIcon(APP_ICON("window-close"));
     setWindowFlags(Qt::Popup);
 
     toolbar->setMovable(false);

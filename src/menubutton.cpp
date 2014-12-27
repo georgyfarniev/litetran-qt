@@ -16,7 +16,7 @@ MenuButton::MenuButton(QWidget *parent) :
     setPopupMode(QToolButton::InstantPopup);
     setFocusPolicy(Qt::NoFocus);
     setStyleSheet("QToolButton::menu-indicator { image: none; }");
-    setIcon(APP_ICON("menu"));
+    setIcon(APP_ICON("preferences-system"));
 }
 
 void MenuButton::setMenu(QMenu *m)
