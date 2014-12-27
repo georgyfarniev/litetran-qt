@@ -31,11 +31,6 @@
 #include <QShortcut>
 #include <QCommonStyle>
 
-#ifdef APP_WM_COCOA
-#include <Carbon/Carbon.h>
-#include <CoreServices/CoreServices.h>
-#endif
-
 #define DEFAULT_SOURCE_LANGUAGE "English"
 #define DEFAULT_RESULT_LANGUAGE "Russian"
 
@@ -70,12 +65,6 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     pronounce_engine(new Pronounce(translate_engine, this)),
     popup(new Popup(this))
 {
-#ifdef APP_WM_COCOA
-    menu_button->setStyle(new QCommonStyle());
-    swap_button->setStyle(new QCommonStyle());
-//    menu_button->setStyleSheet("border: 1px solid transparent");
-    swap_button->setStyleSheet("border: 1px solid transparent");
-#endif
     setWindowTitle(APP_NAME);
     setWindowIcon(APP_ICON("litetran"));
     swap_button->setIcon(APP_ICON("view-refresh"));
@@ -161,13 +150,9 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     source_combobox->setCurrentText(settings->value("SourceLanguage", DEFAULT_SOURCE_LANGUAGE).toString());
     result_combobox->setCurrentText(settings->value("ResultLanguage", DEFAULT_RESULT_LANGUAGE).toString());
     restoreGeometry(settings->value("Geometry").toByteArray());
-#ifdef APP_WM_COCOA
-    // there is no need in controlling window visibility manually in OS X
-    setVisible(true);
-#else
+
     connect(tray_icon, SIGNAL(clicked()), this, SLOT(changeVisibility()));
     setVisible((settings->value("Visible", true).toBool() || !settings_dialog->trayIconEnabled()) && !collapsed);
-#endif
 
     updateSettings();
     languageChanged();
@@ -300,28 +285,6 @@ QString MainWindow::sourceText() const
 QString MainWindow::resultText() const
 {
     return result_text->toPlainText();
-}
-
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-#ifdef APP_WM_COCOA
-    if (event->spontaneous()) {
-        /** if event initiated from application (close button clicked) */
-        event->ignore();
-        ProcessSerialNumber pn;
-        // NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
-        GetCurrentProcess(&pn); // gets application process identifier
-        ShowHideProcess(&pn, false); // hides application in tray
-    } else {
-        /**
-         * if event initiated outside of application (selected Quit in dock
-         * context menu)
-         */
-        QMainWindow::closeEvent(event);
-    }
-#else
-    QMainWindow::closeEvent(event);
-#endif
 }
 
 void MainWindow::updateSettings()

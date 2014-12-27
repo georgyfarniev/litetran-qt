@@ -9,7 +9,6 @@ class QComboBox;
 class QPushButton;
 class QToolButton;
 class QAction;
-class QCloseEvent;
 class QSettings;
 class QTranslator;
 class QShortcut;
@@ -90,6 +89,4 @@ private:
     Translate *translate_engine;
     Pronounce *pronounce_engine;
     Popup *popup;
-protected:
-    void closeEvent(QCloseEvent *event);
 };

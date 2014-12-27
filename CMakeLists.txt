@@ -115,12 +115,6 @@ qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
 
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
 
-if(APPLE)
-    find_library(CORE_SERVICES_LIBRARY CoreServices)
-    find_library(CARBON_LIBRARY Carbon)
-    target_link_libraries(${APP_EXECUTABLE_NAME} ${CORE_SERVICES_LIBRARY} ${CARBON_LIBRARY})
-endif()
-
 if(WIN32)
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/litetranico.o
                        COMMAND  windres.exe -i${CMAKE_CURRENT_SOURCE_DIR}/litetran.rc
