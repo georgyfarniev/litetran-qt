@@ -32,7 +32,7 @@ Popup::Popup(QWidget *parent) :
 {
     action_copy->setIcon(APP_ICON("edit-copy"));
     action_pronounce->setIcon(APP_ICON("media-playback-start"));
-    action_open->setIcon(APP_ICON("litetran"));
+    action_open->setIcon(APP_ICON("window-new"));
     action_close->setIcon(APP_ICON("window-close"));
     setWindowFlags(Qt::Popup);
 
