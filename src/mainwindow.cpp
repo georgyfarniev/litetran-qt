@@ -111,6 +111,8 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 
     result_text->setReadOnly(true);
 
+    mLockAutoTranslation = true;
+
     connect(action_swap, &QAction::triggered, this, &MainWindow::swap);
     connect(action_settings, &QAction::triggered, settings_dialog, &Settings::exec);
     connect(action_languages, &QAction::triggered, languages_dialog, &Languages::exec);
@@ -159,6 +161,8 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
 
     connect(source_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
     connect(result_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged()));
+
+    mLockAutoTranslation = false;
 }
 
 MainWindow::~MainWindow()
@@ -359,8 +363,8 @@ void MainWindow::languageChanged()
 
     tray_icon->setToolTip(tooltip);
 
-    if (settings_dialog->autoTranslate())
-        translate();
+    if (settings_dialog->autoTranslate() && !mLockAutoTranslation)
+        translate_timer.start();
 }
 
 void MainWindow::updateLanguages()

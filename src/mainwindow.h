@@ -89,4 +89,6 @@ private:
     Translate *translate_engine;
     Pronounce *pronounce_engine;
     Popup *popup;
+
+    bool mLockAutoTranslation;
 };
