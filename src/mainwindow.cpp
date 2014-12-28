@@ -207,8 +207,11 @@ void MainWindow::swap()
 
 void MainWindow::translate()
 {
+    const QString text = sourceText();
+    if (text.isEmpty())
+        return;
     setCursor(QCursor(Qt::WaitCursor));
-    const QString result = translate_engine->translate(sourceText(), sourceLanguage(), resultLanguage());
+    const QString result = translate_engine->translate(text, sourceLanguage(), resultLanguage());
     result_text->setHtml(result);
     setCursor(QCursor());
 }
