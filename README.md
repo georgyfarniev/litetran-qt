@@ -1,21 +1,23 @@
 About LiteTran
 --------------
-LiteTran is a tiny GUI for text translation.
+LiteTran is simple text translate utility.
 
 
 Features
 --------
-- Very simple user interface
-- Translate by text selection. Just select text, press key combination
-  (Ctrl+Shift+T by default) get translation result in popup. You don't 
-  need to open your web browser with everytime you want to translate something.
-- Text speech (up to 100 characters)
-- 37 Supported Languages
+- User-friendly interface
+- Translation of selected text in popup (Ctrl+Shift+T by default)
+- No annoying windows - only small popup with translation
+- Text pronunciation
+- 37 Languages supported
+- It's possible to choose only necessary languages to show in interface
+- Tray icon let you access LiteTran window and settings quickly
 
 
 Platforms
 ---------
-Currently supports only Linux and Windows. Mac OS and *BSD coming soon.
+LiteTran works fine on Linux, requires Qt >= 5.2
+Windows version also available, but have limited support of translate popup.
 
 
 Build Depdendencies
@@ -26,4 +28,9 @@ qt core, gui, multimedia, x11extras >= 5.2
 
 Contribute
 ----------
-Please send pull request or create ticket into bugtracker.
+Please send pull request or create issue.
+
+Other notes
+-----------
+
+This project has been moved from https://github.com/flareguner/litetran/
