@@ -3,11 +3,20 @@
 #include <QIcon>
 #include <QString>
 
+#ifdef Q_OS_OSX
+#define APP_WM_COCOA
+#endif
 #ifdef Q_OS_WIN
 #define APP_WM_WINDOWS
 #endif
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
 #define APP_WM_X11
+#endif
+
+
+#ifdef APP_WM_COCOA
+// MacOS text service file which contains current text selection
+#define APP_OSX_TEXTFILE "/tmp/litetran-selection.tmp"
 #endif
 
 #define APP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}"
