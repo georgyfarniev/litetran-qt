@@ -22,7 +22,6 @@ class Popup;
 class Pronounce;
 class Clipboard;
 class TextEdit;
-class MenuButton;
 class Languages;
 
 class MainWindow : public QMainWindow
@@ -65,8 +64,9 @@ private:
     QComboBox *result_combobox;
 
     QPushButton *translate_button;
-    QToolButton *swap_button;
+	QPushButton *swap_button;
 
+	QToolBar *toolbar;
     QAction *action_copy;
     QAction *action_pronounce;
     QAction *action_swap;
@@ -74,8 +74,6 @@ private:
     QAction *action_languages;
     QAction *action_about;
     QAction *action_exit;
-    MenuButton *menu_button;
-    QMenu *menu_root;
     QMenu *menu_tray;
     QSettings *settings;
     QTranslator *ui_translator;

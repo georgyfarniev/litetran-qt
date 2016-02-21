@@ -63,7 +63,6 @@ src/networkmanager.h
 src/pronounce.h
 src/popup.h
 src/textedit.h
-src/menubutton.h
 src/languages.h
 CACHE INTERNAL "Headers")
 
@@ -78,7 +77,6 @@ src/networkmanager.cpp
 src/pronounce.cpp
 src/popup.cpp
 src/textedit.cpp
-src/menubutton.cpp
 src/languages.cpp
 CACHE INTERNAL "Sources")
 

@@ -8,7 +8,6 @@
 #include "platform/clipboard.h"
 #include "defines.h"
 #include "textedit.h"
-#include "menubutton.h"
 #include "languages.h"
 #include "qxtglobalshortcut.h"
 #include <QCloseEvent>
@@ -30,6 +29,7 @@
 #include <QVBoxLayout>
 #include <QShortcut>
 #include <QCommonStyle>
+#include <QToolBar>
 
 #ifdef APP_WM_COCOA
 #include <Carbon/Carbon.h>
@@ -46,16 +46,15 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     source_combobox(new QComboBox(this)),
     result_combobox(new QComboBox(this)),
     translate_button(new QPushButton(this)),
-    swap_button(new QToolButton(this)),
+	swap_button(new QPushButton(this)),
     action_copy(new QAction(this)),
     action_pronounce(new QAction(this)),
     action_swap(new QAction(this)),
     action_settings(new QAction(this)),
     action_languages(new QAction(this)),
     action_about(new QAction(this)),
-    action_exit(new QAction(this)),
-    menu_button(new MenuButton(this)),
-    menu_root(new QMenu(this)),
+	action_exit(new QAction(this)),
+	toolbar(new QToolBar(this)),
     menu_tray(new QMenu(this)),
     settings(new QSettings(this)),
     ui_translator(NULL),
@@ -71,13 +70,15 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     popup(new Popup(this))
 {
 #ifdef APP_WM_COCOA
-    menu_button->setStyle(new QCommonStyle());
-    swap_button->setStyle(new QCommonStyle());
-//    menu_button->setStyleSheet("border: 1px solid transparent");
-    swap_button->setStyleSheet("border: 1px solid transparent");
+	setUnifiedTitleAndToolBarOnMac(true);
+	swap_button->setMaximumWidth(22);
+	swap_button->setMaximumHeight(22);
+//    swap_button->setStyle(new QCommonStyle());
+//    swap_button->setStyleSheet("border: 1px solid transparent");
 #endif
     setWindowTitle(APP_NAME);
     setWindowIcon(APP_ICON("litetran"));
+	toolbar->setMovable(false);
     swap_button->setIcon(APP_ICON("view-refresh"));
 
     action_copy->setIcon(APP_ICON("edit-copy"));
@@ -94,28 +95,31 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     translate_shortcut->setContext(Qt::ApplicationShortcut);
     swap_button->setShortcut(QKeySequence("Ctrl+Shift+S"));
 
-    menu_button->setMenu(menu_root);
-    menu_root->addAction(action_settings);
-    menu_root->addAction(action_languages);
-    menu_root->addSeparator();
-    menu_root->addAction(action_about);
-    menu_root->addAction(action_exit);
+	toolbar->addAction(action_settings);
+	toolbar->addAction(action_languages);
+	toolbar->addAction(action_about);
+	toolbar->addAction(action_exit);
 
-    QHBoxLayout *top_layout = new QHBoxLayout;
-    top_layout->addStretch();
-    top_layout->addWidget(menu_button);
+	toolbar->setIconSize(QSize(22, 22));
+
+	addToolBar(toolbar);
 
     QHBoxLayout *middle_layout = new QHBoxLayout;
     middle_layout->addWidget(source_combobox);
-    middle_layout->addWidget(swap_button);
-    middle_layout->addWidget(result_combobox);
+	middle_layout->addWidget(swap_button);
+	middle_layout->addWidget(result_combobox);
     middle_layout->addWidget(translate_button);
 
+
     QVBoxLayout *main_layout = new QVBoxLayout;
-    main_layout->addLayout(top_layout);
     main_layout->addWidget(source_text);
-    main_layout->addLayout(middle_layout);
+	main_layout->addLayout(middle_layout);
     main_layout->addWidget(result_text);
+
+#ifdef APP_WM_COCOA
+	main_layout->setContentsMargins(5, 5, 5, 5);
+#endif
+
 
     setCentralWidget(new QWidget(this));
     centralWidget()->setLayout(main_layout);
