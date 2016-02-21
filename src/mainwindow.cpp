@@ -270,7 +270,6 @@ void MainWindow::changeEvent(QEvent *e) {
         action_languages->setText(tr("Languages"));
         action_about->setText(tr("About"));
         action_exit->setText(tr("Exit"));
-        menu_button->setToolTip(tr("Open LiteTran menu"));
         translate_button->setText(tr("Translate"));
         swap_button->setToolTip(tr("Swap languages"));
         source_combobox->setToolTip(tr("Source language"));
