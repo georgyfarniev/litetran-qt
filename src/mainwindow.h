@@ -64,7 +64,7 @@ private:
     QComboBox *result_combobox;
 
     QPushButton *translate_button;
-	QPushButton *swap_button;
+	QToolButton *swap_button;
 
 	QToolBar *toolbar;
     QAction *action_copy;

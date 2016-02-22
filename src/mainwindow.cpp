@@ -46,7 +46,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     source_combobox(new QComboBox(this)),
     result_combobox(new QComboBox(this)),
     translate_button(new QPushButton(this)),
-	swap_button(new QPushButton(this)),
+	swap_button(new QToolButton(this)),
     action_copy(new QAction(this)),
     action_pronounce(new QAction(this)),
     action_swap(new QAction(this)),
