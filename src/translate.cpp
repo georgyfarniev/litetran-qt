@@ -7,7 +7,7 @@
 #include <QStringList>
 #include <QTextDocumentFragment>
 
-#define TRANSLATOR_URL "http://www.translate.google.com/translate_a/t"
+#define TRANSLATOR_URL "http://api.mymemory.translated.net/get"
 
 Translate::Translate(QObject *parent)
     :QObject(parent),
@@ -18,31 +18,12 @@ Translate::Translate(QObject *parent)
 
 QString Translate::translate(const QString &text, const QString &sl, const QString &tl) const
 {
-    const QString params = QString("client=json&sl=%1&tl=%2&text=").arg(sl, tl);
-    const QJsonObject root = query(params, text).object();
-    const QJsonArray sentences = root.value("sentences").toArray();
-    const QJsonArray dict = root.value("dict").toArray();
-
-    QString result;
-    foreach(const QJsonValue &val, sentences)
-        result += val.toObject().value("trans").toString();
-
-    if(enable_dict && !dict.isEmpty()) {
-        result += "<hr>";
-        foreach(const QJsonValue &val, dict) {
-            const QString pos = val.toObject().value("pos").toString();
-            result += QString("<i><b>%1</b> - %2</i>").arg(text, pos);
-            const QJsonArray entries = val.toObject().value("entry").toArray();
-            foreach(const QJsonValue &entry, entries) {
-                const QString word = entry.toObject().value("word").toString();
-                const QStringList reverse_translations = entry.toObject().value("reverse_translation").toVariant().toStringList();
-                result +=  QString("<br><b>%1</b> - %2").arg(word, reverse_translations.join(", "));
-            }
-            if(val != dict.last())
-                result += "<br><br>";
-        }
-    }
-    return result;
+	const QString params = QString(TRANSLATOR_URL"?q=%1&langpair=%2|%3").arg(text, sl, tl);
+	const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();
+	const QString req = params + encoded_text;
+	const QString response = network_manager->GET(params);
+	const QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
+	return doc.object().value("responseData").toObject().value("translatedText").toString();
 }
 
 QString Translate::detect(const QString &sample) const
