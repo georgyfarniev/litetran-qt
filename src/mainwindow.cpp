@@ -41,8 +41,8 @@
 
 MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     QMainWindow(parent),
-    source_text(new TextEdit(this)),
-    result_text(new TextEdit(this)),
+	source_text(new QTextEdit(this)),
+	result_text(new QTextEdit(this)),
     source_combobox(new QComboBox(this)),
     result_combobox(new QComboBox(this)),
     translate_button(new QPushButton(this)),
@@ -157,10 +157,10 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     menu_tray->addAction(action_exit);
     tray_icon->setContextMenu(menu_tray);
 
-    source_text->addAction(action_copy);
-    source_text->addAction(action_pronounce);
-    result_text->addAction(action_copy);
-    result_text->addAction(action_pronounce);
+//    source_text->addAction(action_copy);
+//    source_text->addAction(action_pronounce);
+//    result_text->addAction(action_copy);
+//    result_text->addAction(action_pronounce);
     updateLanguages();
     settings->beginGroup("MainWindow");
 

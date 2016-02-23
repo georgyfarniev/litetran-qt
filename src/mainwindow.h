@@ -21,7 +21,7 @@ class Translate;
 class Popup;
 class Pronounce;
 class Clipboard;
-class TextEdit;
+class QTextEdit;
 class Languages;
 
 class MainWindow : public QMainWindow
@@ -58,8 +58,8 @@ private:
     QString about_title;
     QTimer translate_timer;
 
-    TextEdit *source_text;
-    TextEdit *result_text;
+	QTextEdit *source_text;
+	QTextEdit *result_text;
     QComboBox *source_combobox;
     QComboBox *result_combobox;
 
