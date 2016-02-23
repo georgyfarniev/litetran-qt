@@ -1,7 +1,7 @@
 # Maintainer: Georgy Farniev <georgy.farniev@gmail.com>
 
 pkgname=litetran-git
-pkgver=1.3
+pkgver=1.2.82.gc9cd6d2
 pkgrel=1
 pkgdesc="The powerful translator on Qt5 - GIT version"
 arch=("i686" "x86_64")
@@ -11,7 +11,7 @@ depends=('qt5-base' 'qt5-multimedia' 'qt5-tools' 'qt5-x11extras')
 makedepends=('cmake' 'git')
 conflicts=('litetran')
 provides=('litetran')
-source=(git@bitbucket.org:gfarniev/litetran.git)
+source=(litetran::git+https://bitbucket.org/gfarniev/litetran.git)
 sha1sums=('SKIP')
 
 pkgver() {
