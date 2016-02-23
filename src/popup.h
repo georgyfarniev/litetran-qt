@@ -24,7 +24,7 @@ private slots:
     void copy();
     void disappear();
 signals:
-    void pronounceRequested();
+//    void pronounceRequested();
     void appearRequested();
 private:
     QString getLongestString(const QStringList &lst) const;
@@ -39,7 +39,7 @@ private:
     QRect screen_geometry;
     QTextBrowser *text_browser;
     QAction *action_copy;
-    QAction *action_pronounce;
+//    QAction *action_pronounce;
     QAction *action_open;
     QAction *action_close;
     QLabel *label_text;

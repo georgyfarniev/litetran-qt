@@ -142,7 +142,7 @@ MainWindow::MainWindow(bool collapsed, QWidget *parent) :
     connect(swap_button, &QPushButton::clicked, this, &MainWindow::swap);
     connect(shortcut_translate, &QxtGlobalShortcut::activated, this, &MainWindow::popupTranslate);
     connect(shortcut_appear, &QxtGlobalShortcut::activated, this, &MainWindow::appearClean);
-    connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounce);
+//    connect(popup, &Popup::pronounceRequested, this, &MainWindow::pronounce);
     connect(popup, &Popup::appearRequested, this, &MainWindow::appear);
     connect(&translate_timer, SIGNAL(timeout()), this, SLOT(translate()));
 

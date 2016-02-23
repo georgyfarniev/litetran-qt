@@ -56,5 +56,6 @@
         <file>icons/ui/preferences-desktop-locale.png</file>
         <file>icons/ui/help-about.png</file>
         <file>icons/ui/view-refresh.png</file>
+        <file>icons/ui/window-new.png</file>
     </qresource>
 </RCC>

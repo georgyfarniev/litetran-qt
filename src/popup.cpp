@@ -23,7 +23,7 @@ Popup::Popup(QWidget *parent) :
     screen_geometry(QApplication::desktop()->geometry()),
     text_browser(new QTextBrowser(this)),
     action_copy(new QAction(this)),
-    action_pronounce(new QAction(this)),
+//    action_pronounce(new QAction(this)),
     action_open(new QAction(this)),
     action_close(new QAction(this)),
     label_text(new QLabel(QString::fromUtf8(UNICODE_ARROW), this)),
@@ -31,7 +31,7 @@ Popup::Popup(QWidget *parent) :
     label_tl(new QLabel(this))
 {
     action_copy->setIcon(APP_ICON("edit-copy"));
-    action_pronounce->setIcon(APP_ICON("media-playback-start"));
+//    action_pronounce->setIcon(APP_ICON("media-playback-start"));
     action_open->setIcon(APP_ICON("window-new"));
     action_close->setIcon(APP_ICON("window-close"));
     setWindowFlags(Qt::Popup);
@@ -46,7 +46,7 @@ Popup::Popup(QWidget *parent) :
     toolbar->addAction(action_close);
     toolbar->addAction(action_open);
     toolbar->addAction(action_copy);
-    toolbar->addAction(action_pronounce);
+//    toolbar->addAction(action_pronounce);
     QWidget *separator = new QWidget(this);
     separator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     toolbar->addWidget(separator);
@@ -64,7 +64,7 @@ Popup::Popup(QWidget *parent) :
     setFixedSize(DEFAULT_SIZE);
 
     connect(action_copy, &QAction::triggered, this, &Popup::copy);
-    connect(action_pronounce, &QAction::triggered, this, &Popup::pronounceRequested);
+//    connect(action_pronounce, &QAction::triggered, this, &Popup::pronounceRequested);
     connect(action_open, &QAction::triggered, this, &Popup::appearRequested);
     connect(action_close, &QAction::triggered, this, &QWidget::hide);
     connect(&disappear_timer, &QTimer::timeout, this, &Popup::disappear);
@@ -150,7 +150,7 @@ void Popup::changeEvent(QEvent *e)
     QWidget::changeEvent(e);
     if (e->type() ==  QEvent::LanguageChange) {
         action_copy->setText(tr("Copy"));
-        action_pronounce->setText(tr("Pronounce"));
+//        action_pronounce->setText(tr("Pronounce"));
         action_open->setText(tr("Open LiteTran"));
         action_close->setText(tr("Close Popup"));
     }
