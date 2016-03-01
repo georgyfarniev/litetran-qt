@@ -23,9 +23,6 @@ void Pronounce::say(const QString &text, QString lang)
     if (text.isEmpty() || player->state() == QMediaPlayer::PlayingState)
         return;
 
-    if(lang == "auto")
-        lang = translate_engine->detect(text);
-
     // Split text by spaces to chunks with size <= TTS_MAXCHAR
     const QStringList words = text.simplified().split(" ", QString::SkipEmptyParts);
     QString chunk;

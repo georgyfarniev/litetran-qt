@@ -26,12 +26,6 @@ QString Translate::translate(const QString &text, const QString &sl, const QStri
 	return doc.object().value("responseData").toObject().value("translatedText").toString();
 }
 
-QString Translate::detect(const QString &sample) const
-{
-    const QJsonObject root = query("client=json&sl=auto&text=", sample).object();
-    return root.value("src").toString();
-}
-
 QJsonDocument Translate::query(const QString &params, const QString &text) const
 {
     const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();

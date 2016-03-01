@@ -346,7 +346,7 @@ void MainWindow::updateSettings()
     shortcut_appear->setEnabled(settings_dialog->appearShortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
 
-    if (settings_dialog->autoTranslate())
+	if (settings_dialog->autoTranslate())
         connect(source_text, SIGNAL(textChanged()), &translate_timer, SLOT(start()));
     else
         disconnect(source_text, SIGNAL(textChanged()), &translate_timer, SLOT(start()));
@@ -400,10 +400,6 @@ void MainWindow::languageChanged()
     tooltip += "\n\n" + source_combobox->currentText();
     tooltip += " " UNICODE_ARROW " "  + result_combobox->currentText();
 
-    const bool enabled = source_combobox->currentIndex() != 0;
-    action_swap->setEnabled(enabled);
-    swap_button->setEnabled(enabled);
-
     tray_icon->setToolTip(tooltip);
 
     if (settings_dialog->autoTranslate() && !mLockAutoTranslation)
@@ -417,7 +413,6 @@ void MainWindow::updateLanguages()
 
     source_combobox->clear();
     result_combobox->clear();
-    source_combobox->addItem(APP_FLAG("auto"), "Auto", "auto");
     LanguageList langs = languages_dialog->languages();
     foreach(Language lang, langs) {
         const QString name = lang.first;
