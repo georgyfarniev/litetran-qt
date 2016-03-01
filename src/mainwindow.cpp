@@ -340,20 +340,8 @@ void MainWindow::updateSettings()
         show();
 
     tray_icon->setVisible(settings_dialog->trayIconEnabled());
-
-
-	if (settings_dialog->translateShortcutEnabled())
-	{
-		shortcut_translate->setShortcut(settings_dialog->translateShortcut());
-		shortcut_translate->setEnabled(true);
-	}
-	else
-	{
-		shortcut_translate->setShortcut(QKeySequence());
-		shortcut_translate->setEnabled(true);
-	}
-
-
+    shortcut_translate->setShortcut(settings_dialog->translateShortcut());
+    shortcut_translate->setEnabled(settings_dialog->translateShortcutEnabled());
     shortcut_appear->setShortcut(settings_dialog->appearShortcut());
     shortcut_appear->setEnabled(settings_dialog->appearShortcutEnabled());
     translate_engine->setDictionaryEnabled(settings_dialog->dictionaryEnabled());
