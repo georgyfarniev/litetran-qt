@@ -4,6 +4,7 @@
 #include <QTimer>
 
 #include "translate.h"
+#include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
 
 
 #include "models.h"
@@ -13,8 +14,7 @@ class MainWindow;
 
 class TrayIcon;
 class Settings;
-
-
+class Popup;
 
 class MainWindow : public QMainWindow
 {
@@ -30,11 +30,13 @@ public:
 	QString mapIndexToCode(const int idx);
 private:
 	Ui::MainWindow *ui;
+	Popup *mPopup;
 	TrayIcon *mTrayIcon;
 	Settings *mSettings;
 	LanguageVector mLanguages;
 	LanguageComboboxModel *mComboboxModel;
 	LanguageFilter *mFilter;
+	QxtGlobalShortcut *mShortcut;
 	TranslateEngine mEngine;
 	QTimer mTranslateTimer;
 };

@@ -1,18 +1,9 @@
 #pragma once
-
-#include <QObject>
 #include "defines.h"
 
-class QSettings;
-
-class AutoStart : public QObject
+class AutoStart
 {
-    Q_OBJECT
-    Q_PROPERTY(bool autoStart READ autoStart WRITE setAutoStart)
-public:
-    explicit AutoStart(QObject *parent = 0);
-    void setAutoStart(bool enabled);
-    bool autoStart();
-private:
-    QSettings *settings;
+
+	static void setAutoStart(bool enabled);
+	static bool autoStart();
 };

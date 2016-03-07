@@ -61,6 +61,7 @@ src/trayicon.h
 src/translate.h
 src/mainwindow.h
 src/models.h
+src/popup.h
 CACHE INTERNAL "Headers")
 
 set(SOURCES
@@ -70,11 +71,13 @@ src/trayicon.cpp
 src/translate.cpp
 src/mainwindow.cpp
 src/models.cpp
+src/popup.cpp
 CACHE INTERNAL "Sources")
 
 set(FORMS
 src/mainwindow.ui
-src/settings.ui)
+src/settings.ui
+src/popup.ui)
 
 
 set(TRANSLATIONS_FILES

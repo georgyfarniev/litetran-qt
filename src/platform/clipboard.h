@@ -1,10 +1,6 @@
 #pragma once
 
-#include <QObject>
-class Clipboard : public QObject
+class Clipboard
 {
-    Q_OBJECT
-public:
-    explicit Clipboard(QObject *parent = 0);
-    QString selectedText() const;
+	static QString selectedText();
 };

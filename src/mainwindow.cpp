@@ -6,18 +6,22 @@
 #include <QDebug>
 #include "models.h"
 #include "defines.h"
+#include "popup.h"
 #include <QItemSelectionModel>
 #include <QSettings>
+#include <QKeySequence>
 #include <algorithm>
 
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
+	mPopup(new Popup()),
 	mTrayIcon(new TrayIcon(this)),
 	mComboboxModel(new LanguageComboboxModel(mLanguages, this)),
 	mFilter(new LanguageFilter(this)),
-	mSettings(new Settings(this))
+	mSettings(new Settings(this)),
+	mShortcut(new QxtGlobalShortcut(this))
 {
 	ui->setupUi(this);
 	this->setUnifiedTitleAndToolBarOnMac(true);
@@ -27,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
 	connect(ui->actionPreferences, &QAction::triggered, mSettings, &QDialog::exec);
-	connect(&mEngine, &TranslateEngine::translationArrived, ui->ResultTextBrowser, &QTextBrowser::setText);
 
 	connect(&mTranslateTimer, &QTimer::timeout, [=](){
 		if (mSettings->getAutoTranslateEnabled())
@@ -44,6 +47,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(ui->ResultLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &){
 		mTranslateTimer.start();
+	});
+
+	mShortcut->setShortcut(QKeySequence("Alt+T"));
+
+	connect(mShortcut, &QxtGlobalShortcut::activated, [=](){
+		mPopup->display("", "", "en", "ru", "bla");
 	});
 
 	connect(ui->SwapButton, &QPushButton::clicked, [=](){
@@ -65,6 +74,11 @@ MainWindow::MainWindow(QWidget *parent) :
 		setEnabled(true);
 	});
 
+	connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
+		ui->ResultTextBrowser->setText(result);
+	});
+
+
 	connect(ui->TranslateButton, &QPushButton::clicked, [=](){
 		const QString sl = mapIndexToCode(ui->SourceLanguageCombobox->currentIndex());
 		const QString tl = mapIndexToCode(ui->ResultLanguageCombobox->currentIndex());
@@ -77,6 +91,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	mEngine.requestLanguages();
 	setDisabled(true);
+
+	mPopup->show();
 
 	QMenu *trayMenu = new QMenu(this);
 	trayMenu->addAction(ui->actionPreferences);
