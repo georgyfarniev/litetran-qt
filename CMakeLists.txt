@@ -38,7 +38,9 @@ if(NOT MSVC)
     if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
     endif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
+
 
 find_package(Qt5Widgets 5.2 REQUIRED)
 find_package(Qt5Core 5.2 REQUIRED)
@@ -54,31 +56,26 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/3rdparty/qxtshortcut)
 configure_file(src/defines.h.in src/defines.h)
 
 set(HEADERS
-src/mainwindow.h
 src/settings.h
 src/trayicon.h
-src/languagedb.h
 src/translate.h
-src/networkmanager.h
-src/pronounce.h
-src/popup.h
-src/textedit.h
-src/languages.h
+src/mainwindow.h
+src/models.h
 CACHE INTERNAL "Headers")
 
 set(SOURCES
 src/main.cpp
-src/mainwindow.cpp
 src/settings.cpp
 src/trayicon.cpp
-src/languagedb.cpp
 src/translate.cpp
-src/networkmanager.cpp
-src/pronounce.cpp
-src/popup.cpp
-src/textedit.cpp
-src/languages.cpp
+src/mainwindow.cpp
+src/models.cpp
 CACHE INTERNAL "Sources")
+
+set(FORMS
+src/mainwindow.ui
+src/settings.ui)
+
 
 set(TRANSLATIONS_FILES
 i18n/English.ts
@@ -107,8 +104,9 @@ add_custom_target(lupdate DEPENDS ${QM_FILES})
 
 qt5_add_resources(RC_SOURCES ${RESOURCES})
 qt5_wrap_cpp(MOC_SOURCES ${HEADERS})
+qt5_wrap_ui(FORM_HEADERS ${FORMS})
 
-add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${QM_FILES} litetran.rc)
+add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${FORM_HEADERS} ${QM_FILES} litetran.rc)
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
 
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)

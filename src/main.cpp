@@ -1,10 +1,10 @@
-#include "mainwindow.h"
 #include "defines.h"
 #include <QApplication>
 #include <QDebug>
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <QCommandLineParser>
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,20 +27,24 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(APP_ORG);
     app.setApplicationVersion(APP_VERSION);
 
-    QCommandLineParser parser;
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.setApplicationDescription(APP_NAME);
+//    QCommandLineParser parser;
+//    parser.addHelpOption();
+//    parser.addVersionOption();
+//    parser.setApplicationDescription(APP_NAME);
 
-    QCommandLineOption opt_collapsed(QStringList() << "c" << "collapsed", "Run collapsed in tray.");
-    parser.addOption(opt_collapsed);
+//    QCommandLineOption opt_collapsed(QStringList() << "c" << "collapsed", "Run collapsed in tray.");
+//    parser.addOption(opt_collapsed);
 
-    parser.process(app);
+//    parser.process(app);
 
-    bool collapsed = parser.isSet(opt_collapsed);
-    MainWindow window(collapsed);
+//    bool collapsed = parser.isSet(opt_collapsed);
+//    MainWindow window(collapsed);
 
-    QObject::connect(&srv, &QLocalServer::newConnection, &window, &MainWindow::show);
+	MainWindow window;
+
+	window.show();
+
+	QObject::connect(&srv, &QLocalServer::newConnection, &window, &MainWindow::show);
 
     return app.exec();
 }

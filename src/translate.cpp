@@ -1,37 +1,92 @@
 #include "translate.h"
-#include "networkmanager.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QStringList>
 #include <QTextDocumentFragment>
+#include <QSet>
+#include "models.h"
 
-#define TRANSLATOR_URL "http://api.mymemory.translated.net/get"
-
-Translate::Translate(QObject *parent)
-    :QObject(parent),
-     enable_dict(false),
-     network_manager(NetworkManager::instance())
+#include <algorithm>
+namespace constants
 {
+	const QString url_getlangs = "https://translate.yandex.net/api/v1.5/tr.json/getLangs";
+	const QString url_detect = "https://translate.yandex.net/api/v1.5/tr.json/detect";
+	const QString url_translate = "https://translate.yandex.net/api/v1.5/tr.json/translate";
+	const QString key = "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2";
 }
 
-QString Translate::translate(const QString &text, const QString &sl, const QString &tl) const
+class TranslateParser
 {
-	const QString params = QString(TRANSLATOR_URL"?q=%1&langpair=%2|%3").arg(text, sl, tl);
-	const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();
-	const QString req = params + encoded_text;
-	const QString response = network_manager->GET(params);
-	const QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
-	return doc.object().value("responseData").toObject().value("translatedText").toString();
+public:
+	static LanguageVector parseLanguages(const QByteArray &data)
+	{
+		const QJsonObject root = QJsonDocument::fromJson(data).object();
+		const QJsonArray dirs = root.value("dirs").toArray();
+		const QJsonObject langs = root.value("langs").toObject();
+		const QStringList keys = langs.keys();
+		LanguageVector vec;
+
+		for(const QString &key : keys)
+			vec << Language(key, langs.value(key).toString());
+
+		return vec;
+	}
+
+	static QString parseTranslate(const QByteArray &data)
+	{
+		return QJsonDocument::fromJson(data).object().value("text").toArray().first().toString();
+	}
+
+	static QString parseDetection(const QByteArray &data)
+	{
+		return QJsonDocument::fromJson(data).object().value("lang").toString();
+	}
+};
+
+TranslateEngine::TranslateEngine(QObject *parent)
+	:QObject(parent), mNetworkManager(new QNetworkAccessManager(this)), mApiKey(constants::key)
+{}
+
+
+void TranslateEngine::setTranslateKey(const QString &key) {mApiKey = key;}
+
+
+void TranslateEngine::requestLanguages()
+{
+	QUrl url(QString("%1?key=%2&ui=%3").arg(constants::url_getlangs).arg(mApiKey).arg("ru"));
+	QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
+
+	connect(reply, &QNetworkReply::finished, [=](){
+		const QByteArray result = reply->readAll();
+		emit languagesArrived(TranslateParser::parseLanguages(result));
+		reply->deleteLater();
+	});
 }
 
-QJsonDocument Translate::query(const QString &params, const QString &text) const
-{
-    const QByteArray encoded_text = text.toHtmlEscaped().toUtf8().toPercentEncoding();
-    const QString req = params + encoded_text;
-    const QUrl url = QUrl(TRANSLATOR_URL);
-    const QString response = network_manager->POST(url, req.toUtf8());
 
-    return QJsonDocument::fromJson(response.toUtf8());
+void TranslateEngine::requestTranslation(const QString &sl, const QString &tl, const QString &text)
+{
+	QUrl url(QString("%1?key=%2&text=%3&lang=%4-%5").arg(constants::url_translate).arg(mApiKey).arg(text).arg(sl).arg(tl));
+	QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
+
+	connect(reply, &QNetworkReply::finished, [=](){
+		const QByteArray result = reply->readAll();
+		emit translationArrived(TranslateParser::parseTranslate(result));
+		reply->deleteLater();
+	});
+}
+
+
+void TranslateEngine::requestDetect(const QString &text, const QStringList &hint)
+{
+	QUrl url(QString("%1?key=%2&text=%3&hint=%4").arg(constants::url_detect).arg(mApiKey).arg(text).arg(hint.join(',')));
+	QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
+
+	connect(reply, &QNetworkReply::finished, [=](){
+		const QByteArray result = reply->readAll();
+		emit detectionArrived(TranslateParser::parseDetection(result));
+		reply->deleteLater();
+	});
 }

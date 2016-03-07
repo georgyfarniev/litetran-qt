@@ -2,18 +2,27 @@
 
 #include <QString>
 #include <QObject>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QDebug>
+#include "models.h"
 
-class NetworkManager;
-
-class Translate : public QObject
+class TranslateEngine : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit Translate(QObject *parent = 0);
-    QString translate(const QString &text, const QString &sl, const QString &tl) const;
-    inline void setDictionaryEnabled(bool enabled) {enable_dict = enabled;}
+	TranslateEngine(QObject *parent = 0);
+	void setTranslateKey(const QString &key);
+	void requestLanguages();
+	void requestTranslation(const QString &sl, const QString &tl, const QString &text);
+	void requestDetect(const QString &text, const QStringList &hint);
+signals:
+	void error(const QString &description);
+	void languagesArrived(const LanguageVector &langs);
+	void translationArrived(const QString &result);
+	void detectionArrived(const QString &lang);
 private:
-    QJsonDocument query(const QString &params, const QString &text) const;
-    bool enable_dict;
-    NetworkManager *network_manager;
+	QNetworkAccessManager *mNetworkManager;
+	QString mApiKey;
 };
