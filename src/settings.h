@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <QDialog>
+#include <QKeySequence>
 #include "models.h"
 namespace Ui {
 class Settings;
@@ -17,8 +18,20 @@ public:
 
 	void setModel(LanguageComboboxModel *model);
 
-
+	bool getTrayIconEnabled();
 	bool getAutoTranslateEnabled();
+	bool getDictionaryEnabled();
+
+	bool getPopupShortcutEnabled();
+	bool getAppShortcutEnabled();
+
+	QKeySequence getPopupShortcut();
+	QKeySequence getAppShortcut();
+
+	QString getUILanguage() const;
+
+	QString getTranslateKey() const;
+	QString getDictionaryKey() const;
 
 private:
 	Ui::Settings *ui;

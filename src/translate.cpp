@@ -14,7 +14,6 @@ namespace constants
 	const QString url_getlangs = "https://translate.yandex.net/api/v1.5/tr.json/getLangs";
 	const QString url_detect = "https://translate.yandex.net/api/v1.5/tr.json/detect";
 	const QString url_translate = "https://translate.yandex.net/api/v1.5/tr.json/translate";
-	const QString key = "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2";
 }
 
 class TranslateParser
@@ -46,12 +45,10 @@ public:
 };
 
 TranslateEngine::TranslateEngine(QObject *parent)
-	:QObject(parent), mNetworkManager(new QNetworkAccessManager(this)), mApiKey(constants::key)
+	:QObject(parent), mNetworkManager(new QNetworkAccessManager(this))
 {}
 
-
 void TranslateEngine::setTranslateKey(const QString &key) {mApiKey = key;}
-
 
 void TranslateEngine::requestLanguages()
 {
@@ -65,7 +62,6 @@ void TranslateEngine::requestLanguages()
 	});
 }
 
-
 void TranslateEngine::requestTranslation(const QString &sl, const QString &tl, const QString &text)
 {
 	QUrl url(QString("%1?key=%2&text=%3&lang=%4-%5").arg(constants::url_translate).arg(mApiKey).arg(text).arg(sl).arg(tl));
@@ -77,7 +73,6 @@ void TranslateEngine::requestTranslation(const QString &sl, const QString &tl, c
 		reply->deleteLater();
 	});
 }
-
 
 void TranslateEngine::requestDetect(const QString &text, const QStringList &hint)
 {

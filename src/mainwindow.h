@@ -26,6 +26,7 @@ public:
 
 	void readSettings();
 	void saveSettings();
+	void startTranslation();
 
 	QString mapIndexToCode(const int idx);
 private:
@@ -39,5 +40,10 @@ private:
 	QxtGlobalShortcut *mShortcut;
 	TranslateEngine mEngine;
 	QTimer mTranslateTimer;
+
+	enum class State
+	{
+		Working, Idle
+	};
 };
 

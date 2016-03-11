@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "trayicon.h"
 #include "settings.h"
+#include "platform/clipboard.h"
 #include <QMenu>
 #include <QDebug>
 #include "models.h"
@@ -11,7 +12,6 @@
 #include <QSettings>
 #include <QKeySequence>
 #include <algorithm>
-
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	this->setUnifiedTitleAndToolBarOnMac(true);
+
+	mEngine.setTranslateKey(mSettings->getTranslateKey());
 
 	mTranslateTimer.setInterval(1000);
 	mTranslateTimer.setSingleShot(true);
@@ -41,18 +43,19 @@ MainWindow::MainWindow(QWidget *parent) :
 		mTranslateTimer.start();
 	});
 
-	connect(ui->SourceLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &){
+	connect(ui->SourceLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) {
 		mTranslateTimer.start();
 	});
 
-	connect(ui->ResultLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &){
+	connect(ui->ResultLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) {
 		mTranslateTimer.start();
 	});
 
 	mShortcut->setShortcut(QKeySequence("Alt+T"));
 
 	connect(mShortcut, &QxtGlobalShortcut::activated, [=](){
-		mPopup->display("", "", "en", "ru", "bla");
+		ui->SourceTextEdit->setPlainText("test");
+		startTranslation();
 	});
 
 	connect(ui->SwapButton, &QPushButton::clicked, [=](){
@@ -76,13 +79,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
 		ui->ResultTextBrowser->setText(result);
+
+		setDisabled(false);
+		setCursor(Qt::ArrowCursor);
+
+		if (!isActiveWindow())
+			mPopup->display("", "", "", "", ui->ResultTextBrowser->toPlainText());
 	});
 
-
 	connect(ui->TranslateButton, &QPushButton::clicked, [=](){
-		const QString sl = mapIndexToCode(ui->SourceLanguageCombobox->currentIndex());
-		const QString tl = mapIndexToCode(ui->ResultLanguageCombobox->currentIndex());
-		mEngine.requestTranslation(sl, tl, ui->SourceTextEdit->toPlainText());
+		setDisabled(true);
+		setCursor(Qt::WaitCursor);
+		startTranslation();
 	});
 
 	connect(mSettings, &QDialog::accepted, [=](){
@@ -91,8 +99,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	mEngine.requestLanguages();
 	setDisabled(true);
-
-	mPopup->show();
 
 	QMenu *trayMenu = new QMenu(this);
 	trayMenu->addAction(ui->actionPreferences);
@@ -130,6 +136,13 @@ void MainWindow::saveSettings()
 			enabled << l.code;
 	}
 	s.setValue("EnabledLanguages", enabled.join(','));
+}
+
+void MainWindow::startTranslation()
+{
+	const QString sl = mapIndexToCode(ui->SourceLanguageCombobox->currentIndex());
+	const QString tl = mapIndexToCode(ui->ResultLanguageCombobox->currentIndex());
+	mEngine.requestTranslation(sl, tl, ui->SourceTextEdit->toPlainText());
 }
 
 QString MainWindow::mapIndexToCode(const int idx)

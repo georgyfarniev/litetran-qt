@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -79,10 +79,17 @@
            <property name="text">
             <string>Show application</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
-          <widget class="QKeySequenceEdit" name="keySequenceEdit"/>
+          <widget class="QKeySequenceEdit" name="ShowKeySequence">
+           <property name="keySequence">
+            <string>Meta+Shift+T</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -93,10 +100,17 @@
            <property name="text">
             <string>Popup translate</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
-          <widget class="QKeySequenceEdit" name="keySequenceEdit_2"/>
+          <widget class="QKeySequenceEdit" name="PopupKeySequence">
+           <property name="keySequence">
+            <string>Alt+T</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -186,7 +200,7 @@
       <zorder>UseCustomKeysCheckbox</zorder>
       <zorder></zorder>
       <zorder></zorder>
-      <zorder></zorder>
+      <zorder>verticalSpacer_2</zorder>
      </widget>
     </widget>
    </item>
@@ -211,8 +225,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>519</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -227,12 +241,44 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>322</x>
+     <y>519</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowHotkeyCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowKeySequence</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>102</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>191</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>PopupHotkeyCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>PopupKeySequence</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>112</x>
+     <y>201</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>188</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>
