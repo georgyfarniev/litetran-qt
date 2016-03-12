@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>LiteTran</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -25,6 +25,12 @@
       </property>
       <item>
        <widget class="QComboBox" name="SourceLanguageCombobox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="currentIndex">
          <number>-1</number>
         </property>
@@ -43,31 +49,41 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="SwapButton">
+       <widget class="QLabel" name="DirectionLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>16</width>
+          <height>16</height>
          </size>
         </property>
         <property name="text">
-         <string/>
-        </property>
-        <property name="default">
-         <bool>false</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
+         <string>→</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="ResultLanguageCombobox"/>
+       <widget class="QComboBox" name="ResultLanguageCombobox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="TranslateButton">
         <property name="text">
          <string>Translate</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+T</string>
         </property>
         <property name="default">
          <bool>true</bool>
@@ -85,6 +101,21 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>true</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -94,23 +125,57 @@
    <addaction name="actionPreferences"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
+   <addaction name="actionClear"/>
+   <addaction name="actionSwap"/>
   </widget>
   <action name="actionPreferences">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/icons/ui/preferences-system.png</normaloff>:/icons/ui/preferences-system.png</iconset>
+   </property>
    <property name="text">
     <string>Preferences</string>
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/icons/ui/help-about.png</normaloff>:/icons/ui/help-about.png</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/icons/ui/application-exit.png</normaloff>:/icons/ui/application-exit.png</iconset>
+   </property>
    <property name="text">
     <string>Quit</string>
    </property>
   </action>
+  <action name="actionClear">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/icons/ui/edit-clear.png</normaloff>:/icons/ui/edit-clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionSwap">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/icons/ui/view-refresh.png</normaloff>:/icons/ui/view-refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Swap</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

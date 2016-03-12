@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>265</width>
-    <height>218</height>
+    <width>295</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,12 +32,19 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QToolButton" name="toolButton">
+      <widget class="QToolButton" name="CloseButton">
        <property name="text">
         <string>...</string>
        </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/ui/window-close.png</normaloff>:/icons/ui/window-close.png</iconset>
+       </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonIconOnly</enum>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -48,9 +55,13 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_2">
+      <widget class="QToolButton" name="ShowAppButton">
        <property name="text">
         <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/ui/window-new.png</normaloff>:/icons/ui/window-new.png</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>
@@ -64,9 +75,13 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_3">
+      <widget class="QToolButton" name="CopyButton">
        <property name="text">
         <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/ui/edit-copy.png</normaloff>:/icons/ui/edit-copy.png</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>
@@ -120,6 +135,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

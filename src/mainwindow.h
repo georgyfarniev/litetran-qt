@@ -15,21 +15,28 @@ class MainWindow;
 class TrayIcon;
 class Settings;
 class Popup;
+class QCloseEvent;
 
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
-
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
+	void createTrayMenu();
 	void readSettings();
 	void saveSettings();
-	void startTranslation();
 
-	QString mapIndexToCode(const int idx);
+	Language mapIndexToLanguage(const int idx);
+	Language sourceLanguage();
+	Language resultLanguage();
 private:
+	void beginAsyncOperation() {}
+	void endAsyncOperation() {}
+	void asyncOperationTimeout() {}
+	void closeEvent(QCloseEvent *event);
+
 	Ui::MainWindow *ui;
 	Popup *mPopup;
 	TrayIcon *mTrayIcon;
@@ -37,7 +44,8 @@ private:
 	LanguageVector mLanguages;
 	LanguageComboboxModel *mComboboxModel;
 	LanguageFilter *mFilter;
-	QxtGlobalShortcut *mShortcut;
+	QxtGlobalShortcut *mTranslateShortcut;
+	QxtGlobalShortcut *mAppearShortcut;
 	TranslateEngine mEngine;
 	QTimer mTranslateTimer;
 

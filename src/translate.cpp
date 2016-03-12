@@ -5,10 +5,9 @@
 #include <QJsonArray>
 #include <QStringList>
 #include <QTextDocumentFragment>
-#include <QSet>
-#include "models.h"
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#include <algorithm>
 namespace constants
 {
 	const QString url_getlangs = "https://translate.yandex.net/api/v1.5/tr.json/getLangs";

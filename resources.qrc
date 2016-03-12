@@ -43,7 +43,6 @@
         <file>icons/flags/vi.png</file>
         <file>icons/flags/zh-CN.png</file>
         <file>icons/flags/zh-TW.png</file>
-        <file>icons/ui/edit-clear.png</file>
         <file>icons/ui/edit-copy.png</file>
         <file>icons/ui/litetran.png</file>
         <file>icons/ui/media-playback-start.png</file>
@@ -55,7 +54,8 @@
         <file>icons/ui/preferences-system.png</file>
         <file>icons/ui/preferences-desktop-locale.png</file>
         <file>icons/ui/help-about.png</file>
-        <file>icons/ui/view-refresh.png</file>
         <file>icons/ui/window-new.png</file>
+        <file>icons/ui/edit-clear.png</file>
+        <file>icons/ui/view-refresh.png</file>
     </qresource>
 </RCC>

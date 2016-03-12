@@ -5,7 +5,7 @@
 #ifdef APP_WM_COCOA
 QString Clipboard::selectedText()
 {
-	return QString(); // Not implemented yet
+	return "NOT IMPLEMENTED"; // Not implemented yet
 }
 #endif
 
@@ -16,9 +16,9 @@ String Clipboard::selectedText()
 }
 #endif
 
-#ifdef APP_WM_WIN
+#ifdef Q_OS_WIN32
 #include <qt_windows.h>
-
+#include <QDebug>
 class WinClipboard {
 public:
 	inline static void setClipboardText(wchar_t *text)

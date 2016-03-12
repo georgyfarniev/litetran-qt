@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>524</height>
+    <width>322</width>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,29 +25,16 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>UI Languge</string>
+            <string>Application language</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QComboBox" name="LanguageCombobox"/>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </item>
@@ -73,7 +60,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QCheckBox" name="ShowHotkeyCheckbox">
            <property name="text">
@@ -86,6 +73,12 @@
          </item>
          <item>
           <widget class="QKeySequenceEdit" name="ShowKeySequence">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="keySequence">
             <string>Meta+Shift+T</string>
            </property>
@@ -94,7 +87,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QCheckBox" name="PopupHotkeyCheckbox">
            <property name="text">
@@ -107,6 +100,12 @@
          </item>
          <item>
           <widget class="QKeySequenceEdit" name="PopupKeySequence">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="keySequence">
             <string>Alt+T</string>
            </property>
@@ -122,7 +121,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>178</height>
           </size>
          </property>
         </spacer>
@@ -159,13 +158,20 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QLabel" name="label_2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Translate key</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="YandexTranslateKeyLineEdit"/>
+          <widget class="QLineEdit" name="YandexTranslateKeyLineEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -173,13 +179,20 @@
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QLabel" name="label_3">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Dictionary key</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="YandexDictionaryKeyLineEdit"/>
+          <widget class="QLineEdit" name="YandexDictionaryKeyLineEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -197,10 +210,14 @@
         </spacer>
        </item>
       </layout>
+      <zorder>label_3</zorder>
+      <zorder>YandexDictionaryKeyLineEdit</zorder>
       <zorder>UseCustomKeysCheckbox</zorder>
-      <zorder></zorder>
-      <zorder></zorder>
+      <zorder>label_2</zorder>
+      <zorder>YandexTranslateKeyLineEdit</zorder>
       <zorder>verticalSpacer_2</zorder>
+      <zorder>horizontalSpacer</zorder>
+      <zorder>horizontalSpacer_2</zorder>
      </widget>
     </widget>
    </item>
@@ -225,8 +242,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>254</x>
-     <y>519</y>
+     <x>260</x>
+     <y>466</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -241,8 +258,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>322</x>
-     <y>519</y>
+     <x>315</x>
+     <y>466</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -279,6 +296,86 @@
     <hint type="destinationlabel">
      <x>188</x>
      <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>UseCustomKeysCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>104</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>UseCustomKeysCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>YandexTranslateKeyLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>152</x>
+     <y>80</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>UseCustomKeysCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>75</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>UseCustomKeysCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>YandexDictionaryKeyLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>160</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowHotkeyCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowKeySequence</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>195</x>
+     <y>159</y>
     </hint>
    </hints>
   </connection>

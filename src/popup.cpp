@@ -13,6 +13,8 @@ Popup::Popup(QWidget *parent) :
 {
 	ui->setupUi(this);
 	setWindowFlags(Qt::Popup);
+
+	connect(ui->CloseButton, &QToolButton::clicked, this, &QWidget::close);
 }
 
 Popup::~Popup()
@@ -27,27 +29,27 @@ void Popup::prepareDisplayPopup()
 
 void Popup::display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text)
 {
-			ui->ResultTextBrowser->setHtml(text);
+	ui->ResultTextBrowser->setHtml(text);
 
-			ui->SourceLanguageLabel->setText(sc);
-			ui->ResultLanguageLabel->setText(tc);
+	ui->SourceLanguageLabel->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)));
+	ui->ResultLanguageLabel->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)));
 
-			ui->SourceLanguageLabel->setToolTip(sl);
-			ui->ResultLanguageLabel->setToolTip(tl);
+	ui->SourceLanguageLabel->setToolTip(sl);
+	ui->ResultLanguageLabel->setToolTip(tl);
 
-			mCursorPos = QCursor::pos();
+	mCursorPos = QCursor::pos();
 
-			//DO NOT allow popup to move outside of the screen
-			QPoint new_pos(mCursorPos + QPoint(16, 16));
-			const QRect intersect = QApplication::desktop()->geometry().intersected(QRect(new_pos, DEFAULT_SIZE));
-			if (intersect.height() != this->height())
-				new_pos = QPoint(new_pos.x(), new_pos.y() - (this->height() - intersect.height()) - SCREEN_CORNER_PADDING);
-			if (intersect.width() != this->width())
-				new_pos = QPoint(new_pos.x() - (this->width() - intersect.width())  - SCREEN_CORNER_PADDING, new_pos.y());
-			move(new_pos);
+	//DO NOT allow popup to move outside of the screen
+	QPoint new_pos(mCursorPos + QPoint(16, 16));
+	const QRect intersect = QApplication::desktop()->geometry().intersected(QRect(new_pos, DEFAULT_SIZE));
+	if (intersect.height() != this->height())
+		new_pos = QPoint(new_pos.x(), new_pos.y() - (this->height() - intersect.height()) - SCREEN_CORNER_PADDING);
+	if (intersect.width() != this->width())
+		new_pos = QPoint(new_pos.x() - (this->width() - intersect.width())  - SCREEN_CORNER_PADDING, new_pos.y());
+	move(new_pos);
 
-			QWidget::show();
-			activateWindow();
+	QWidget::show();
+	activateWindow();
 }
 
 void Popup::disappear()
@@ -67,15 +69,3 @@ void Popup::paintEvent(QPaintEvent *e)
 	e->accept();
 }
 
-void Popup::mouseReleaseEvent(QMouseEvent *e)
-{
-	if (!this->underMouse())
-		hide();
-	e->accept();
-}
-
-void Popup::keyReleaseEvent(QKeyEvent *e)
-{
-	hide();
-	e->accept();
-}

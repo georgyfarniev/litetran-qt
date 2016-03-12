@@ -11,7 +11,13 @@
 #include <QItemSelectionModel>
 #include <QSettings>
 #include <QKeySequence>
+#include <QDebug>
 #include <algorithm>
+
+#ifdef APP_WM_COCOA
+#include <Carbon/Carbon.h>
+#include <CoreServices/CoreServices.h>
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -21,21 +27,42 @@ MainWindow::MainWindow(QWidget *parent) :
 	mComboboxModel(new LanguageComboboxModel(mLanguages, this)),
 	mFilter(new LanguageFilter(this)),
 	mSettings(new Settings(this)),
-	mShortcut(new QxtGlobalShortcut(this))
+	mTranslateShortcut(new QxtGlobalShortcut(this)),
+	mAppearShortcut(new QxtGlobalShortcut(this))
 {
 	ui->setupUi(this);
-	this->setUnifiedTitleAndToolBarOnMac(true);
 
 	mEngine.setTranslateKey(mSettings->getTranslateKey());
 
-	mTranslateTimer.setInterval(1000);
-	mTranslateTimer.setSingleShot(true);
-
+	// Regular actions handlers
 	connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
 	connect(ui->actionPreferences, &QAction::triggered, mSettings, &QDialog::exec);
 
+	connect(ui->actionClear, &QAction::triggered, [=]()
+	{
+		ui->SourceTextEdit->clear();
+		ui->ResultTextBrowser->clear();
+	});
+
+	connect(mTranslateShortcut, &QxtGlobalShortcut::activated, [=](){
+		ui->SourceTextEdit->setPlainText(Clipboard::selectedText());
+		ui->TranslateButton->click();
+	});
+
+	connect(ui->actionSwap, &QAction::triggered, [=](){
+		const int idx = ui->SourceLanguageCombobox->currentIndex();
+		ui->SourceLanguageCombobox->setCurrentIndex(ui->ResultLanguageCombobox->currentIndex());
+		ui->ResultLanguageCombobox->setCurrentIndex(idx);
+	});
+
+	connect(mAppearShortcut, &QxtGlobalShortcut::activated, [=](){
+		ui->actionClear->trigger();
+		show();
+	});
+
+	// Timer handlers
 	connect(&mTranslateTimer, &QTimer::timeout, [=](){
-		if (mSettings->getAutoTranslateEnabled())
+		if (mSettings->getAutoTranslateEnabled() && !ui->SourceTextEdit->toPlainText().isEmpty())
 			ui->TranslateButton->click();
 	});
 
@@ -51,62 +78,75 @@ MainWindow::MainWindow(QWidget *parent) :
 		mTranslateTimer.start();
 	});
 
-	mShortcut->setShortcut(QKeySequence("Alt+T"));
-
-	connect(mShortcut, &QxtGlobalShortcut::activated, [=](){
-		ui->SourceTextEdit->setPlainText("test");
-		startTranslation();
-	});
-
-	connect(ui->SwapButton, &QPushButton::clicked, [=](){
-		const int idx = ui->SourceLanguageCombobox->currentIndex();
-		ui->SourceLanguageCombobox->setCurrentIndex(ui->ResultLanguageCombobox->currentIndex());
-		ui->ResultLanguageCombobox->setCurrentIndex(idx);
-	});
-
+	// Async actions handlers
 	connect(&mEngine, &TranslateEngine::languagesArrived, [=](const LanguageVector &ret){
 		mLanguages = ret;
+
+		qDebug() << mLanguages.size();
 		std::sort(mLanguages.begin(), mLanguages.end(), [=](const Language &l1, const Language &l2) -> bool {
 			return l1.name.toLower() < l2.name.toLower();
 		});
-		readSettings();
-		mFilter->setSourceModel(mComboboxModel);
-		mSettings->setModel(mComboboxModel);
-		ui->SourceLanguageCombobox->setModel(mFilter);
-		ui->ResultLanguageCombobox->setModel(mFilter);
-		setEnabled(true);
+
+		QSettings s;
+		s.beginGroup("MainWindow");
+
+		QStringList enabled = s.value("EnabledLanguages").toString().split(',');
+
+		for(Language &l : mLanguages)
+		{
+			if (!enabled.contains(l.code))
+				l.enabled = false;
+		}
+
+
+		mComboboxModel->reload();
+
+		ui->SourceLanguageCombobox->setCurrentText(s.value("SourceLanguage", "English").toString());
+		ui->ResultLanguageCombobox->setCurrentText(s.value("ResultLanguage", "Russian").toString());
+		s.endGroup();
 	});
 
 	connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
 		ui->ResultTextBrowser->setText(result);
-
-		setDisabled(false);
-		setCursor(Qt::ArrowCursor);
-
-		if (!isActiveWindow())
-			mPopup->display("", "", "", "", ui->ResultTextBrowser->toPlainText());
+		if (!isActiveWindow() && !mSettings->isActiveWindow())
+			mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
 	});
 
 	connect(ui->TranslateButton, &QPushButton::clicked, [=](){
-		setDisabled(true);
-		setCursor(Qt::WaitCursor);
-		startTranslation();
+		mEngine.requestTranslation(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
 	});
 
 	connect(mSettings, &QDialog::accepted, [=](){
+//		qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
+		mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
+
+		const QString sl = ui->SourceLanguageCombobox->currentText();
+		const QString tl = ui->ResultLanguageCombobox->currentText();
+
 		mComboboxModel->reload();
+
+		ui->SourceLanguageCombobox->setCurrentText(sl);
+		ui->ResultLanguageCombobox->setCurrentText(tl);
+
 	});
 
-	mEngine.requestLanguages();
-	setDisabled(true);
+	// Setup model
+	mFilter->setSourceModel(mComboboxModel);
+	mSettings->setModel(mComboboxModel);
+	ui->SourceLanguageCombobox->setModel(mFilter);
+	ui->ResultLanguageCombobox->setModel(mFilter);
 
-	QMenu *trayMenu = new QMenu(this);
-	trayMenu->addAction(ui->actionPreferences);
-	trayMenu->addSeparator();
-	trayMenu->addAction(ui->actionQuit);
-	trayMenu->addAction(ui->actionAbout);
-	mTrayIcon->setContextMenu(trayMenu);
-	mTrayIcon->setVisible(true);
+	// Setup GUI
+	setUnifiedTitleAndToolBarOnMac(true);
+	createTrayMenu();
+	mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
+	QSettings s;
+	s.beginGroup("MainWindow");
+	restoreGeometry(s.value("Geometry").toByteArray());
+	s.endGroup();
+
+	// Request available languages
+	mEngine.requestLanguages();
 }
 
 MainWindow::~MainWindow()
@@ -115,20 +155,26 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
+void MainWindow::createTrayMenu()
+{
+	//! Tray menu configuration
+	QMenu *trayMenu = new QMenu(this);
+	trayMenu->addAction(ui->actionPreferences);
+	trayMenu->addAction(ui->actionSwap);
+	trayMenu->addSeparator();
+	trayMenu->addAction(ui->actionAbout);
+	trayMenu->addAction(ui->actionQuit);
+	mTrayIcon->setContextMenu(trayMenu);
+}
+
 void MainWindow::readSettings()
 {
-	QSettings s;
-	QStringList enabled = s.value("EnabledLanguages").toString().split(',');
-	for(Language &l : mLanguages)
-	{
-		if (enabled.contains(l.code))
-			l.enabled = true;
-	}
 }
 
 void MainWindow::saveSettings()
 {
 	QSettings s;
+	s.beginGroup("MainWindow");
 	QStringList enabled;
 	for(Language &l : mLanguages)
 	{
@@ -136,16 +182,46 @@ void MainWindow::saveSettings()
 			enabled << l.code;
 	}
 	s.setValue("EnabledLanguages", enabled.join(','));
+	s.setValue("SourceLanguage", sourceLanguage().name);
+	s.setValue("ResultLanguage", resultLanguage().name);
+	s.setValue("Geometry", saveGeometry());
+	s.setValue("Visible", isVisible());
+	s.endGroup();
 }
 
-void MainWindow::startTranslation()
+Language MainWindow::mapIndexToLanguage(const int idx)
 {
-	const QString sl = mapIndexToCode(ui->SourceLanguageCombobox->currentIndex());
-	const QString tl = mapIndexToCode(ui->ResultLanguageCombobox->currentIndex());
-	mEngine.requestTranslation(sl, tl, ui->SourceTextEdit->toPlainText());
+	return mLanguages.at(mFilter->mapToSource(mFilter->index(idx, 0, QModelIndex())).row());
 }
 
-QString MainWindow::mapIndexToCode(const int idx)
+Language MainWindow::sourceLanguage()
 {
-	return mLanguages.at(mFilter->mapToSource(mFilter->index(idx, 0, QModelIndex())).row()).code;
+	return mapIndexToLanguage(ui->SourceLanguageCombobox->currentIndex());
+}
+
+Language MainWindow::resultLanguage()
+{
+	return mapIndexToLanguage(ui->ResultLanguageCombobox->currentIndex());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+#ifdef APP_WM_COCOA
+	if (event->spontaneous()) {
+		/** if event initiated from application (close button clicked) */
+		event->ignore();
+		ProcessSerialNumber pn;
+		// NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
+		GetCurrentProcess(&pn); // gets application process identifier
+		ShowHideProcess(&pn, false); // hides application in tray
+	} else {
+		/**
+			 * if event initiated outside of application (selected Quit in dock
+			 * context menu)
+			 */
+		QMainWindow::closeEvent(event);
+	}
+#else
+	QMainWindow::closeEvent(event);
+#endif
 }

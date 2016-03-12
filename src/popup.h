@@ -24,8 +24,6 @@ public:
 	void display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text);
 	void disappear();
 	void paintEvent(QPaintEvent *e);
-	void mouseReleaseEvent(QMouseEvent *e);
-	void keyReleaseEvent(QKeyEvent *e);
 private:
 	QPoint mCursorPos;
 	Ui::Popup *ui;

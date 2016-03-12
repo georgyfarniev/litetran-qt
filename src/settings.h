@@ -17,7 +17,6 @@ public:
 	~Settings();
 
 	void setModel(LanguageComboboxModel *model);
-
 	bool getTrayIconEnabled();
 	bool getAutoTranslateEnabled();
 	bool getDictionaryEnabled();
@@ -32,6 +31,7 @@ public:
 
 	QString getTranslateKey() const;
 	QString getDictionaryKey() const;
+private slots:
 
 private:
 	Ui::Settings *ui;

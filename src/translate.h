@@ -3,9 +3,6 @@
 #include <QString>
 #include <QObject>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QDebug>
 #include "models.h"
 
 class TranslateEngine : public QObject

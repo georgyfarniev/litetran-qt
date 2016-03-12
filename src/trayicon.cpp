@@ -5,10 +5,8 @@ TrayIcon::TrayIcon(QObject *parent) :
     QSystemTrayIcon(parent)
 {
     setIcon(APP_ICON("litetran"));
-    connect(this, &TrayIcon::activated, this, &TrayIcon::onActivate);
-}
-
-void TrayIcon::onActivate(QSystemTrayIcon::ActivationReason reason) {
-    if(reason == QSystemTrayIcon::Trigger)
-        emit clicked();
+	connect(this, &TrayIcon::activated, this, [=](QSystemTrayIcon::ActivationReason reason){
+		if(reason == QSystemTrayIcon::Trigger)
+			emit clicked();
+	});
 }
