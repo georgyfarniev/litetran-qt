@@ -10,7 +10,7 @@
 
 namespace constants
 {
-	const QString url_getlangs = "https://translate.yandex.net/api/v1.5/tr.json/getLangs";
+    const QString url_getlangs = "https://translate.yandex.net/api/v1.5/tr.json/getLangs";
 	const QString url_detect = "https://translate.yandex.net/api/v1.5/tr.json/detect";
 	const QString url_translate = "https://translate.yandex.net/api/v1.5/tr.json/translate";
 }

@@ -1,18 +1,19 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "trayicon.h"
-#include "settings.h"
-#include "platform/clipboard.h"
 #include <QMenu>
 #include <QDebug>
-#include "models.h"
-#include "defines.h"
-#include "popup.h"
 #include <QItemSelectionModel>
 #include <QSettings>
 #include <QKeySequence>
 #include <QDebug>
 #include <algorithm>
+
+#include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
+#include "ui_mainwindow.h"
+#include "mainwindow.h"
+#include "trayicon.h"
+#include "settings.h"
+#include "platform/clipboard.h"
+#include "defines.h"
+#include "popup.h"
 
 #ifdef APP_WM_COCOA
 #include <Carbon/Carbon.h>
@@ -34,6 +35,39 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	mEngine.setTranslateKey(mSettings->getTranslateKey());
 
+	createActionsConnections();
+	createTimerConnections();
+	createAsyncConnections();
+
+	// Setup model
+	mFilter->setSourceModel(mComboboxModel);
+	mSettings->setModel(mComboboxModel);
+	ui->SourceLanguageCombobox->setModel(mFilter);
+	ui->ResultLanguageCombobox->setModel(mFilter);
+
+	// Setup GUI
+	setUnifiedTitleAndToolBarOnMac(true);
+	createTrayMenu();
+	mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
+	mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
+	mAppearShortcut->setShortcut(mSettings->getAppShortcut());
+	QSettings s;
+	s.beginGroup("MainWindow");
+	restoreGeometry(s.value("Geometry").toByteArray());
+	s.endGroup();
+
+	// Request available languages
+	mEngine.requestLanguages();
+}
+
+MainWindow::~MainWindow()
+{
+	saveSettings();
+	delete ui;
+}
+
+void MainWindow::createActionsConnections()
+{
 	// Regular actions handlers
 	connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
 	connect(ui->actionPreferences, &QAction::triggered, mSettings, &QDialog::exec);
@@ -60,10 +94,21 @@ MainWindow::MainWindow(QWidget *parent) :
 		show();
 	});
 
+	connect(ui->TranslateButton, &QPushButton::clicked, [=](){
+		if(!ui->SourceTextEdit->toPlainText().isEmpty())
+			mEngine.requestTranslation(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
+	});
+}
+
+void MainWindow::createTimerConnections()
+{
 	// Timer handlers
 	connect(&mTranslateTimer, &QTimer::timeout, [=](){
 		if (mSettings->getAutoTranslateEnabled() && !ui->SourceTextEdit->toPlainText().isEmpty())
+		{
 			ui->TranslateButton->click();
+			mTranslateTimer.stop();
+		}
 	});
 
 	connect(ui->SourceTextEdit, &QPlainTextEdit::textChanged, [=](){
@@ -77,12 +122,21 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->ResultLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) {
 		mTranslateTimer.start();
 	});
+}
 
+void MainWindow::createAsyncConnections()
+{
 	// Async actions handlers
 	connect(&mEngine, &TranslateEngine::languagesArrived, [=](const LanguageVector &ret){
 		mLanguages = ret;
 
-		qDebug() << mLanguages.size();
+		if (mLanguages.isEmpty())
+		{
+			qWarning() << "Unable to fetch languages!";
+			setDisabled(true);
+			return;
+		}
+
 		std::sort(mLanguages.begin(), mLanguages.end(), [=](const Language &l1, const Language &l2) -> bool {
 			return l1.name.toLower() < l2.name.toLower();
 		});
@@ -98,7 +152,6 @@ MainWindow::MainWindow(QWidget *parent) :
 				l.enabled = false;
 		}
 
-
 		mComboboxModel->reload();
 
 		ui->SourceLanguageCombobox->setCurrentText(s.value("SourceLanguage", "English").toString());
@@ -112,47 +165,18 @@ MainWindow::MainWindow(QWidget *parent) :
 			mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
 	});
 
-	connect(ui->TranslateButton, &QPushButton::clicked, [=](){
-		mEngine.requestTranslation(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
-	});
+
 
 	connect(mSettings, &QDialog::accepted, [=](){
-//		qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
 		mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
-
+		mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
+		mAppearShortcut->setShortcut(mSettings->getAppShortcut());
 		const QString sl = ui->SourceLanguageCombobox->currentText();
 		const QString tl = ui->ResultLanguageCombobox->currentText();
-
 		mComboboxModel->reload();
-
 		ui->SourceLanguageCombobox->setCurrentText(sl);
 		ui->ResultLanguageCombobox->setCurrentText(tl);
-
 	});
-
-	// Setup model
-	mFilter->setSourceModel(mComboboxModel);
-	mSettings->setModel(mComboboxModel);
-	ui->SourceLanguageCombobox->setModel(mFilter);
-	ui->ResultLanguageCombobox->setModel(mFilter);
-
-	// Setup GUI
-	setUnifiedTitleAndToolBarOnMac(true);
-	createTrayMenu();
-	mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
-	QSettings s;
-	s.beginGroup("MainWindow");
-	restoreGeometry(s.value("Geometry").toByteArray());
-	s.endGroup();
-
-	// Request available languages
-	mEngine.requestLanguages();
-}
-
-MainWindow::~MainWindow()
-{
-	saveSettings();
-	delete ui;
 }
 
 void MainWindow::createTrayMenu()

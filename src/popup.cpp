@@ -31,9 +31,8 @@ void Popup::display(const QString &sl, const QString &tl, const QString &sc, con
 {
 	ui->ResultTextBrowser->setHtml(text);
 
-	ui->SourceLanguageLabel->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(sc)));
-	ui->ResultLanguageLabel->setPixmap(QPixmap(QString(":/icons/flags/%1.png").arg(tc)));
-
+	ui->SourceLanguageLabel->setText(sc);
+	ui->ResultLanguageLabel->setText(tc);
 	ui->SourceLanguageLabel->setToolTip(sl);
 	ui->ResultLanguageLabel->setToolTip(tl);
 

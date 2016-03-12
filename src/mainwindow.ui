@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>LiteTran</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resources.qrc">
+    <normaloff>:/icons/ui/litetran.png</normaloff>:/icons/ui/litetran.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>

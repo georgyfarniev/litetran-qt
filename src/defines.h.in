@@ -33,7 +33,4 @@
 #define APP_I18N_DIR "${APP_I18N_LOAD_PATH}"
 #endif
 
-#define APP_ICON(x) QIcon::fromTheme(QString(x), QIcon(QString(":/icons/ui/%1.png").arg(x)))
-#define APP_FLAG(x) QIcon(QString(":/icons/flags/%1.png").arg(x))
-
 #define UNICODE_ARROW "\u2192"

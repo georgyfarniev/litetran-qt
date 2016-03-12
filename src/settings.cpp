@@ -5,7 +5,6 @@
 namespace constants
 {
 	const QString translate_key = "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2";
-
 }
 
 Settings::Settings(QWidget *parent) :

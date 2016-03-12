@@ -2,20 +2,22 @@
 
 #include <QMainWindow>
 #include <QTimer>
-
-#include "translate.h"
-#include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
-
-
+#include <QSettings>
 #include "models.h"
+#include "translate.h"
+
 namespace Ui {
 class MainWindow;
 }
 
 class TrayIcon;
+class TranslateEngine;
 class Settings;
 class Popup;
+class LanguageComboboxModel;
+class TranslateEngine;
 class QCloseEvent;
+class QxtGlobalShortcut;
 
 class MainWindow : public QMainWindow
 {
@@ -23,6 +25,10 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
+
+	void createActionsConnections();
+	void createTimerConnections();
+	void createAsyncConnections();
 
 	void createTrayMenu();
 	void readSettings();
@@ -32,26 +38,20 @@ public:
 	Language sourceLanguage();
 	Language resultLanguage();
 private:
-	void beginAsyncOperation() {}
-	void endAsyncOperation() {}
-	void asyncOperationTimeout() {}
 	void closeEvent(QCloseEvent *event);
 
 	Ui::MainWindow *ui;
-	Popup *mPopup;
-	TrayIcon *mTrayIcon;
-	Settings *mSettings;
+	QTimer mTranslateTimer;
+	QxtGlobalShortcut *mTranslateShortcut;
+	QxtGlobalShortcut *mAppearShortcut;
+
 	LanguageVector mLanguages;
 	LanguageComboboxModel *mComboboxModel;
 	LanguageFilter *mFilter;
-	QxtGlobalShortcut *mTranslateShortcut;
-	QxtGlobalShortcut *mAppearShortcut;
-	TranslateEngine mEngine;
-	QTimer mTranslateTimer;
 
-	enum class State
-	{
-		Working, Idle
-	};
+	Popup *mPopup;
+	TrayIcon *mTrayIcon;
+	Settings *mSettings;
+	TranslateEngine mEngine;
 };
 

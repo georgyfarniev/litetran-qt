@@ -40,8 +40,8 @@ QVariant LanguageComboboxModel::data(const QModelIndex &index, int role) const
 	{
 		if(role == Qt::DisplayRole && index.column() == (int)Columns::Name)
 			return mLangs.at(index.row()).name;
-		else if (role == Qt::DecorationRole && index.column() == (int)Columns::Name)
-			return QIcon(":/icons/flags/" + mLangs.at(index.row()).code + ".png");
+//		else if (role == Qt::DecorationRole && index.column() == (int)Columns::Name)
+//			return QIcon(":/icons/flags/" + mLangs.at(index.row()).code.toUpper() + ".png");
 		else if (role == Qt::CheckStateRole && index.column() == (int)Columns::State)
 			return mLangs.at(index.row()).enabled ? Qt::Checked : Qt::Unchecked;
 	}
