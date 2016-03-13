@@ -1,11 +1,38 @@
 #include "defines.h"
 #include "clipboard.h"
 #include <QString>
+#include <QThread>
 
 #ifdef APP_WM_COCOA
+#include <ApplicationServices/ApplicationServices.h>
+#include <QApplication>
+#include <QClipboard>
+
+#define KEYBOARD_C_KEY 0x08
+
+static void PostKeyWithModifiers(CGKeyCode key, CGEventFlags modifiers)
+{
+		CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+
+		CGEventRef keyDown = CGEventCreateKeyboardEvent(source, key, TRUE);
+		CGEventSetFlags(keyDown, kCGEventFlagMaskCommand);
+		CGEventRef keyUp = CGEventCreateKeyboardEvent(source, key, FALSE);
+
+		CGEventPost(kCGAnnotatedSessionEventTap, keyDown);
+		CGEventPost(kCGAnnotatedSessionEventTap, keyUp);
+
+		CFRelease(keyUp);
+		CFRelease(keyDown);
+		CFRelease(source);
+}
+
+//! TODO: restore keyboard after retrieving text
 QString Clipboard::selectedText()
 {
-	return "NOT IMPLEMENTED"; // Not implemented yet
+	//! Sending Ctrl+C key
+	PostKeyWithModifiers(KEYBOARD_C_KEY, kCGEventFlagMaskCommand);
+	QThread::msleep(100);
+	return QApplication::clipboard()->text();
 }
 #endif
 
