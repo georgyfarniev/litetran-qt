@@ -33,6 +33,8 @@ Settings::Settings(QWidget *parent) :
 		s.setValue("ApplicationShortcutEnabled", ui->ShowHotkeyCheckbox->isChecked());
 		s.endGroup();
 	});
+
+
 }
 
 Settings::~Settings()
@@ -41,6 +43,7 @@ Settings::~Settings()
 void Settings::setModel(LanguageComboboxModel *model)
 {
 	ui->LanguagesTreeView->setModel(model);
+	ui->LanguagesTreeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 }
 
 bool Settings::getTrayIconEnabled() {return ui->ShowTrayIconCheckbox->isChecked(); }

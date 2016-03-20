@@ -37,7 +37,10 @@ QString Clipboard::selectedText()
 #endif
 
 #ifdef APP_WM_X11
-String Clipboard::selectedText()
+#include <QClipboard>
+#include <QApplication>
+
+QString Clipboard::selectedText()
 {
 	return QApplication::clipboard()->text(QClipboard::Selection);
 }
@@ -109,7 +112,7 @@ public:
 		if(!GlobalUnlock(hText))
 			qWarning() << "GlobalUnlock() failed";
 		return (text);
-		CloseClipboard();
+		CloseClipboard(); 
 	}
 
 	inline static void clearClipboard()
@@ -139,12 +142,19 @@ QString Clipboard::selectedText()
 	Sleep(200);
 
 	wchar_t *new_data = WinClipboard::getClipboardText();
-	const QString text = QString::fromWCharArray(new_data);
+    QString text = QString();
+
+    if (new_data)
+        text = QString::fromWCharArray(new_data);
 
 	// Restore old text
-	WinClipboard::setClipboardText(old_data);
-	free(new_data);
-	free(old_data);
+    if (old_data)
+    {
+        WinClipboard::setClipboardText(old_data);
+        free(old_data);
+    }
+    if (new_data)
+        free(new_data);
 
 	return text;
 }

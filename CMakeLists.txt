@@ -45,7 +45,7 @@ endif()
 find_package(Qt5Widgets 5.2 REQUIRED)
 find_package(Qt5Core 5.2 REQUIRED)
 find_package(Qt5Network 5.2 REQUIRED)
-find_package(Qt5Multimedia 5.2 REQUIRED)
+#find_package(Qt5Multimedia 5.2 REQUIRED)
 find_package(Qt5LinguistTools 5.2 REQUIRED)
 
 include_directories(
@@ -110,7 +110,7 @@ qt5_wrap_cpp(MOC_SOURCES ${HEADERS})
 qt5_wrap_ui(FORM_HEADERS ${FORMS})
 
 add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${FORM_HEADERS} ${QM_FILES} litetran.rc)
-qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network Multimedia)
+qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network)
 
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
 
