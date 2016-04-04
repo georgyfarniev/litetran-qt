@@ -13,5 +13,6 @@
         <file>icons/ui/window-new.png</file>
         <file>icons/ui/edit-clear.png</file>
         <file>icons/ui/view-refresh.png</file>
+        <file>icons/ui/window-close.png</file>
     </qresource>
 </RCC>

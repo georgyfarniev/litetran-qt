@@ -21,7 +21,6 @@ class LanguageFilter : public QSortFilterProxyModel
 {
 public:
 	LanguageFilter(QObject * parent = 0);
-
 	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 };
 

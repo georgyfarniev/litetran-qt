@@ -33,8 +33,6 @@ Settings::Settings(QWidget *parent) :
 		s.setValue("ApplicationShortcutEnabled", ui->ShowHotkeyCheckbox->isChecked());
 		s.endGroup();
 	});
-
-
 }
 
 Settings::~Settings()
@@ -67,4 +65,10 @@ QString Settings::getDictionaryKey() const
 {
 	return QString();
 }
+
+void Settings::closeEvent(QCloseEvent *)
+{
+	emit accepted();
+}
+
 

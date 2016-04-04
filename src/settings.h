@@ -16,6 +16,7 @@ public:
 	explicit Settings(QWidget *parent = 0);
 	~Settings();
 
+	// settings data
 	void setModel(LanguageComboboxModel *model);
 	bool getTrayIconEnabled();
 	bool getAutoTranslateEnabled();
@@ -31,6 +32,8 @@ public:
 
 	QString getTranslateKey() const;
 	QString getDictionaryKey() const;
+	void closeEvent(QCloseEvent *) override;
+
 private slots:
 
 private:

@@ -4,6 +4,8 @@
 #include <QSettings>
 #include <QKeySequence>
 #include <QDebug>
+#include <QToolTip>
+#include <QCursor>
 #include <algorithm>
 
 #include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
@@ -144,12 +146,18 @@ void MainWindow::createAsyncConnections()
 		QSettings s;
 		s.beginGroup("MainWindow");
 
-		QStringList enabled = s.value("EnabledLanguages").toString().split(',');
+		QStringList enabled = s.value("EnabledLanguages").toString().split(',', QString::SkipEmptyParts);
 
-		for(Language &l : mLanguages)
+
+		if (!enabled.isEmpty())
 		{
-			if (!enabled.contains(l.code))
-				l.enabled = false;
+			qDebug() << "Enabled languages: " << enabled;
+
+			for(Language &l : mLanguages)
+			{
+				if (!enabled.contains(l.code))
+					l.enabled = false;
+			}
 		}
 
 		mComboboxModel->reload();
@@ -165,8 +173,6 @@ void MainWindow::createAsyncConnections()
 			mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
 	});
 
-
-
 	connect(mSettings, &QDialog::accepted, [=](){
 		mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
 		mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
@@ -176,6 +182,14 @@ void MainWindow::createAsyncConnections()
 		mComboboxModel->reload();
 		ui->SourceLanguageCombobox->setCurrentText(sl);
 		ui->ResultLanguageCombobox->setCurrentText(tl);
+
+		if (ui->SourceLanguageCombobox->currentIndex() == -1)
+			ui->SourceLanguageCombobox->setCurrentIndex(0);
+
+		if (ui->ResultLanguageCombobox->currentIndex() == -1)
+			ui->ResultLanguageCombobox->setCurrentIndex(0);
+
+		qDebug() << "accepted";
 	});
 }
 
