@@ -22,21 +22,19 @@ Settings::Settings(QWidget *parent) :
 	ui->PopupHotkeyCheckbox->setChecked(s.value("PopupShortcutEnabled", true).toBool());
 	ui->ShowHotkeyCheckbox->setChecked(s.value("ApplicationShortcutEnabled", true).toBool());
 	s.endGroup();
-
-	connect(this, &QDialog::accepted, [=](){
-		QSettings s;
-		s.beginGroup("General");
-		s.setValue("ShowInTray", ui->ShowTrayIconCheckbox->isChecked());
-		s.setValue("AutoTranslate", ui->AutoTranslateCheckbox->isChecked());
-		s.setValue("ShowDictionary", ui->DictionaryCheckbox->isChecked());
-		s.setValue("PopupShortcutEnabled", ui->PopupHotkeyCheckbox->isChecked());
-		s.setValue("ApplicationShortcutEnabled", ui->ShowHotkeyCheckbox->isChecked());
-		s.endGroup();
-	});
 }
 
 Settings::~Settings()
-{}
+{
+	QSettings s;
+	s.beginGroup("General");
+	s.setValue("ShowInTray", ui->ShowTrayIconCheckbox->isChecked());
+	s.setValue("AutoTranslate", ui->AutoTranslateCheckbox->isChecked());
+	s.setValue("ShowDictionary", ui->DictionaryCheckbox->isChecked());
+	s.setValue("PopupShortcutEnabled", ui->PopupHotkeyCheckbox->isChecked());
+	s.setValue("ApplicationShortcutEnabled", ui->ShowHotkeyCheckbox->isChecked());
+	s.endGroup();
+}
 
 void Settings::setModel(LanguageComboboxModel *model)
 {
