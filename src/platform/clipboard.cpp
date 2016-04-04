@@ -29,10 +29,15 @@ static void PostKeyWithModifiers(CGKeyCode key, CGEventFlags modifiers)
 //! TODO: restore keyboard after retrieving text
 QString Clipboard::selectedText()
 {
+	const QString backup = qApp->clipboard()->text();
+
 	//! Sending Ctrl+C key
 	PostKeyWithModifiers(KEYBOARD_C_KEY, kCGEventFlagMaskCommand);
 	QThread::msleep(100);
-	return QApplication::clipboard()->text();
+	const QString text = QApplication::clipboard()->text();
+
+	qApp->clipboard()->setText(backup);
+	return text;
 }
 #endif
 
