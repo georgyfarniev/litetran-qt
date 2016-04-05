@@ -1,6 +1,8 @@
 #include "popup.h"
 #include "ui_popup.h"
 #include <QDesktopWidget>
+#include <QClipboard>
+#include <QDebug>
 
 #define CHARACTER_READ_TIME_FACTOR 500
 #define DEFAULT_SIZE (QSize(300, 220))
@@ -15,6 +17,15 @@ Popup::Popup(QWidget *parent) :
 	setWindowFlags(Qt::Popup);
 
 	connect(ui->CloseButton, &QToolButton::clicked, this, &QWidget::close);
+    connect(ui->ShowAppButton, &QToolButton::clicked, [=](bool b){
+        emit requestShowWindow();
+        hide();
+    });
+
+    connect(ui->CopyButton, &QToolButton::clicked, [=](){
+        qApp->clipboard()->setText(ui->ResultTextBrowser->toPlainText());
+        hide();
+    });
 }
 
 Popup::~Popup()

@@ -100,6 +100,11 @@ void MainWindow::createActionsConnections()
 		if(!ui->SourceTextEdit->toPlainText().isEmpty())
 			mEngine.requestTranslation(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
 	});
+
+    connect(mPopup, &Popup::requestShowWindow, [=](){
+        qDebug() << "appear";
+        activateWindow();
+    });
 }
 
 void MainWindow::createTimerConnections()
@@ -188,6 +193,8 @@ void MainWindow::createAsyncConnections()
 
 		if (ui->ResultLanguageCombobox->currentIndex() == -1)
 			ui->ResultLanguageCombobox->setCurrentIndex(0);
+
+		qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
 
 		qDebug() << "accepted";
 	});
