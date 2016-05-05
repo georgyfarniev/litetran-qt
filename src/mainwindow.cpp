@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QToolTip>
 #include <QCursor>
+#include <QMessageBox>
 #include <algorithm>
 
 #include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
@@ -22,6 +23,8 @@
 #include <CoreServices/CoreServices.h>
 #endif
 
+#define TRANSLATE_KEY "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2"
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
@@ -35,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	mEngine.setTranslateKey(mSettings->getTranslateKey());
+//	mEngine.setTranslateKey(mSettings->getTranslateKey());
+	mEngine.setTranslateKey(TRANSLATE_KEY);
 
 	createActionsConnections();
 	createTimerConnections();
@@ -89,6 +93,10 @@ void MainWindow::createActionsConnections()
 		const int idx = ui->SourceLanguageCombobox->currentIndex();
 		ui->SourceLanguageCombobox->setCurrentIndex(ui->ResultLanguageCombobox->currentIndex());
 		ui->ResultLanguageCombobox->setCurrentIndex(idx);
+	});
+
+	connect(ui->actionAbout, &QAction::triggered, [=](){
+		QMessageBox::information(this, tr("About LiteTran"), tr("LiteTran - translate selected text"));
 	});
 
 	connect(mAppearShortcut, &QxtGlobalShortcut::activated, [=](){
@@ -175,7 +183,14 @@ void MainWindow::createAsyncConnections()
 	connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
 		ui->ResultTextBrowser->setText(result);
 		if (!isActiveWindow() && !mSettings->isActiveWindow())
-			mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
+		{
+			// mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
+			// Mac version
+			move(QCursor::pos());
+			hide();
+			show();
+			raise();
+		}
 	});
 
 	connect(mSettings, &QDialog::accepted, [=](){

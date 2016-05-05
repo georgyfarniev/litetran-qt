@@ -4,6 +4,7 @@
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <QCommandLineParser>
+#include <QTranslator>
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -27,24 +28,30 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(APP_ORG);
     app.setApplicationVersion(APP_VERSION);
 
-//    QCommandLineParser parser;
-//    parser.addHelpOption();
-//    parser.addVersionOption();
-//    parser.setApplicationDescription(APP_NAME);
 
-//    QCommandLineOption opt_collapsed(QStringList() << "c" << "collapsed", "Run collapsed in tray.");
-//    parser.addOption(opt_collapsed);
+	QTranslator translator;
+	const QString l18n_path = QString("%1/%2.qm").arg(APP_I18N_DIR).arg(QLocale::system().name().split('_').first());
 
-//    parser.process(app);
+	if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), QLatin1String(":/i18n")))
+		app.installTranslator(&translator);
 
-//    bool collapsed = parser.isSet(opt_collapsed);
-//    MainWindow window(collapsed);
+	QCommandLineParser parser;
+	parser.addHelpOption();
+	parser.addVersionOption();
+	parser.setApplicationDescription(APP_NAME);
+
+	QCommandLineOption opt_collapsed(QStringList() << "c" << "collapsed", "Run collapsed in tray.");
+	parser.addOption(opt_collapsed);
+
+	parser.process(app);
 
 	MainWindow window;
 
-	window.show();
-
-	QObject::connect(&srv, &QLocalServer::newConnection, &window, &MainWindow::show);
+	if (!parser.isSet(opt_collapsed))
+	{
+		window.show();
+		QObject::connect(&srv, &QLocalServer::newConnection, &window, &MainWindow::show);
+	}
 
     return app.exec();
 }

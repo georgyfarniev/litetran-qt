@@ -3,6 +3,8 @@
 #include <QDesktopWidget>
 #include <QClipboard>
 #include <QDebug>
+#include <QPainter>
+#include <QPaintEvent>
 
 #define CHARACTER_READ_TIME_FACTOR 500
 #define DEFAULT_SIZE (QSize(300, 220))

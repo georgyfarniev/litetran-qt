@@ -18,7 +18,7 @@ Settings::Settings(QWidget *parent) :
 	s.beginGroup("General");
 	ui->ShowTrayIconCheckbox->setChecked(s.value("ShowInTray", true).toBool());
 	ui->AutoTranslateCheckbox->setChecked(s.value("AutoTranslate", true).toBool());
-	ui->DictionaryCheckbox->setChecked(s.value("ShowDictionary", true).toBool());
+//	ui->DictionaryCheckbox->setChecked(s.value("ShowDictionary", true).toBool());
 	ui->PopupHotkeyCheckbox->setChecked(s.value("PopupShortcutEnabled", true).toBool());
 	ui->ShowHotkeyCheckbox->setChecked(s.value("ApplicationShortcutEnabled", true).toBool());
 	s.endGroup();
@@ -30,7 +30,7 @@ Settings::~Settings()
 	s.beginGroup("General");
 	s.setValue("ShowInTray", ui->ShowTrayIconCheckbox->isChecked());
 	s.setValue("AutoTranslate", ui->AutoTranslateCheckbox->isChecked());
-	s.setValue("ShowDictionary", ui->DictionaryCheckbox->isChecked());
+//	s.setValue("ShowDictionary", ui->DictionaryCheckbox->isChecked());
 	s.setValue("PopupShortcutEnabled", ui->PopupHotkeyCheckbox->isChecked());
 	s.setValue("ApplicationShortcutEnabled", ui->ShowHotkeyCheckbox->isChecked());
 	s.endGroup();
@@ -49,20 +49,6 @@ bool Settings::getPopupShortcutEnabled() {return ui->PopupHotkeyCheckbox->isChec
 bool Settings::getAppShortcutEnabled() {return ui->ShowHotkeyCheckbox->isChecked();}
 QKeySequence Settings::getPopupShortcut() {return ui->PopupKeySequence->keySequence();}
 QKeySequence Settings::getAppShortcut() {return ui->ShowKeySequence->keySequence();}
-QString Settings::getUILanguage() const {return ui->LanguageCombobox->currentText(); }
-
-QString Settings::getTranslateKey() const
-{
-	if(ui->UseCustomKeysCheckbox->isChecked())
-		return ui->YandexTranslateKeyLineEdit->text();
-	else
-		return constants::translate_key;
-}
-
-QString Settings::getDictionaryKey() const
-{
-	return QString();
-}
 
 void Settings::closeEvent(QCloseEvent *)
 {

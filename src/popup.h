@@ -1,17 +1,12 @@
-#ifndef POPUP_H
-#define POPUP_H
+#pragma once
 
 #include <QWidget>
-
-#include <QPaintEvent>
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QPainter>
-#include <QCursor>
 
 namespace Ui {
 class Popup;
 }
+
+class QPaintEvent;
 
 class Popup : public QWidget
 {
@@ -30,5 +25,3 @@ private:
 	QPoint mCursorPos;
 	Ui::Popup *ui;
 };
-
-#endif // POPUP_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>405</height>
+    <width>565</width>
+    <height>314</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,227 +25,115 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>2</number>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Languages</string>
      </property>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>General</string>
-      </attribute>
-      <layout class="QFormLayout" name="formLayout">
-       <property name="labelAlignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Application language</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="LanguageCombobox"/>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="ShowHotkeyCheckbox">
-         <property name="text">
-          <string>Show application</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QKeySequenceEdit" name="ShowKeySequence">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="keySequence">
-          <string>Meta+Shift+T</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="PopupHotkeyCheckbox">
-         <property name="text">
-          <string>Popup translate</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QKeySequenceEdit" name="PopupKeySequence">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="keySequence">
-          <string>Alt+T</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="ShowTrayIconCheckbox">
-         <property name="text">
-          <string>Show tray icon</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="AutoTranslateCheckbox">
-         <property name="text">
-          <string>Auto translate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QCheckBox" name="DictionaryCheckbox">
-         <property name="text">
-          <string>Show dictionary reference if available</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="title">
-       <string>Languages</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QTreeView" name="LanguagesTreeView">
-         <property name="indentation">
-          <number>0</number>
-         </property>
-         <attribute name="headerCascadingSectionResizes">
-          <bool>false</bool>
-         </attribute>
-         <attribute name="headerDefaultSectionSize">
-          <number>10</number>
-         </attribute>
-         <attribute name="headerMinimumSectionSize">
-          <number>10</number>
-         </attribute>
-         <attribute name="headerStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <property name="enabled">
-       <bool>true</bool>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QTreeView" name="LanguagesTreeView">
+        <property name="indentation">
+         <number>0</number>
+        </property>
+        <attribute name="headerCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="headerDefaultSectionSize">
+         <number>10</number>
+        </attribute>
+        <attribute name="headerMinimumSectionSize">
+         <number>10</number>
+        </attribute>
+        <attribute name="headerStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>General</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="labelAlignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
-      <attribute name="title">
-       <string>Advanced</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QFormLayout" name="formLayout_2">
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0" colspan="2">
-          <widget class="QCheckBox" name="UseCustomKeysCheckbox">
-           <property name="text">
-            <string>Use custom API keys</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Yandex.Translate key</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="YandexTranslateKeyLineEdit">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Yandex.Dictionary key</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="YandexDictionaryKeyLineEdit">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can obtain key for Yandex.Translate &lt;a href=&quot;https://tech.yandex.ru/keys/get/?service=trnsl&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here &lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://tech.yandex.ru/keys/get/?service=trnsl&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#000000;&quot;&gt;and for Yandex.Dictionary &lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://tech.yandex.ru/keys/get/?service=dict&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://tech.yandex.ru/keys/get/?service=dict&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#000000;&quot;&gt;.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::RichText</enum>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>196</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="ShowHotkeyCheckbox">
+        <property name="text">
+         <string>Show application</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QKeySequenceEdit" name="ShowKeySequence">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="keySequence">
+         <string>Meta+Shift+T</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="PopupHotkeyCheckbox">
+        <property name="text">
+         <string>Popup translate</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QKeySequenceEdit" name="PopupKeySequence">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="keySequence">
+         <string>Alt+T</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="ShowTrayIconCheckbox">
+        <property name="text">
+         <string>Show tray icon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="AutoTranslateCheckbox">
+        <property name="text">
+         <string>Auto translate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QCheckBox" name="DictionaryCheckbox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Show dictionary reference if available</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -281,70 +169,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>188</x>
      <y>199</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>UseCustomKeysCheckbox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_2</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>104</x>
-     <y>57</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>104</x>
-     <y>78</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>UseCustomKeysCheckbox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>YandexTranslateKeyLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>58</x>
-     <y>52</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>152</x>
-     <y>80</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>UseCustomKeysCheckbox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_3</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>84</x>
-     <y>54</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>75</x>
-     <y>117</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>UseCustomKeysCheckbox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>YandexDictionaryKeyLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>167</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>160</x>
-     <y>114</y>
     </hint>
    </hints>
   </connection>

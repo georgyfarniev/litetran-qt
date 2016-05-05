@@ -1,5 +1,4 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#pragma once
 
 #include <QDialog>
 #include <QKeySequence>
@@ -11,33 +10,20 @@ class Settings;
 class Settings : public QDialog
 {
 	Q_OBJECT
-
 public:
 	explicit Settings(QWidget *parent = 0);
 	~Settings();
 
-	// settings data
 	void setModel(LanguageComboboxModel *model);
 	bool getTrayIconEnabled();
 	bool getAutoTranslateEnabled();
 	bool getDictionaryEnabled();
-
 	bool getPopupShortcutEnabled();
 	bool getAppShortcutEnabled();
-
 	QKeySequence getPopupShortcut();
 	QKeySequence getAppShortcut();
-
-	QString getUILanguage() const;
-
-	QString getTranslateKey() const;
-	QString getDictionaryKey() const;
+private:
 	void closeEvent(QCloseEvent *) override;
-
-private slots:
-
 private:
 	Ui::Settings *ui;
 };
-
-#endif // SETTINGS_H

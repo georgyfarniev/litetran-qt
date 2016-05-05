@@ -7,6 +7,7 @@
 #include <QTextDocumentFragment>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QLocale>
 
 namespace constants
 {
@@ -51,7 +52,7 @@ void TranslateEngine::setTranslateKey(const QString &key) {mApiKey = key;}
 
 void TranslateEngine::requestLanguages()
 {
-	QUrl url(QString("%1?key=%2&ui=%3").arg(constants::url_getlangs).arg(mApiKey).arg("ru"));
+	QUrl url(QString("%1?key=%2&ui=%3").arg(constants::url_getlangs).arg(mApiKey).arg(QLocale::system().name().split('_').first()));
 	QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
 
 	connect(reply, &QNetworkReply::finished, [=](){

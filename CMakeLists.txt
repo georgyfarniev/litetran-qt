@@ -81,12 +81,8 @@ src/popup.ui)
 
 
 set(TRANSLATIONS_FILES
-i18n/English.ts
-i18n/Russian.ts)
-
-set(ABOUT_TS
-i18n/about/English.html
-i18n/about/Russian.html)
+i18n/en.ts
+i18n/ru.ts)
 
 set(RESOURCES resources.qrc)
 
@@ -127,7 +123,6 @@ if(WIN32)
 else()
     install(TARGETS ${APP_EXECUTABLE_NAME} DESTINATION ${APP_BINARY_INSTALL_PATH})
     install(FILES ${QM_FILES} DESTINATION ${APP_I18N_INSTALL_PATH})
-    install(FILES ${ABOUT_TS} DESTINATION ${APP_I18N_INSTALL_PATH}/about)
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icons/ui/litetran.png DESTINATION ${APP_ICONS_INSTALL_PATH})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/litetran.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
 endif()
