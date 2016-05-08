@@ -173,8 +173,14 @@ void MainWindow::createAsyncConnections()
 
 		mComboboxModel->reload();
 
-		ui->SourceLanguageCombobox->setCurrentText(s.value("SourceLanguage", "English").toString());
-		ui->ResultLanguageCombobox->setCurrentText(s.value("ResultLanguage", "Russian").toString());
+        ui->SourceLanguageCombobox->setCurrentText(s.value("SourceLanguage").toString());
+        ui->ResultLanguageCombobox->setCurrentText(s.value("ResultLanguage").toString());
+
+        if (ui->SourceLanguageCombobox->currentIndex() == -1)
+            ui->SourceLanguageCombobox->setCurrentIndex(0);
+
+        if (ui->ResultLanguageCombobox->currentIndex() == -1)
+            ui->ResultLanguageCombobox->setCurrentIndex(0);
 		s.endGroup();
 	});
 
