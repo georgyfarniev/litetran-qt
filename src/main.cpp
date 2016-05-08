@@ -30,10 +30,11 @@ int main(int argc, char *argv[])
 
 
 	QTranslator translator;
-	const QString l18n_path = QString("%1/%2.qm").arg(APP_I18N_DIR).arg(QLocale::system().name().split('_').first());
 
-	if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), QLatin1String(":/i18n")))
+	if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), APP_I18N_DIR))
 		app.installTranslator(&translator);
+	else
+		qWarning() << "Unable to load locale!";
 
 	QCommandLineParser parser;
 	parser.addHelpOption();

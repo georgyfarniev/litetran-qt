@@ -10,27 +10,11 @@ bool LanguageFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePa
 
 //-----------------------------------------------------------------------------
 
-LanguageComboboxModel::LanguageComboboxModel(LanguageVector &langs, QObject *parent) :mLangs(langs), QAbstractItemModel(parent) {}
-
-int LanguageComboboxModel::rowCount(const QModelIndex &parent) const
-{
-	return mLangs.size();
-}
-
-int LanguageComboboxModel::columnCount(const QModelIndex &parent) const
-{
-	return 2;
-}
 
 QModelIndex LanguageComboboxModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (row <= mLangs.size())
 		return createIndex(row, column, (void*)&mLangs.at(row).name);
-	return QModelIndex();
-}
-
-QModelIndex LanguageComboboxModel::parent(const QModelIndex &index) const
-{
 	return QModelIndex();
 }
 

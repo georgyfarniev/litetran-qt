@@ -1,14 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>languages.csv</file>
         <file>icons/ui/edit-copy.png</file>
         <file>icons/ui/litetran.png</file>
-        <file>icons/ui/media-playback-start.png</file>
         <file>icons/ui/application-exit.png</file>
         <file>icons/ui/go-next.png</file>
-        <file>icons/ui/menu.png</file>
         <file>icons/ui/preferences-system.png</file>
-        <file>icons/ui/preferences-desktop-locale.png</file>
         <file>icons/ui/help-about.png</file>
         <file>icons/ui/window-new.png</file>
         <file>icons/ui/edit-clear.png</file>

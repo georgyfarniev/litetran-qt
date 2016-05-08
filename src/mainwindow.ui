@@ -129,11 +129,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionSwap"/>
+   <addaction name="actionClear"/>
    <addaction name="actionPreferences"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
-   <addaction name="actionClear"/>
-   <addaction name="actionSwap"/>
   </widget>
   <action name="actionPreferences">
    <property name="icon">

@@ -30,7 +30,7 @@ set(PROJECT_VERSION ${APP_VERSION})
 
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
     if(CMAKE_COMPILER_IS_GNUCC AND UNIX)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
     endif()
 endif()
 
@@ -89,12 +89,13 @@ set(RESOURCES resources.qrc)
 add_subdirectory(src/platform)
 add_subdirectory(src/3rdparty)
 
+set(FILES_TO_TRANSLATE ${SOURCES} ${HEADERS} ${FORMS})
 
 option(UPDATE_TRANSLATIONS OFF)
 set(UPDATE_TRANSLATIONS OFF)
 if(UPDATE_TRANSLATIONS)
     message(WARNING "Updating translation files")
-    qt5_create_translation(QM_FILES ${SOURCES} ${TRANSLATIONS_FILES})
+    qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TRANSLATIONS_FILES})
 else()
     qt5_add_translation(QM_FILES ${TRANSLATIONS_FILES})
 endif()

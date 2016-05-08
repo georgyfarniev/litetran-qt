@@ -13,12 +13,6 @@
 #define APP_WM_X11
 #endif
 
-
-#ifdef APP_WM_COCOA
-// MacOS text service file which contains current text selection
-#define APP_OSX_TEXTFILE "/tmp/litetran-selection.tmp"
-#endif
-
 #define APP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}"
 #define APP_LOCAL_SERVER_NAME "litetran_singleapplication.lock"
 #define APP_NAME "${APP_NAME}"
@@ -26,9 +20,9 @@
 #define APP_VERSION "${APP_VERSION}"
 #define APP_NAME_FULL APP_NAME " " APP_VERSION
 
-#ifdef APP_WM_WINDOWS
-#include <QApplication>
-#define APP_I18N_DIR (QCoreApplication::applicationDirPath() + "/i18n")
+#if defined(APP_WM_WINDOWS) || defined(APP_WM_COCOA)
+#include <QCoreApplication>
+#define APP_I18N_DIR (QCoreApplication::applicationDirPath())
 #else
 #define APP_I18N_DIR "${APP_I18N_LOAD_PATH}"
 #endif

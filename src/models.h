@@ -26,12 +26,13 @@ public:
 
 class LanguageComboboxModel : public QAbstractItemModel
 {
+	Q_OBJECT
 public:
-	LanguageComboboxModel(LanguageVector &langs, QObject *parent = 0);
-	int rowCount(const QModelIndex &parent) const override;
-	int columnCount(const QModelIndex &parent) const override;
+	LanguageComboboxModel(LanguageVector &langs, QObject *parent = 0) :mLangs(langs), QAbstractItemModel(parent) {}
+	int rowCount(const QModelIndex &parent) const override { return mLangs.size(); }
+	int columnCount(const QModelIndex &parent) const override { return 2; }
 	QModelIndex index(int row, int column, const QModelIndex &parent) const override;
-	QModelIndex	parent(const QModelIndex & index) const override;
+	QModelIndex	parent(const QModelIndex & index) const override { return QModelIndex(); }
 	QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 	Qt::ItemFlags flags(const QModelIndex &index) const override;

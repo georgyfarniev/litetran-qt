@@ -1,7 +1,10 @@
 #pragma once
 
-class Clipboard
+#include <QObject>
+
+class Clipboard : public QObject
 {
+	Q_OBJECT
 public:
 	static QString selectedText();
 };

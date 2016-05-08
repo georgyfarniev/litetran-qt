@@ -110,7 +110,6 @@ void MainWindow::createActionsConnections()
 	});
 
     connect(mPopup, &Popup::requestShowWindow, [=](){
-        qDebug() << "appear";
         activateWindow();
     });
 }
@@ -158,8 +157,7 @@ void MainWindow::createAsyncConnections()
 
 		QSettings s;
 		s.beginGroup("MainWindow");
-
-		QStringList enabled = s.value("EnabledLanguages").toString().split(',', QString::SkipEmptyParts);
+		const QStringList enabled = s.value("EnabledLanguages").toString().split(',', QString::SkipEmptyParts);
 
 
 		if (!enabled.isEmpty())
@@ -184,12 +182,12 @@ void MainWindow::createAsyncConnections()
 		ui->ResultTextBrowser->setText(result);
 		if (!isActiveWindow() && !mSettings->isActiveWindow())
 		{
-			// mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
+			 mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
 			// Mac version
-			move(QCursor::pos());
-			hide();
-			show();
-			raise();
+//			move(QCursor::pos());
+//			hide();
+//			show();
+//			raise();
 		}
 	});
 
@@ -210,8 +208,6 @@ void MainWindow::createAsyncConnections()
 			ui->ResultLanguageCombobox->setCurrentIndex(0);
 
 		qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
-
-		qDebug() << "accepted";
 	});
 }
 
