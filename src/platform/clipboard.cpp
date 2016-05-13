@@ -56,87 +56,47 @@ QString Clipboard::selectedText()
 #include <QDebug>
 class WinClipboard {
 public:
-	inline static void setClipboardText(wchar_t *text)
+    QString text() const
 	{
-		OpenClipboard(NULL);
-		HGLOBAL hMem;
-		wchar_t *buf;
-		uint size;
-
-		if(text == NULL)
-			return;
-
-		size = (wcslen(text) + 1) * sizeof(wchar_t);
-		if(size < 2)
-			return;
-
-		if (!EmptyClipboard())
-			qWarning() << "EmptyClipboard() failed";
-
-		hMem = GlobalAlloc(GMEM_ZEROINIT | GMEM_MOVEABLE, size);
-		if(hMem == NULL) {
-			qWarning() << "GlobalAlloc() failed";
-			return;
-		}
-
-		buf = (wchar_t *)GlobalLock(hMem);
-		if(buf == NULL) {
-			qWarning() << "GlobalLock() failed";
-			GlobalFree(hMem);
-			return;
-		}
-
-		wcscpy(buf, text);
-
-		if(SetClipboardData(CF_UNICODETEXT, buf) == NULL)
-			qWarning() << "SetClipboardData() failed";
-		GlobalFree(hMem);
-		if(!GlobalUnlock(hMem))
-			qWarning() << "GlobalUnlock() failed";
-		CloseClipboard();
+        QString data;
+        HANDLE data_handle = GetClipboardData(CF_UNICODETEXT);
+        if(data_handle != NULL)
+        {
+            wchar_t *content = reinterpret_cast<wchar_t*>(GlobalLock(data_handle));
+            data = QString::fromWCharArray(content);
+            GlobalUnlock(data_handle);
+        }
+        return data;
 	}
 
-	inline static wchar_t * getClipboardText()
+    void clear()
 	{
-		OpenClipboard(NULL);
-		HANDLE hText;
-		LPVOID pText;
-		wchar_t *text;
-
-		text = NULL;
-		hText = GetClipboardData(CF_UNICODETEXT);
-		pText = GlobalLock(hText);
-
-		if(hText == NULL || pText == NULL)
-			return (text);
-
-		text = wcsdup((const wchar_t *)pText);
-		if(*text == -1)
-			return (NULL);
-
-		if(!GlobalUnlock(hText))
-			qWarning() << "GlobalUnlock() failed";
-		return (text);
-		CloseClipboard(); 
-	}
-
-	inline static void clearClipboard()
-	{
-		OpenClipboard(NULL);
 		EmptyClipboard();
-		CloseClipboard();
 	}
+
+    bool open()
+    {
+        return OpenClipboard(NULL);
+    }
+
+    void close()
+    {
+        CloseClipboard();
+    }
 };
-
-
 
 QString Clipboard::selectedText()
 {
-	// Preserve old text
-	wchar_t *old_data = WinClipboard::getClipboardText();
+    WinClipboard clipboard;
 
-	// Prevent leak of clipboard data if Ctrl+C failed
-	WinClipboard::clearClipboard();
+    if (!clipboard.open())
+    {
+        qWarning() << "Unable to open clipboard";
+        return QString();
+    }
+
+    clipboard.clear();
+    clipboard.close();
 
 	Sleep(200);
 	keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL,0), KEYEVENTF_EXTENDEDKEY | 0,0);
@@ -144,24 +104,19 @@ QString Clipboard::selectedText()
 	keybd_event('C', MapVirtualKey('C',0), KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
 	keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL,0), KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
 //    while((GetAsyncKeyState(MapVirtualKey('C',0) != 0)) && (GetAsyncKeyState(VK_CONTROL) != 0));
-	Sleep(200);
+    Sleep(200);
 
-	wchar_t *new_data = WinClipboard::getClipboardText();
-    QString text = QString();
 
-    if (new_data)
-        text = QString::fromWCharArray(new_data);
-
-	// Restore old text
-    if (old_data)
+    if (!clipboard.open())
     {
-        WinClipboard::setClipboardText(old_data);
-        free(old_data);
+        qWarning() << "Unable to open clipboard";
+        return QString();
     }
-    if (new_data)
-        free(new_data);
 
-	return text;
+    const QString text = clipboard.text();
+    clipboard.close();
+
+    return text;
 }
 
 #endif
