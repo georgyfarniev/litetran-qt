@@ -44,10 +44,13 @@ void Popup::display(const QString &sl, const QString &tl, const QString &sc, con
 {
 	ui->ResultTextBrowser->setHtml(text);
 
-	ui->SourceLanguageLabel->setText(sc);
-	ui->ResultLanguageLabel->setText(tc);
-	ui->SourceLanguageLabel->setToolTip(sl);
-	ui->ResultLanguageLabel->setToolTip(tl);
+//	ui->SourceLanguageLabel->setText(sc);
+//	ui->ResultLanguageLabel->setText(tc);
+//	ui->SourceLanguageLabel->setToolTip(sl);
+//	ui->ResultLanguageLabel->setToolTip(tl);
+
+        ui->SourceLanguageLabel->setText(sl);
+        ui->ResultLanguageLabel->setText(tl);
 
 	mCursorPos = QCursor::pos();
 

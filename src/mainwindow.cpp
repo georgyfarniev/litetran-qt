@@ -190,12 +190,13 @@ void MainWindow::createAsyncConnections()
 		ui->ResultTextBrowser->setText(result);
 		if (!isActiveWindow() && !mSettings->isActiveWindow())
 		{
-			 mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
-			// Mac version
-//			move(QCursor::pos());
-//			hide();
-//			show();
-//			raise();
+#ifdef Q_OS_OSX
+            // On mac, show only main window
+            move(QCursor::pos() + QPoint(16, 16));
+            raise();
+#else
+            mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
+#endif
 		}
 	});
 
