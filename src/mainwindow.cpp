@@ -64,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// Request available languages
 	mEngine.requestLanguages();
+
+    mTranslateTimer.setSingleShot(true);
 }
 
 MainWindow::~MainWindow()
