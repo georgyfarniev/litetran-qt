@@ -38,7 +38,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/ui/window-close.png</normaloff>:/icons/ui/window-close.png</iconset>
+         <normaloff>:/icons/ui/close.png</normaloff>:/icons/ui/close.png</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>
@@ -61,7 +61,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/ui/window-new.png</normaloff>:/icons/ui/window-new.png</iconset>
+         <normaloff>:/icons/ui/content-copy.png</normaloff>:/icons/ui/content-copy.png</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>
@@ -81,7 +81,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/ui/edit-copy.png</normaloff>:/icons/ui/edit-copy.png</iconset>
+         <normaloff>:/icons/ui/window-maximize.png</normaloff>:/icons/ui/window-maximize.png</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>

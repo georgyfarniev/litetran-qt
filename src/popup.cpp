@@ -2,14 +2,10 @@
 #include "ui_popup.h"
 #include <QDesktopWidget>
 #include <QClipboard>
-#include <QDebug>
 #include <QPainter>
 #include <QPaintEvent>
 
-#define CHARACTER_READ_TIME_FACTOR 500
-#define DEFAULT_SIZE (QSize(300, 220))
 #define SCREEN_CORNER_PADDING 5
-
 
 Popup::Popup(QWidget *parent) :
 	QWidget(parent),
@@ -43,43 +39,29 @@ void Popup::prepareDisplayPopup()
 void Popup::display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text)
 {
 	ui->ResultTextBrowser->setHtml(text);
-
-//	ui->SourceLanguageLabel->setText(sc);
-//	ui->ResultLanguageLabel->setText(tc);
-//	ui->SourceLanguageLabel->setToolTip(sl);
-//	ui->ResultLanguageLabel->setToolTip(tl);
-
-        ui->SourceLanguageLabel->setText(sl);
-        ui->ResultLanguageLabel->setText(tl);
+    ui->SourceLanguageLabel->setText(sl);
+    ui->ResultLanguageLabel->setText(tl);
 
 	mCursorPos = QCursor::pos();
 
-	//DO NOT allow popup to move outside of the screen
+    //Keep popup in screen rect
 	QPoint new_pos(mCursorPos + QPoint(16, 16));
-	const QRect intersect = QApplication::desktop()->geometry().intersected(QRect(new_pos, DEFAULT_SIZE));
+    const QRect intersect = QApplication::desktop()->geometry().intersected(QRect(new_pos, size()));
 	if (intersect.height() != this->height())
 		new_pos = QPoint(new_pos.x(), new_pos.y() - (this->height() - intersect.height()) - SCREEN_CORNER_PADDING);
 	if (intersect.width() != this->width())
 		new_pos = QPoint(new_pos.x() - (this->width() - intersect.width())  - SCREEN_CORNER_PADDING, new_pos.y());
 	move(new_pos);
 
-	QWidget::show();
+    show();
 	activateWindow();
-}
-
-void Popup::disappear()
-{
-	if (!this->underMouse())
-		hide();
 }
 
 void Popup::paintEvent(QPaintEvent *e)
 {
 	QPainter painter(this);
 	painter.setPen(Qt::gray);
-	QRect border_rect = this->rect();
-	border_rect.adjust(0, 0, -1, -1);
-	painter.drawRect(border_rect);
+    painter.drawRect(rect().adjusted(0, 0, -1, -1));
 	painter.end();
 	e->accept();
 }

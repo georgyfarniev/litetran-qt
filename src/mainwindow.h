@@ -37,8 +37,10 @@ public:
 	Language mapIndexToLanguage(const int idx);
 	Language sourceLanguage();
 	Language resultLanguage();
+private slots:
+    void on_pushButton_clicked();
+
 private:
-	void closeEvent(QCloseEvent *event);
 
 	Ui::MainWindow *ui;
 	QTimer mTranslateTimer;

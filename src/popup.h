@@ -17,7 +17,6 @@ public:
 
 	void prepareDisplayPopup();
 	void display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text);
-	void disappear();
 	void paintEvent(QPaintEvent *e); 
 signals:
     void requestShowWindow();

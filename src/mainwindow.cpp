@@ -7,6 +7,8 @@
 #include <QToolTip>
 #include <QCursor>
 #include <QMessageBox>
+#include <QApplication>
+#include <QClipboard>
 #include <algorithm>
 
 #include "3rdparty/qxtshortcut/qxtglobalshortcut.h"
@@ -14,14 +16,8 @@
 #include "mainwindow.h"
 #include "trayicon.h"
 #include "settings.h"
-#include "platform/clipboard.h"
 #include "defines.h"
 #include "popup.h"
-
-#ifdef APP_WM_COCOA
-#include <Carbon/Carbon.h>
-#include <CoreServices/CoreServices.h>
-#endif
 
 #define TRANSLATE_KEY "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2"
 
@@ -32,9 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	mTrayIcon(new TrayIcon(this)),
 	mComboboxModel(new LanguageComboboxModel(mLanguages, this)),
 	mFilter(new LanguageFilter(this)),
-	mSettings(new Settings(this)),
+    mSettings(new Settings(this)),
 	mTranslateShortcut(new QxtGlobalShortcut(this)),
-	mAppearShortcut(new QxtGlobalShortcut(this))
+    mAppearShortcut(new QxtGlobalShortcut(this))
 {
 	ui->setupUi(this);
 
@@ -76,9 +72,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::createActionsConnections()
 {
-	// Regular actions handlers
+
 	connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
-	connect(ui->actionPreferences, &QAction::triggered, mSettings, &QDialog::exec);
+
+
+
+    connect(ui->actionPreferences, &QAction::triggered, [=](){
+       ui->stackedWidget->setCurrentIndex(1);
+
+       ui->toolBar->setDisabled(true);
+       setWindowTitle(tr("Preferences"));
+          ui->toolBar->hide();
+    });
+
 
 	connect(ui->actionClear, &QAction::triggered, [=]()
 	{
@@ -87,7 +93,7 @@ void MainWindow::createActionsConnections()
 	});
 
 	connect(mTranslateShortcut, &QxtGlobalShortcut::activated, [=](){
-		ui->SourceTextEdit->setPlainText(Clipboard::selectedText());
+        ui->SourceTextEdit->setPlainText(QApplication::clipboard()->text(QClipboard::Selection));
 		ui->TranslateButton->click();
 	});
 
@@ -120,7 +126,7 @@ void MainWindow::createTimerConnections()
 {
 	// Timer handlers
 	connect(&mTranslateTimer, &QTimer::timeout, [=](){
-		if (mSettings->getAutoTranslateEnabled() && !ui->SourceTextEdit->toPlainText().isEmpty())
+        if (ui->AutoTranslateCheckbox->isChecked() && !ui->SourceTextEdit->toPlainText().isEmpty())
 		{
 			ui->TranslateButton->click();
 			mTranslateTimer.stop();
@@ -188,36 +194,31 @@ void MainWindow::createAsyncConnections()
 
 	connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
 		ui->ResultTextBrowser->setText(result);
-		if (!isActiveWindow() && !mSettings->isActiveWindow())
-		{
-#ifdef Q_OS_OSX
-            // On mac, show only main window
-            move(QCursor::pos() + QPoint(16, 16));
-            raise();
-#else
+        if (!isActiveWindow())
             mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
-#endif
-		}
 	});
 
-	connect(mSettings, &QDialog::accepted, [=](){
-		mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
-		mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
-		mAppearShortcut->setShortcut(mSettings->getAppShortcut());
-		const QString sl = ui->SourceLanguageCombobox->currentText();
-		const QString tl = ui->ResultLanguageCombobox->currentText();
-		mComboboxModel->reload();
-		ui->SourceLanguageCombobox->setCurrentText(sl);
-		ui->ResultLanguageCombobox->setCurrentText(tl);
 
-		if (ui->SourceLanguageCombobox->currentIndex() == -1)
-			ui->SourceLanguageCombobox->setCurrentIndex(0);
+    connect(ui->ShowTrayIconCheckbox, &QCheckBox::toggled, mTrayIcon, &QSystemTrayIcon::setVisible);
 
-		if (ui->ResultLanguageCombobox->currentIndex() == -1)
-			ui->ResultLanguageCombobox->setCurrentIndex(0);
+    connect(mSettings, &QDialog::accepted, [=](){
+        mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
+        mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
+        mAppearShortcut->setShortcut(mSettings->getAppShortcut());
+        const QString sl = ui->SourceLanguageCombobox->currentText();
+        const QString tl = ui->ResultLanguageCombobox->currentText();
+        mComboboxModel->reload();
+        ui->SourceLanguageCombobox->setCurrentText(sl);
+        ui->ResultLanguageCombobox->setCurrentText(tl);
 
-		qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
-	});
+        if (ui->SourceLanguageCombobox->currentIndex() == -1)
+            ui->SourceLanguageCombobox->setCurrentIndex(0);
+
+        if (ui->ResultLanguageCombobox->currentIndex() == -1)
+            ui->ResultLanguageCombobox->setCurrentIndex(0);
+
+        qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
+    });
 }
 
 void MainWindow::createTrayMenu()
@@ -269,24 +270,9 @@ Language MainWindow::resultLanguage()
 	return mapIndexToLanguage(ui->ResultLanguageCombobox->currentIndex());
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::on_pushButton_clicked()
 {
-#ifdef APP_WM_COCOA
-	if (event->spontaneous()) {
-		/** if event initiated from application (close button clicked) */
-		event->ignore();
-		ProcessSerialNumber pn;
-		// NOTICE: GetFrontProcess and ShowHideProcess are deprecated in OS X 10.9
-		GetCurrentProcess(&pn); // gets application process identifier
-		ShowHideProcess(&pn, false); // hides application in tray
-	} else {
-		/**
-			 * if event initiated outside of application (selected Quit in dock
-			 * context menu)
-			 */
-		QMainWindow::closeEvent(event);
-	}
-#else
-	QMainWindow::closeEvent(event);
-#endif
+    ui->toolBar->setEnabled(true);
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->toolBar->show();
 }

@@ -11,28 +11,16 @@ else()
     set(APP_VERSION ${GIT_VERSION})
 endif()
 
-if(WIN32)
-    set(APP_BINARY_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
-    set(APP_ICONS_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
-    set(APP_I18N_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}/i18n)
-    set(APP_I18N_LOAD_PATH i18n)
-    set(APP_GUI_TYPE WIN32)
-    set(QT_USE_QTMAIN TRUE)
-else()
-    set(APP_BINARY_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}/bin)
-    set(APP_ICONS_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}/share/pixmaps)
-    set(APP_I18N_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}/share/litetran/i18n)
-    set(APP_I18N_LOAD_PATH ${APP_I18N_INSTALL_PATH})
+if(NOT UNIX)
+    message(FATAL_ERROR "Sorry, this program does not support non-X11 systems")
 endif()
+
+
+
 
 project(${APP_NAME})
 set(PROJECT_VERSION ${APP_VERSION})
 
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
-    if(CMAKE_COMPILER_IS_GNUCC AND UNIX)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-    endif()
-endif()
 
 if(NOT MSVC)
     if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
@@ -86,7 +74,6 @@ i18n/ru.ts)
 
 set(RESOURCES resources.qrc)
 
-add_subdirectory(src/platform)
 add_subdirectory(src/3rdparty)
 
 set(FILES_TO_TRANSLATE ${SOURCES} ${HEADERS} ${FORMS})
@@ -106,26 +93,17 @@ qt5_add_resources(RC_SOURCES ${RESOURCES})
 qt5_wrap_cpp(MOC_SOURCES ${HEADERS})
 qt5_wrap_ui(FORM_HEADERS ${FORMS})
 
-add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${FORM_HEADERS} ${QM_FILES} litetran.rc)
+add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} ${MOC_SOURCES} ${FORM_HEADERS} ${QM_FILES} )
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network)
 
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
 
-if(APPLE)
-    find_library(CORE_SERVICES_LIBRARY CoreServices)
-    find_library(CARBON_LIBRARY Carbon)
-    target_link_libraries(${APP_EXECUTABLE_NAME} ${CORE_SERVICES_LIBRARY} ${CARBON_LIBRARY})
-endif()
 
-if(WIN32)
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/litetranico.o
-                       COMMAND  windres.exe -i${CMAKE_CURRENT_SOURCE_DIR}/litetran.rc
-                       -o ${CMAKE_CURRENT_BINARY_DIR}/litetranico.o)
-else()
-    install(TARGETS ${APP_EXECUTABLE_NAME} DESTINATION ${APP_BINARY_INSTALL_PATH})
-    install(FILES ${QM_FILES} DESTINATION ${APP_I18N_INSTALL_PATH})
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icons/ui/litetran.png DESTINATION ${APP_ICONS_INSTALL_PATH})
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/litetran.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
-endif()
+
+install(TARGETS ${APP_EXECUTABLE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/litetran/i18n)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icons/ui/litetran.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/pixmaps)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/litetran.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
+
 
 
