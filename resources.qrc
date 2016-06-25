@@ -3,12 +3,12 @@
         <file>icons/ui/close-circle.png</file>
         <file>icons/ui/delete.png</file>
         <file>icons/ui/information.png</file>
-        <file>icons/ui/litetran.ico</file>
         <file>icons/ui/settings.png</file>
         <file>icons/ui/swap-horizontal.png</file>
         <file>icons/ui/tooltip-text.png</file>
         <file>icons/ui/close.png</file>
         <file>icons/ui/content-copy.png</file>
         <file>icons/ui/window-maximize.png</file>
+        <file>icons/ui/litetran.png</file>
     </qresource>
 </RCC>
