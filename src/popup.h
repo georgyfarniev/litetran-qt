@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include "translate.h"
 
 namespace Ui {
 class Popup;
@@ -16,7 +17,7 @@ public:
 	~Popup();
 
 	void prepareDisplayPopup();
-	void display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text);
+    void display(const Language &sl, const Language &tl, const QString &text);
 	void paintEvent(QPaintEvent *e); 
 signals:
     void requestShowWindow();

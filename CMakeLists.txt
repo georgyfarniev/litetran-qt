@@ -11,37 +11,32 @@ else()
     set(APP_VERSION ${GIT_VERSION})
 endif()
 
-if(NOT UNIX)
-    message(FATAL_ERROR "Sorry, this program does not support non-X11 systems")
+if(MAC OR NOT UNIX)
+    message(WARNING "Sorry, this program does not support non-X11 systems")
 endif()
 
-
-
+add_definitions(-DPREFIX="${CMAKE_INSTALL_PREFIX}")
+add_definitions(-DAPP_NAME="${APP_NAME}")
+add_definitions(-DAPP_VERSION="${APP_VERSION}")
 
 project(${APP_NAME})
-set(PROJECT_VERSION ${APP_VERSION})
-
 
 if(NOT MSVC)
     if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-    endif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+    endif()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
-
 
 find_package(Qt5Widgets 5.2 REQUIRED)
 find_package(Qt5Core 5.2 REQUIRED)
 find_package(Qt5Network 5.2 REQUIRED)
-#find_package(Qt5Multimedia 5.2 REQUIRED)
 find_package(Qt5LinguistTools 5.2 REQUIRED)
 
 include_directories(
 ${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}/src
 ${CMAKE_CURRENT_SOURCE_DIR}/src/3rdparty/qxtshortcut)
-
-configure_file(src/defines.h.in src/defines.h)
 
 set(HEADERS
 src/settings.h
@@ -66,7 +61,6 @@ set(FORMS
 src/mainwindow.ui
 src/settings.ui
 src/popup.ui)
-
 
 set(TRANSLATIONS_FILES
 i18n/en.ts
@@ -97,8 +91,6 @@ add_executable(${APP_EXECUTABLE_NAME} ${APP_GUI_TYPE} ${RC_SOURCES} ${SOURCES} $
 qt5_use_modules(${APP_EXECUTABLE_NAME} Widgets Core Network)
 
 target_link_libraries(${APP_EXECUTABLE_NAME} qxtshortcut)
-
-
 
 install(TARGETS ${APP_EXECUTABLE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/litetran/i18n)

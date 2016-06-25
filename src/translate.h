@@ -14,12 +14,17 @@ public:
 	void requestLanguages();
 	void requestTranslation(const QString &sl, const QString &tl, const QString &text);
 	void requestDetect(const QString &text, const QStringList &hint);
+    void requestDictionary(const QString &sl, const QString &tl, const QString &text);
+    void setDictionaryKey(const QString &dictionaryKey);
+
 signals:
-	void error(const QString &description);
-	void languagesArrived(const LanguageVector &langs);
+    void error(const QString &description);
+    void languagesArrived(const LanguageVector &langs);
 	void translationArrived(const QString &result);
 	void detectionArrived(const QString &lang);
+    void dictionaryArrived(const QString &result);
 private:
 	QNetworkAccessManager *mNetworkManager;
 	QString mApiKey;
+    QString mDictionaryKey;
 };

@@ -25,22 +25,27 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
-
-	void createActionsConnections();
-	void createTimerConnections();
-	void createAsyncConnections();
-
-	void createTrayMenu();
-	void readSettings();
-	void saveSettings();
-
-	Language mapIndexToLanguage(const int idx);
-	Language sourceLanguage();
-	Language resultLanguage();
-private slots:
-    void on_pushButton_clicked();
-
 private:
+    void createActionsConnections();
+    void createTimerConnections();
+    void createAsyncConnections();
+
+    void createTrayMenu();
+    void readSettings();
+    void saveSettings();
+
+    Language mapIndexToLanguage(const int idx);
+    Language sourceLanguage();
+    Language resultLanguage();
+
+    enum class State
+    {
+        Idle,
+        WaitingForTranslate,
+        WaitingForDictionary,
+    };
+
+    State mState;
 
 	Ui::MainWindow *ui;
 	QTimer mTranslateTimer;

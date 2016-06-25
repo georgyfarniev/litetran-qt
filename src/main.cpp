@@ -1,4 +1,3 @@
-#include "defines.h"
 #include <QApplication>
 #include <QDebug>
 #include <QLocalSocket>
@@ -6,6 +5,9 @@
 #include <QCommandLineParser>
 #include <QTranslator>
 #include "mainwindow.h"
+
+#define APP_LOCAL_SERVER_NAME "litetran_singleapplication.lock"
+#define APP_I18N_DIR (QString(PREFIX) + QString("/share/litetran/i18n"))
 
 int main(int argc, char *argv[])
 {
@@ -24,14 +26,14 @@ int main(int argc, char *argv[])
     srv.listen(APP_LOCAL_SERVER_NAME);
 
     app.setApplicationName(APP_NAME);
-    app.setOrganizationName(APP_ORG);
-    app.setOrganizationDomain(APP_ORG);
+    app.setOrganizationName(APP_NAME);
+    app.setOrganizationDomain(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
 
 
 	QTranslator translator;
 
-	if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), APP_I18N_DIR))
+    if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), APP_I18N_DIR))
 		app.installTranslator(&translator);
 	else
 		qWarning() << "Unable to load locale!";

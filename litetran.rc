@@ -1,7 +1,0 @@
-# if defined(UNDER_CE)
-#  include <winbase.h>
-# else
-#  include <winver.h>
-# endif
-
-LITETRAN_ICON ICON DISCARDABLE "icons/ui/litetran.ico"

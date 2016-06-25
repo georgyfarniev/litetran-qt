@@ -36,11 +36,11 @@ void Popup::prepareDisplayPopup()
 	mCursorPos = QCursor::pos();
 }
 
-void Popup::display(const QString &sl, const QString &tl, const QString &sc, const QString &tc, const QString &text)
+void Popup::display(const Language &sl, const Language &tl, const QString &text)
 {
 	ui->ResultTextBrowser->setHtml(text);
-    ui->SourceLanguageLabel->setText(sl);
-    ui->ResultLanguageLabel->setText(tl);
+    ui->SourceLanguageLabel->setText(sl.name);
+    ui->ResultLanguageLabel->setText(tl.name);
 
 	mCursorPos = QCursor::pos();
 

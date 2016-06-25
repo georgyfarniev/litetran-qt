@@ -4,7 +4,6 @@
 #include <QSettings>
 #include <QKeySequence>
 #include <QDebug>
-#include <QToolTip>
 #include <QCursor>
 #include <QMessageBox>
 #include <QApplication>
@@ -16,10 +15,10 @@
 #include "mainwindow.h"
 #include "trayicon.h"
 #include "settings.h"
-#include "defines.h"
 #include "popup.h"
 
 #define TRANSLATE_KEY "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2"
+#define DICTIONARY_KEY "dict.1.1.20160223T080804Z.0afde59e8b8ec833.b3ac76f261b74ed73308d67f5e79ffba234f5926"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -30,12 +29,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	mFilter(new LanguageFilter(this)),
     mSettings(new Settings(this)),
 	mTranslateShortcut(new QxtGlobalShortcut(this)),
-    mAppearShortcut(new QxtGlobalShortcut(this))
+    mAppearShortcut(new QxtGlobalShortcut(this)),
+    mState(State::Idle)
 {
 	ui->setupUi(this);
 
 //	mEngine.setTranslateKey(mSettings->getTranslateKey());
 	mEngine.setTranslateKey(TRANSLATE_KEY);
+    mEngine.setDictionaryKey(DICTIONARY_KEY);
 
 	createActionsConnections();
 	createTimerConnections();
@@ -74,17 +75,8 @@ void MainWindow::createActionsConnections()
 {
 
 	connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
-
-
-
-    connect(ui->actionPreferences, &QAction::triggered, [=](){
-       ui->stackedWidget->setCurrentIndex(1);
-
-       ui->toolBar->setDisabled(true);
-       setWindowTitle(tr("Preferences"));
-          ui->toolBar->hide();
-    });
-
+    connect(ui->actionPreferences, &QAction::triggered, mSettings, &Settings::exec);
+    connect(mPopup, &Popup::requestShowWindow, [=](){ activateWindow();});
 
 	connect(ui->actionClear, &QAction::triggered, [=]()
 	{
@@ -112,38 +104,34 @@ void MainWindow::createActionsConnections()
 		show();
 	});
 
-	connect(ui->TranslateButton, &QPushButton::clicked, [=](){
-		if(!ui->SourceTextEdit->toPlainText().isEmpty())
-			mEngine.requestTranslation(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
-	});
-
-    connect(mPopup, &Popup::requestShowWindow, [=](){
-        activateWindow();
+    connect(ui->TranslateButton, &QPushButton::clicked, [=](){
+        if(mState == State::Idle && !ui->SourceTextEdit->toPlainText().isEmpty())
+        {
+            mEngine.requestTranslation(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
+            mState = State::WaitingForTranslate;
+        }
     });
+
+//    connect(ui->TranslateButton, &QPushButton::clicked, [=](){
+
+//            mEngine.requestDictionary(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
+//    });
 }
 
 void MainWindow::createTimerConnections()
 {
 	// Timer handlers
 	connect(&mTranslateTimer, &QTimer::timeout, [=](){
-        if (ui->AutoTranslateCheckbox->isChecked() && !ui->SourceTextEdit->toPlainText().isEmpty())
+        if (mState == State::Idle && mSettings->getAutoTranslateEnabled() && !ui->SourceTextEdit->toPlainText().isEmpty())
 		{
 			ui->TranslateButton->click();
 			mTranslateTimer.stop();
 		}
 	});
 
-	connect(ui->SourceTextEdit, &QPlainTextEdit::textChanged, [=](){
-		mTranslateTimer.start();
-	});
-
-	connect(ui->SourceLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) {
-		mTranslateTimer.start();
-	});
-
-	connect(ui->ResultLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) {
-		mTranslateTimer.start();
-	});
+    connect(ui->SourceTextEdit, &QPlainTextEdit::textChanged, [=](){ mTranslateTimer.start(); });
+    connect(ui->SourceLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) { mTranslateTimer.start(); });
+    connect(ui->ResultLanguageCombobox, &QComboBox::currentTextChanged, [=](const QString &) { mTranslateTimer.start();});
 }
 
 void MainWindow::createAsyncConnections()
@@ -159,47 +147,35 @@ void MainWindow::createAsyncConnections()
 			return;
 		}
 
-		std::sort(mLanguages.begin(), mLanguages.end(), [=](const Language &l1, const Language &l2) -> bool {
-			return l1.name.toLower() < l2.name.toLower();
-		});
-
-		QSettings s;
-		s.beginGroup("MainWindow");
-		const QStringList enabled = s.value("EnabledLanguages").toString().split(',', QString::SkipEmptyParts);
-
-
-		if (!enabled.isEmpty())
-		{
-			qDebug() << "Enabled languages: " << enabled;
-
-			for(Language &l : mLanguages)
-			{
-				if (!enabled.contains(l.code))
-					l.enabled = false;
-			}
-		}
-
-		mComboboxModel->reload();
-
-        ui->SourceLanguageCombobox->setCurrentText(s.value("SourceLanguage").toString());
-        ui->ResultLanguageCombobox->setCurrentText(s.value("ResultLanguage").toString());
-
-        if (ui->SourceLanguageCombobox->currentIndex() == -1)
-            ui->SourceLanguageCombobox->setCurrentIndex(0);
-
-        if (ui->ResultLanguageCombobox->currentIndex() == -1)
-            ui->ResultLanguageCombobox->setCurrentIndex(0);
-		s.endGroup();
+        readSettings();
 	});
 
-	connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
-		ui->ResultTextBrowser->setText(result);
+    connect(&mEngine, &TranslateEngine::dictionaryArrived, [=](const QString &result){
+        mState = State::Idle;
+
+        if (!result.isEmpty())
+            ui->ResultTextBrowser->append("<hr>" + result);
+
         if (!isActiveWindow())
-            mPopup->display(sourceLanguage().name, resultLanguage().name, sourceLanguage().code, resultLanguage().code, ui->ResultTextBrowser->toPlainText());
-	});
+            mPopup->display(sourceLanguage(), resultLanguage(), ui->ResultTextBrowser->toHtml());
+    });
 
+    connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
+        ui->ResultTextBrowser->setText(result);
 
-    connect(ui->ShowTrayIconCheckbox, &QCheckBox::toggled, mTrayIcon, &QSystemTrayIcon::setVisible);
+        if (mSettings->getDictionaryEnabled())
+        {
+            mEngine.requestDictionary(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
+            mState = State::WaitingForDictionary;
+            return;
+        }
+        if (!isActiveWindow())
+        {
+            mPopup->display(sourceLanguage(), resultLanguage(), ui->ResultTextBrowser->toHtml());
+        }
+
+        mState = State::Idle;
+    });
 
     connect(mSettings, &QDialog::accepted, [=](){
         mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
@@ -235,6 +211,37 @@ void MainWindow::createTrayMenu()
 
 void MainWindow::readSettings()
 {
+    std::sort(mLanguages.begin(), mLanguages.end(), [=](const Language &l1, const Language &l2) -> bool {
+        return l1.name.toLower() < l2.name.toLower();
+    });
+
+    QSettings s;
+    s.beginGroup("MainWindow");
+    const QStringList enabled = s.value("EnabledLanguages").toString().split(',', QString::SkipEmptyParts);
+
+
+    if (!enabled.isEmpty())
+    {
+        qDebug() << "Enabled languages: " << enabled;
+
+        for(Language &l : mLanguages)
+        {
+            if (!enabled.contains(l.code))
+                l.enabled = false;
+        }
+    }
+
+    mComboboxModel->reload();
+
+    ui->SourceLanguageCombobox->setCurrentText(s.value("SourceLanguage").toString());
+    ui->ResultLanguageCombobox->setCurrentText(s.value("ResultLanguage").toString());
+
+    if (ui->SourceLanguageCombobox->currentIndex() == -1)
+        ui->SourceLanguageCombobox->setCurrentIndex(0);
+
+    if (ui->ResultLanguageCombobox->currentIndex() == -1)
+        ui->ResultLanguageCombobox->setCurrentIndex(0);
+    s.endGroup();
 }
 
 void MainWindow::saveSettings()
@@ -270,9 +277,3 @@ Language MainWindow::resultLanguage()
 	return mapIndexToLanguage(ui->ResultLanguageCombobox->currentIndex());
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    ui->toolBar->setEnabled(true);
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->toolBar->show();
-}

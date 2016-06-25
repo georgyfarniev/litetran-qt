@@ -1,5 +1,4 @@
 #include "trayicon.h"
-#include "defines.h"
 
 TrayIcon::TrayIcon(QObject *parent) :
     QSystemTrayIcon(parent)
