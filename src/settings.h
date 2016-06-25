@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <QKeySequence>
 #include "models.h"
+
 namespace Ui {
 class Settings;
 }
@@ -24,6 +25,6 @@ public:
 	QKeySequence getAppShortcut();
 private:
 	void closeEvent(QCloseEvent *) override;
-private:
+    LanguageComboboxModel *mModel;
 	Ui::Settings *ui;
 };

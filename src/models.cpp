@@ -1,6 +1,29 @@
 #include "models.h"
 #include <QIcon>
 
+void LanguageVector::setEnabledLanguages(const QStringList &codes)
+{
+    if (codes.isEmpty())
+        return;
+
+    for(Language &lang : *this)
+        lang.enabled = codes.contains(lang.code);
+}
+
+QStringList LanguageVector::enabledLanguages() const
+{
+    QStringList codes;
+    for(const Language &lang : *this)
+    {
+        if (lang.enabled)
+            codes << lang.code;
+    }
+
+    return codes;
+}
+
+//-----------------------------------------------------------------------------
+
 LanguageFilter::LanguageFilter(QObject *parent) : QSortFilterProxyModel(parent) {}
 
 bool LanguageFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
@@ -10,22 +33,12 @@ bool LanguageFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePa
 
 //-----------------------------------------------------------------------------
 
-
-QModelIndex LanguageComboboxModel::index(int row, int column, const QModelIndex &parent) const
-{
-	if (row <= mLangs.size())
-		return createIndex(row, column, (void*)&mLangs.at(row).name);
-	return QModelIndex();
-}
-
 QVariant LanguageComboboxModel::data(const QModelIndex &index, int role) const
 {
 	if (index.isValid())
 	{
 		if(role == Qt::DisplayRole && index.column() == (int)Columns::Name)
 			return mLangs.at(index.row()).name;
-//		else if (role == Qt::DecorationRole && index.column() == (int)Columns::Name)
-//			return QIcon(":/icons/flags/" + mLangs.at(index.row()).code.toUpper() + ".png");
 		else if (role == Qt::CheckStateRole && index.column() == (int)Columns::State)
 			return mLangs.at(index.row()).enabled ? Qt::Checked : Qt::Unchecked;
 	}
@@ -49,13 +62,6 @@ Qt::ItemFlags LanguageComboboxModel::flags(const QModelIndex &index) const
 	if (index.column() == (int)Columns::State)
 		aflags |= Qt::ItemIsEditable;
 	return aflags;
-}
-
-QVariant LanguageComboboxModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-	if (role == Qt::DisplayRole && orientation == Qt::Horizontal)
-		return section == (int)Columns::Name ? "Name" : "#";
-	return QVariant();
 }
 
 void LanguageComboboxModel::reload()

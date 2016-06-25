@@ -14,7 +14,7 @@
    <string>LiteTran</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../resources.qrc">
     <normaloff>:/icons/ui/litetran.png</normaloff>:/icons/ui/litetran.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">

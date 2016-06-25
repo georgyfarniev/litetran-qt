@@ -111,11 +111,6 @@ void MainWindow::createActionsConnections()
             mState = State::WaitingForTranslate;
         }
     });
-
-//    connect(ui->TranslateButton, &QPushButton::clicked, [=](){
-
-//            mEngine.requestDictionary(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
-//    });
 }
 
 void MainWindow::createTimerConnections()
@@ -169,10 +164,9 @@ void MainWindow::createAsyncConnections()
             mState = State::WaitingForDictionary;
             return;
         }
+
         if (!isActiveWindow())
-        {
             mPopup->display(sourceLanguage(), resultLanguage(), ui->ResultTextBrowser->toHtml());
-        }
 
         mState = State::Idle;
     });
@@ -219,17 +213,8 @@ void MainWindow::readSettings()
     s.beginGroup("MainWindow");
     const QStringList enabled = s.value("EnabledLanguages").toString().split(',', QString::SkipEmptyParts);
 
+    mLanguages.setEnabledLanguages(enabled);
 
-    if (!enabled.isEmpty())
-    {
-        qDebug() << "Enabled languages: " << enabled;
-
-        for(Language &l : mLanguages)
-        {
-            if (!enabled.contains(l.code))
-                l.enabled = false;
-        }
-    }
 
     mComboboxModel->reload();
 
@@ -248,13 +233,7 @@ void MainWindow::saveSettings()
 {
 	QSettings s;
 	s.beginGroup("MainWindow");
-	QStringList enabled;
-	for(Language &l : mLanguages)
-	{
-		if (l.enabled)
-			enabled << l.code;
-	}
-	s.setValue("EnabledLanguages", enabled.join(','));
+    s.setValue("EnabledLanguages", mLanguages.enabledLanguages().join(','));
 	s.setValue("SourceLanguage", sourceLanguage().name);
 	s.setValue("ResultLanguage", resultLanguage().name);
 	s.setValue("Geometry", saveGeometry());
@@ -264,7 +243,7 @@ void MainWindow::saveSettings()
 
 Language MainWindow::mapIndexToLanguage(const int idx)
 {
-	return mLanguages.at(mFilter->mapToSource(mFilter->index(idx, 0, QModelIndex())).row());
+    return mLanguages.at(mFilter->mapToSource(mFilter->index(idx, 0, QModelIndex())).row());
 }
 
 Language MainWindow::sourceLanguage()

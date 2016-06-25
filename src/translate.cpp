@@ -43,7 +43,6 @@ public:
 	}
 };
 
-
 class DictionaryParser
 {
 public:
@@ -62,7 +61,6 @@ public:
 
     static QString parseDef(const QJsonObject &obj)
     {
-
         QString text;
 
         text += QString("<b>%1</b> <i>(%2</i>)<br>").
@@ -72,7 +70,6 @@ public:
         const QJsonArray tr = obj.value("tr").toArray();
         foreach(const QJsonValue val, tr)
             text += parseTr(val.toObject());
-
 
         return text;
     }
@@ -84,7 +81,6 @@ public:
         text += QString("&nbsp;").repeated(4);
         text += obj.value("text").toString();
 
-
         const QJsonArray syn = obj.value("syn").toArray();
 
         foreach(const QJsonValue val, syn)
@@ -93,14 +89,8 @@ public:
 
         text += "<br>";
 
-
         return text;
     }
-
-//    static QString parseSyn(const QJsonObject &obj)
-//    {
-
-//    }
 };
 
 TranslateEngine::TranslateEngine(QObject *parent)
@@ -125,7 +115,6 @@ void TranslateEngine::requestTranslation(const QString &sl, const QString &tl, c
 {
     QUrl url(QString("%1/translate?key=%2&text=%3&lang=%4-%5").arg(constants::translate_api).arg(mApiKey).arg(text).arg(sl).arg(tl));
 	QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
-    qDebug() << url.toString();
 
 	connect(reply, &QNetworkReply::finished, [=](){
 		const QByteArray result = reply->readAll();
@@ -150,7 +139,6 @@ void TranslateEngine::requestDictionary(const QString &sl, const QString &tl, co
 {
     QUrl url(QString("%1?key=%2&lang=%3-%4&text=%5").arg(constants::dictionary_api).arg(mDictionaryKey).arg(sl).arg(tl).arg(text));
     QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
-
 
     connect(reply, &QNetworkReply::finished, [=](){
         const QByteArray result = reply->readAll();
