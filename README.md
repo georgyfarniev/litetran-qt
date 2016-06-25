@@ -16,14 +16,13 @@ Features
 
 Platforms
 ---------
-LiteTran works fine on Linux, requires Qt >= 5.2
-Windows version also available, but have limited support of translate popup.
+LiteTran works fine on Linux, Mac and Windws, but translation of selected text supported only on X11 systems.
 
 
 Build Depdendencies
 -------------------
 cmake >= 2.8.10
-qt core, gui, multimedia, x11extras >= 5.2
+qt core, gui, x11extras >= 5.2
 
 
 Contribute
