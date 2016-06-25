@@ -73,10 +73,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::createActionsConnections()
 {
-
 	connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
     connect(ui->actionPreferences, &QAction::triggered, mSettings, &Settings::exec);
     connect(mPopup, &Popup::requestShowWindow, [=](){ activateWindow();});
+    connect(mTrayIcon, &TrayIcon::clicked, [=](){ setVisible(!isVisible());});
 
 	connect(ui->actionClear, &QAction::triggered, [=]()
 	{
