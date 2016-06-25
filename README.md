@@ -6,13 +6,10 @@ LiteTran is simple text translate utility.
 Features
 --------
 - User-friendly interface
-- Translation of selected text in popup (Ctrl+Shift+T by default)
+- Translation of selected text in popup (Alt+T by default)
 - No annoying windows - only small popup with translation
-- Text pronunciation
-- 37 Languages supported
 - It's possible to choose only necessary languages to show in interface
-- Tray icon let you access LiteTran window and settings quickly
-
+- Tray icon to keep LiteTran always running
 
 Platforms
 ---------
