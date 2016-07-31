@@ -9,14 +9,12 @@ struct Language
 	QString code;
 	QString name;
 	bool enabled;
+
 	Language(const QString &code_ = QString(), const QString &name_ = QString())
 		:enabled(true), code(code_), name(name_)
 	{
 	}
 };
-
-//typedef QVector<Language> LanguageVector;
-
 
 class LanguageVector : public QVector<Language>
 {

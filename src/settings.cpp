@@ -2,11 +2,6 @@
 #include "ui_settings.h"
 #include <QSettings>
 
-namespace constants
-{
-	const QString translate_key = "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2";
-}
-
 Settings::Settings(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::Settings)
@@ -22,10 +17,6 @@ Settings::Settings(QWidget *parent) :
 	ui->PopupHotkeyCheckbox->setChecked(s.value("PopupShortcutEnabled", true).toBool());
 	ui->ShowHotkeyCheckbox->setChecked(s.value("ApplicationShortcutEnabled", true).toBool());
 	s.endGroup();
-
-//    ui->LanguagesTreeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-//    ui->LanguagesTreeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-//    ui->LanguagesTreeView->header()->resizeSection(1, 10);
 
     connect(ui->ToggleButton, &QPushButton::clicked, [=](){
        const bool enabled = mModel->languages().enabledLanguages().isEmpty();

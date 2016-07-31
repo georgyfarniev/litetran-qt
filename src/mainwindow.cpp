@@ -17,8 +17,11 @@
 #include "settings.h"
 #include "popup.h"
 
-#define TRANSLATE_KEY "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2"
-#define DICTIONARY_KEY "dict.1.1.20160223T080804Z.0afde59e8b8ec833.b3ac76f261b74ed73308d67f5e79ffba234f5926"
+namespace constants
+{
+    const QString translate_key = "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2";
+    const QString dictionary_key = "dict.1.1.20160223T080804Z.0afde59e8b8ec833.b3ac76f261b74ed73308d67f5e79ffba234f5926";
+}
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -34,9 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-//	mEngine.setTranslateKey(mSettings->getTranslateKey());
-	mEngine.setTranslateKey(TRANSLATE_KEY);
-    mEngine.setDictionaryKey(DICTIONARY_KEY);
+    mEngine.setTranslateKey(constants::translate_key);
+    mEngine.setDictionaryKey(constants::dictionary_key);
 
 	createActionsConnections();
 	createTimerConnections();
