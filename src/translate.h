@@ -20,7 +20,7 @@ public:
 signals:
     void error(const QString &description);
     void languagesArrived(const LanguageVector &langs);
-	void translationArrived(const QString &result);
+    void translationArrived(const QStringList &results);
 	void detectionArrived(const QString &lang);
     void dictionaryArrived(const QString &result);
 private:

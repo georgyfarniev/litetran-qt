@@ -32,9 +32,16 @@ public:
 		return vec;
 	}
 
-	static QString parseTranslate(const QByteArray &data)
+    static QStringList parseTranslate(const QByteArray &data)
 	{
-		return QJsonDocument::fromJson(data).object().value("text").toArray().first().toString();
+        const QJsonArray &array = QJsonDocument::fromJson(data).object().value("text").toArray();
+
+        QStringList segments;
+
+        foreach(const QJsonValue &value, array)
+            segments << value.toString() ;
+
+        return segments;
 	}
 
 	static QString parseDetection(const QByteArray &data)
@@ -113,12 +120,19 @@ void TranslateEngine::requestLanguages()
 
 void TranslateEngine::requestTranslation(const QString &sl, const QString &tl, const QString &text)
 {
-    QUrl url(QString("%1/translate?key=%2&text=%3&lang=%4-%5").arg(constants::translate_api).arg(mApiKey).arg(text).arg(sl).arg(tl));
+    QString requestStr = QString("%1/translate?key=%2&lang=%4-%5").arg(constants::translate_api).arg(mApiKey).arg(sl).arg(tl);
+
+    const QStringList segments = text.split(';', QString::SkipEmptyParts);
+
+    foreach(const QString &segment, segments)
+        requestStr += "&text=" + segment;
+
+    QUrl url(requestStr);
 	QNetworkReply *reply  = mNetworkManager->get(QNetworkRequest(url));
 
 	connect(reply, &QNetworkReply::finished, [=](){
 		const QByteArray result = reply->readAll();
-		emit translationArrived(TranslateParser::parseTranslate(result));
+        emit translationArrived(TranslateParser::parseTranslate(result));
 		reply->deleteLater();
 	});
 }
