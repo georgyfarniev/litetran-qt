@@ -157,10 +157,10 @@ void MainWindow::createAsyncConnections()
             mPopup->display(sourceLanguage(), resultLanguage(), ui->ResultTextBrowser->toHtml());
     });
 
-    connect(&mEngine, &TranslateEngine::translationArrived, [=](const QString &result){
-        ui->ResultTextBrowser->setText(result);
+    connect(&mEngine, &TranslateEngine::translationArrived, [=](const QStringList &results){
+        ui->ResultTextBrowser->setText(results.join(';'));
 
-        if (mSettings->getDictionaryEnabled())
+        if (mSettings->getDictionaryEnabled() && results.size() == 1)
         {
             mEngine.requestDictionary(sourceLanguage().code, resultLanguage().code, ui->SourceTextEdit->toPlainText());
             mState = State::WaitingForDictionary;
