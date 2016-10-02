@@ -22,7 +22,7 @@ Settings::Settings(QWidget *parent) :
        const bool enabled = mModel->languages().enabledLanguages().isEmpty();
 
        for (int i = 0; i < mModel->rowCount(); ++i)
-           mModel->setData(mModel->index(i, (int)LanguageComboboxModel::Columns::State), enabled, Qt::CheckStateRole);
+           mModel->setData(mModel->index(i, (int)LanguageComboboxModel::Columns::Name), enabled, Qt::CheckStateRole);
 
        mModel->reload();
     });
@@ -43,8 +43,8 @@ Settings::~Settings()
 void Settings::setModel(LanguageComboboxModel *model)
 {
     mModel = model;
-    ui->LanguagesTreeView->setModel(mModel);
-	ui->LanguagesTreeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->LanguagesListView->setModel(mModel);
+    ui->LanguagesListView->setModelColumn(0);
 }
 
 bool Settings::getTrayIconEnabled() {return ui->ShowTrayIconCheckbox->isChecked(); }

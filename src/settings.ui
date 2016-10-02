@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>371</height>
+    <width>550</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -33,29 +33,23 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QTreeView" name="LanguagesTreeView">
-        <property name="indentation">
-         <number>0</number>
+       <widget class="QListView" name="LanguagesListView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <attribute name="headerVisible">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="headerCascadingSectionResizes">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="headerDefaultSectionSize">
-         <number>10</number>
-        </attribute>
-        <attribute name="headerMinimumSectionSize">
-         <number>10</number>
-        </attribute>
-        <attribute name="headerStretchLastSection">
-         <bool>true</bool>
-        </attribute>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="ToggleButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Toggle All</string>
         </property>

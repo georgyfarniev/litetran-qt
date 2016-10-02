@@ -28,19 +28,19 @@ LanguageFilter::LanguageFilter(QObject *parent) : QSortFilterProxyModel(parent) 
 
 bool LanguageFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
-	return sourceModel()->data(sourceModel()->index(sourceRow, 1, sourceParent), Qt::CheckStateRole).toBool();
+    return sourceModel()->data(sourceModel()->index(sourceRow, (int)LanguageComboboxModel::Columns::Name, sourceParent), Qt::CheckStateRole).toBool();
 }
 
 //-----------------------------------------------------------------------------
 
 QVariant LanguageComboboxModel::data(const QModelIndex &index, int role) const
 {
-	if (index.isValid())
+    if (index.isValid())
 	{
-		if(role == Qt::DisplayRole && index.column() == (int)Columns::Name)
-			return mLangs.at(index.row()).name;
-		else if (role == Qt::CheckStateRole && index.column() == (int)Columns::State)
-			return mLangs.at(index.row()).enabled ? Qt::Checked : Qt::Unchecked;
+        if(role == Qt::DisplayRole )
+            return mLangs.at(index.row()).name;
+        else if (role == Qt::CheckStateRole)
+            return mLangs.at(index.row()).enabled ? Qt::Checked : Qt::Unchecked;
 	}
 
 	return QVariant();
@@ -48,8 +48,8 @@ QVariant LanguageComboboxModel::data(const QModelIndex &index, int role) const
 
 bool LanguageComboboxModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	if (index.isValid() && role == Qt::CheckStateRole && index.column() == (int)Columns::State)
-	{
+    if (index.isValid() && role == Qt::CheckStateRole)
+    {
 		mLangs[index.row()].enabled = value.toBool();
 		return true;
 	}
@@ -58,10 +58,7 @@ bool LanguageComboboxModel::setData(const QModelIndex &index, const QVariant &va
 
 Qt::ItemFlags LanguageComboboxModel::flags(const QModelIndex &index) const
 {
-	Qt::ItemFlags aflags = Qt::ItemIsEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsSelectable;
-	if (index.column() == (int)Columns::State)
-		aflags |= Qt::ItemIsEditable;
-	return aflags;
+    return Qt::ItemIsEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
 void LanguageComboboxModel::reload()
