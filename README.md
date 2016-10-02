@@ -1,6 +1,6 @@
 About LiteTran
 --------------
-LiteTran is simple text translate utility.
+LiteTran is simple text translate utility. It uses [Yandex.Translate]( http://translate.yandex.ru/).
 
 
 Features
@@ -13,7 +13,7 @@ Features
 
 Platforms
 ---------
-LiteTran works fine on Linux, Mac and Windws, but translation of selected text supported only on X11 systems.
+LiteTran works fine on Linux, Mac and Windows, but translation of selected text supported only on X11 systems.
 
 
 Build Depdendencies
@@ -28,5 +28,4 @@ Please send pull request or create issue.
 
 Other notes
 -----------
-
 This project has been moved from https://github.com/flareguner/litetran/

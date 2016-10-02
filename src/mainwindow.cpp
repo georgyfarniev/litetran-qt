@@ -21,6 +21,7 @@ namespace constants
 {
     const QString translate_key = "trnsl.1.1.20160222T212917Z.dac5812c38fde523.efb3b5e5d4634845e1a6106e891343e83d1423d2";
     const QString dictionary_key = "dict.1.1.20160223T080804Z.0afde59e8b8ec833.b3ac76f261b74ed73308d67f5e79ffba234f5926";
+    const char *yandex_copyright = "<a href=\"http://translate.yandex.ru/\">Translated with Yandex.Translate</a>";
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -65,6 +66,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	mEngine.requestLanguages();
 
     mTranslateTimer.setSingleShot(true);
+
+    QLabel *yandexCopyrightLabel = new QLabel(this);
+    yandexCopyrightLabel->setText(constants::yandex_copyright);
+    yandexCopyrightLabel->setTextFormat(Qt::RichText);
+    yandexCopyrightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    yandexCopyrightLabel->setOpenExternalLinks(true);
+    ui->statusBar->addPermanentWidget(yandexCopyrightLabel);
 }
 
 MainWindow::~MainWindow()
@@ -98,7 +106,7 @@ void MainWindow::createActionsConnections()
 	});
 
 	connect(ui->actionAbout, &QAction::triggered, [=](){
-		QMessageBox::information(this, tr("About LiteTran"), tr("LiteTran - translate selected text"));
+        QMessageBox::information(this, tr("About LiteTran"), tr("LiteTran - translate selected text. ") +  tr(constants::yandex_copyright));
 	});
 
 	connect(mAppearShortcut, &QxtGlobalShortcut::activated, [=](){
