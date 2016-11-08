@@ -5,6 +5,7 @@
 #include <QSettings>
 #include "models.h"
 #include "translate.h"
+#include "shortcut.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,8 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
+private slots:
+    void refreshSettings();
 private:
     void createActionsConnections();
     void createTimerConnections();
@@ -49,8 +52,8 @@ private:
 
 	Ui::MainWindow *ui;
 	QTimer mTranslateTimer;
-	QxtGlobalShortcut *mTranslateShortcut;
-	QxtGlobalShortcut *mAppearShortcut;
+    Shortcut mTranslateShortcut;
+    Shortcut mAppearShortcut;
 
 	LanguageVector mLanguages;
 	LanguageComboboxModel *mComboboxModel;

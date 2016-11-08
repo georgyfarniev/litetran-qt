@@ -32,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	mComboboxModel(new LanguageComboboxModel(mLanguages, this)),
 	mFilter(new LanguageFilter(this)),
     mSettings(new Settings(this)),
-	mTranslateShortcut(new QxtGlobalShortcut(this)),
-    mAppearShortcut(new QxtGlobalShortcut(this)),
     mState(State::Idle)
 {
 	ui->setupUi(this);
@@ -41,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mEngine.setTranslateKey(constants::translate_key);
     mEngine.setDictionaryKey(constants::dictionary_key);
 
+    refreshSettings();
 	createActionsConnections();
 	createTimerConnections();
 	createAsyncConnections();
@@ -55,9 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	setUnifiedTitleAndToolBarOnMac(true);
 	createTrayMenu();
 	mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
-	mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
-	mAppearShortcut->setShortcut(mSettings->getAppShortcut());
-	QSettings s;
+
+    QSettings s;
 	s.beginGroup("MainWindow");
 	restoreGeometry(s.value("Geometry").toByteArray());
 	s.endGroup();
@@ -94,7 +92,7 @@ void MainWindow::createActionsConnections()
 		ui->ResultTextBrowser->clear();
 	});
 
-	connect(mTranslateShortcut, &QxtGlobalShortcut::activated, [=](){
+    connect(&mTranslateShortcut, &Shortcut::activated, [=](){
         ui->SourceTextEdit->setPlainText(QApplication::clipboard()->text(QClipboard::Selection));
 		ui->TranslateButton->click();
 	});
@@ -109,7 +107,7 @@ void MainWindow::createActionsConnections()
         QMessageBox::information(this, tr("About LiteTran"), tr("LiteTran - translate selected text. ") +  tr(constants::yandex_copyright));
 	});
 
-	connect(mAppearShortcut, &QxtGlobalShortcut::activated, [=](){
+    connect(&mAppearShortcut, &Shortcut::activated, [=](){
 		ui->actionClear->trigger();
 		show();
 	});
@@ -181,24 +179,7 @@ void MainWindow::createAsyncConnections()
         mState = State::Idle;
     });
 
-    connect(mSettings, &QDialog::accepted, [=](){
-        mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
-        mTranslateShortcut->setShortcut(mSettings->getPopupShortcut());
-        mAppearShortcut->setShortcut(mSettings->getAppShortcut());
-        const QString sl = ui->SourceLanguageCombobox->currentText();
-        const QString tl = ui->ResultLanguageCombobox->currentText();
-        mComboboxModel->reload();
-        ui->SourceLanguageCombobox->setCurrentText(sl);
-        ui->ResultLanguageCombobox->setCurrentText(tl);
-
-        if (ui->SourceLanguageCombobox->currentIndex() == -1)
-            ui->SourceLanguageCombobox->setCurrentIndex(0);
-
-        if (ui->ResultLanguageCombobox->currentIndex() == -1)
-            ui->ResultLanguageCombobox->setCurrentIndex(0);
-
-        qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
-    });
+    connect(mSettings, &QDialog::accepted, this, &MainWindow::refreshSettings);
 }
 
 void MainWindow::createTrayMenu()
@@ -251,6 +232,31 @@ void MainWindow::saveSettings()
 	s.endGroup();
 }
 
+void MainWindow::refreshSettings()
+{
+    mTrayIcon->setVisible(mSettings->getTrayIconEnabled());
+
+    mTranslateShortcut.setShortcut(mSettings->getPopupShortcut());
+    mTranslateShortcut.setEnabled(mSettings->getPopupShortcutEnabled());
+
+    mAppearShortcut.setShortcut(mSettings->getAppShortcut());
+    mAppearShortcut.setEnabled(mSettings->getAppShortcutEnabled());
+
+    const QString sl = ui->SourceLanguageCombobox->currentText();
+    const QString tl = ui->ResultLanguageCombobox->currentText();
+    mComboboxModel->reload();
+    ui->SourceLanguageCombobox->setCurrentText(sl);
+    ui->ResultLanguageCombobox->setCurrentText(tl);
+
+    if (ui->SourceLanguageCombobox->currentIndex() == -1)
+        ui->SourceLanguageCombobox->setCurrentIndex(0);
+
+    if (ui->ResultLanguageCombobox->currentIndex() == -1)
+        ui->ResultLanguageCombobox->setCurrentIndex(0);
+
+    qApp->setQuitOnLastWindowClosed(!mSettings->getTrayIconEnabled());
+}
+
 Language MainWindow::mapIndexToLanguage(const int idx)
 {
     return mLanguages.at(mFilter->mapToSource(mFilter->index(idx, 0, QModelIndex())).row());
@@ -265,4 +271,3 @@ Language MainWindow::resultLanguage()
 {
 	return mapIndexToLanguage(ui->ResultLanguageCombobox->currentIndex());
 }
-

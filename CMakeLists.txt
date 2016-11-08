@@ -45,6 +45,7 @@ src/translate.h
 src/mainwindow.h
 src/models.h
 src/popup.h
+src/shortcut.h
 CACHE INTERNAL "Headers")
 
 set(SOURCES
@@ -55,6 +56,7 @@ src/translate.cpp
 src/mainwindow.cpp
 src/models.cpp
 src/popup.cpp
+src/shortcut.cpp
 CACHE INTERNAL "Sources")
 
 set(FORMS

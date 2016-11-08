@@ -16,6 +16,8 @@ Settings::Settings(QWidget *parent) :
     ui->DictionaryCheckbox->setChecked(s.value("ShowDictionary", true).toBool());
 	ui->PopupHotkeyCheckbox->setChecked(s.value("PopupShortcutEnabled", true).toBool());
 	ui->ShowHotkeyCheckbox->setChecked(s.value("ApplicationShortcutEnabled", true).toBool());
+    ui->PopupKeySequence->setKeySequence(s.value("PopupKeySequence").toString());
+    ui->ShowKeySequence->setKeySequence(s.value("ShowKeySequence").toString());
 	s.endGroup();
 
     connect(ui->ToggleButton, &QPushButton::clicked, [=](){
@@ -37,6 +39,8 @@ Settings::~Settings()
     s.setValue("ShowDictionary", ui->DictionaryCheckbox->isChecked());
 	s.setValue("PopupShortcutEnabled", ui->PopupHotkeyCheckbox->isChecked());
 	s.setValue("ApplicationShortcutEnabled", ui->ShowHotkeyCheckbox->isChecked());
+    s.setValue("PopupKeySequence", ui->PopupKeySequence->keySequence().toString());
+    s.setValue("ShowKeySequence", ui->ShowKeySequence->keySequence().toString());
 	s.endGroup();
 }
 
