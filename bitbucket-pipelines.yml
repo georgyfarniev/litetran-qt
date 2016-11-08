@@ -3,5 +3,5 @@ pipelines:
     - step:
         script:
           - apt-get update
-          - apt-get install -y cmake 
+          - apt-get install -y cmake qtbase5-dev libqt5x11extras5-dev 
           - cmake .
