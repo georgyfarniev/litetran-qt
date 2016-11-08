@@ -139,7 +139,7 @@
     <message>
         <location filename="../src/settings.ui" line="122"/>
         <source>Auto translate</source>
-        <translation>Автоматический перевд</translation>
+        <translation>Автоматический перевод</translation>
     </message>
     <message>
         <location filename="../src/settings.ui" line="132"/>
